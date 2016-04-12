@@ -11,7 +11,7 @@
     "clean": "rm -rf lib && mkdir lib",
     "build": "NODE_ENV=production webpack",
     "watch": "NODE_ENV=development node ./devServer",
-    "start": "npm run build && NODE_ENV=production node ./server/index.js"
+    "start": "NODE_ENV=production node ./server/index.js"
   },
   "author": "",
   "license": "MIT",
