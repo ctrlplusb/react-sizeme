@@ -2,15 +2,13 @@ import React, { PropTypes } from 'react';
 import { merge } from 'lodash';
 import randomColor from 'randomcolor';
 
-let SizeMe = require(`react-sizeme`);
-console.log(Object.keys(SizeMe).join(` `));
-/*
+let SizeMe;
+
 if (process.env.NODE_ENV === `development`) {
-  SizeMe = require(`../../src/index.js`);
+  SizeMe = require(`../../src/index.js`).default;
 } else {
-  SizeMe = require(`react-sizeme`);
+  SizeMe = require(`react-sizeme`).default;
 }
-*/
 
 const baseStyle = {
   height: `100px`,

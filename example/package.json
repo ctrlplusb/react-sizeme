@@ -30,7 +30,7 @@
     "randomcolor": "0.4.4",
     "react": "15.0.1",
     "react-dom": "15.0.1",
-    "react-sizeme": "0.0.3",
+    "react-sizeme": "0.0.4",
     "webpack": "1.12.15",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.10.0"

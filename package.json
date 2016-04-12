@@ -1,6 +1,6 @@
 {
   "name": "react-sizeme",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Make your React Components aware of their width and height.",
   "main": "lib/react-sizeme.js",
   "scripts": {
