@@ -2,7 +2,7 @@
   "name": "react-sizeme",
   "version": "0.0.1",
   "description": "Make your React Components aware of their width and height.",
-  "main": "lib/index.js",
+  "main": "lib/react-sizeme.js",
   "scripts": {
     "prebuild": "rm -rf lib && mkdir lib",
     "build": "NODE_ENV=production webpack",
