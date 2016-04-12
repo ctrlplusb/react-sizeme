@@ -1,0 +1,27 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true,
+    "node": true
+  },
+  "ecmaFeatures": {
+    "defaultParams": true
+  },
+  "rules": {
+    "comma-dangle": 0,
+    "func-names": 0,
+    "indent": [2, 2, { "SwitchCase": 1 }],
+    "new-cap": 0,
+    "no-lone-blocks": 0,
+    // until we have glob based rules we have to disable this rule, as our
+    // assert library uses expressions in this format.
+    // follow - https://github.com/eslint/eslint/issues/3611
+    "no-unused-expressions": 0,
+    "prefer-arrow-callback": 0,
+    "quotes": [2, "backtick", "avoid-escape"],
+    "space-infix-ops": 0
+  }
+}
