@@ -1,3 +1,3 @@
-import SizeMe from './SizeMe.js';
+const SizeMe = require(`./SizeMe.js`);
 
-module.exports = SizeMe;
+module.exports = SizeMe.default;
