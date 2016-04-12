@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { merge } from 'lodash';
-import randomColor from 'randomcolor';
 
 let SizeMe;
 
@@ -27,7 +26,7 @@ const spanStyle = {
 
 function MyComponent({ size: { width, height }, style }) {
   return (
-    <div style={merge({}, baseStyle, { backgroundColor: randomColor() }, style)}>
+    <div style={merge({}, baseStyle, style)}>
       <span style={spanStyle}>{width}x{height}</span>
     </div>
   );
