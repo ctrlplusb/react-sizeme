@@ -11,13 +11,13 @@
 
 * Easy to use.
 * Extensive browser support.
-* Responsive elements!
 * Supports any Component type, i.e. stateless/class.
 * Works with React 0.14.x and 15.x.x.
+* Responsive Components!
 
 ## What is this for?
 
-Allow your Components to have render logic based on their available height/width.
+Give your Components the ability to have render logic based on their height/width.
 
 ## Live Demo
 
