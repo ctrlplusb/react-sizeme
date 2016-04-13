@@ -1,6 +1,6 @@
 {
   "name": "react-sizeme",
-  "version": "0.0.6",
+  "version": "0.0.0-semantically-released",
   "description": "Make your React Components aware of their width and height.",
   "main": "lib/react-sizeme.js",
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ctrlplusb/react-sizeme.git"
+    "url": "https://github.com/ctrlplusb/react-sizeme.git"
   },
   "keywords": [
     "react",
@@ -62,7 +62,7 @@
     "react": "15.0.1",
     "react-addons-test-utils": "15.0.1",
     "react-dom": "15.0.1",
-    "semantic-release": "4.3.5",
+    "semantic-release": "6.2.1",
     "sinon": "1.17.3",
     "sinon-chai": "2.8.0",
     "stats-webpack-plugin": "0.3.1",
