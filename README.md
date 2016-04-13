@@ -17,7 +17,7 @@
 
 ## What is this for?
 
-It can be exceedingly useful to know the size of your Component, once rendered, or the size available to it pre-render.  This library provides your components with a `size` prop containing both `width` and `height` pixel values.
+Allow your Components to have render logic based on their available height/width.
 
 ## Live Demo
 
@@ -25,9 +25,27 @@ Perhaps it's easiest just to show a live example:
 
 https://react-sizeme-example-armpgxfodd.now.sh
 
+## Simple Example 
+
+Below is a partial example highlighting the use of the library. Read the Usage section in it's entirety for a full description on configuration and usage.
+
+```
+class MyComponent extends Component {
+  render() {
+    const { width, height } = this.props.size;
+  
+    return (
+      <div>My size is {width}px x {height}px</div>
+    );
+  }
+}
+
+export default SizeMeHOC(MyComponent);  // Wired up here!
+```
+
 ## Usage
 
-First install.
+First install the library.
 
 ```
 npm install react-sizeme
@@ -49,10 +67,8 @@ const SizeMeHOC = SizeMe({
   // If true any changes to `height` will result in a new `size` prop being
   // passed to your Component. 
   monitorHeight: false,
-  // The speed, in milliseconds, at which size changes should be handled.
-  // This should not be set lower than 16.  You can change it to a higher
-  // value if you wish to reduce flickers on components that get resized
-  // often.
+  // The maximum speed, in milliseconds, at which size changes should be 
+  // propogated to your Components. This should not be set to lower than 16.
   refreshRate: 16
 });
 ```
@@ -171,5 +187,5 @@ We make use of the awesome [element-resize-detector](https://github.com/wnr/elem
 
 ##  Caveats.
 
-* Server Side Rendering is obviously not supported.  I am still thinking of the best approach on what to do in the case of a SSR request.  Perhaps I will allow you to pass in a default `size` configuration that should be resolved should the component run within an SSR environment. I'm open to recommendations on this one.
-* Whilst execution is performant and we do smart double render mechanisms we don't recommend that you drop in a large amount of size aware components into your render tree.  If you do require this I highly recommend you do some decent browser testing for impact. 
+* Server Side Rendering is not supported.  I am still thinking of the best approach on what to do in the case of a SSR request.  Perhaps I will allow you to pass in a default `size` configuration that should be resolved should the component run within an SSR environment. I'm open to recommendations on this one.
+* Whilst execution is performant and we try and do smart rendering mechanisms we don't recommend that you place a crazy amount of size aware components into your render tree.  If you do require this I highly recommend you do some decent browser testing for impact. 
