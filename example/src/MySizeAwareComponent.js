@@ -9,11 +9,10 @@ if (process.env.NODE_ENV === `development`) {
   SizeMe = require(`react-sizeme`).default;
 }
 
-const baseStyle = {
-  height: `100px`,
-  margin: `10px`,
+const rootStyle = {
   fontWeight: `bold`,
-  position: `relative`
+  position: `relative`,
+  textAlign: `center`
 };
 
 const spanStyle = {
@@ -26,8 +25,11 @@ const spanStyle = {
 
 function MyComponent({ size: { width, height }, style }) {
   return (
-    <div style={merge({}, baseStyle, style)}>
-      <span style={spanStyle}>{width}x{height}</span>
+    <div style={merge({}, rootStyle, style)}>
+      <span style={spanStyle}>
+        {Math.round(width)}x{Math.round(height)}<br />
+      <span style={{ fontWeight: `normal`, fontStyle: `italic` }}>(rounded)</span>
+      </span>
     </div>
   );
 }

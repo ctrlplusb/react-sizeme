@@ -1,6 +1,7 @@
 // Whenever wallaby loads the config file (and later uses babel),
 // babel will know that we are in the `test` env.
 process.env.BABEL_ENV = `test`;
+process.env.NODE_ENV = `test`;
 process.env.BABEL_DISABLE_CACHE = 1;
 
 module.exports = function (wallaby) {

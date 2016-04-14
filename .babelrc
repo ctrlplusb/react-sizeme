@@ -1,7 +1,14 @@
 {
   "presets": ["es2015", "stage-1", "react"],
-  "plugins": ["lodash"],
   "ignore": [
     "/node_modules/"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": ["rewire"]
+    },
+    "production": {
+      "plugins": ["lodash"]
+    }
+  }
 }

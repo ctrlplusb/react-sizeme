@@ -1,5 +1,7 @@
 import createResizeDetector from 'element-resize-detector';
 
-export const resizeDetector = createResizeDetector({
+const resizeDetector = createResizeDetector({
   strategy: `scroll`
 });
+
+export default resizeDetector;

@@ -1,7 +1,7 @@
 import path from 'path';
 import express from 'express';
 import webpack from 'webpack';
-import config from '../webpack.config.babel';
+import config from './webpack.config.babel';
 
 const server = express();
 const compiler = webpack(config);
@@ -14,7 +14,7 @@ server.use(require(`webpack-dev-middleware`)(compiler, {
 server.use(require(`webpack-hot-middleware`)(compiler));
 
 server.get(`*`, (req, res) => {
-  res.sendFile(path.resolve(__dirname, `../public/index.html`));
+  res.sendFile(path.resolve(__dirname, `./public/index.html`));
 });
 
 server.listen(3002, `localhost`, (err) => {

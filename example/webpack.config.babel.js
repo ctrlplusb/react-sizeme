@@ -3,6 +3,7 @@ import path from 'path';
 
 const config = {
   entry: [
+    `webpack-hot-middleware/client`,
     path.resolve(__dirname, `./src/index.js`)
   ],
   module: {
@@ -20,7 +21,8 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, `./lib`),
-    filename: `sizeme-example.js`
+    filename: `sizeme-example.js`,
+    publicPath: `/assets/`
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -31,24 +33,5 @@ const config = {
     })
   ]
 };
-
-if (process.env.NODE_ENV === `development`) {
-  config.entry.push(`webpack-hot-middleware/client`);
-  config.output.publicPath = `/assets/`;
-}
-
-if (process.env.NODE_ENV === `production`) {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        screw_ie8: true,
-        warnings: false
-      }
-    })
-  );
-}
 
 export default config;
