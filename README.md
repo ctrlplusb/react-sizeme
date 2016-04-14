@@ -13,6 +13,7 @@
 * Extensive browser support.
 * Supports any Component type, i.e. stateless/class.
 * Works with React 0.14.x and 15.x.x.
+* 7.67KB gzipped
 * Responsive Components!
 
 ## What is this for?
@@ -23,7 +24,7 @@ Give your Components the ability to have render logic based on their height/widt
 
 Perhaps it's easiest just to show a live example:
 
-https://react-sizeme-example-xcnwvtdzmb.now.sh
+https://react-sizeme-example-esbefmsitg.now.sh
 
 ## Simple Example 
 
