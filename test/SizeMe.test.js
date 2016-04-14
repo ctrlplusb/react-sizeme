@@ -173,9 +173,9 @@ describeWithDOM(`Given the SizeMe library`, () => {
               expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(2);
 
               done();
-            }, refreshRate);
+            }, refreshRate + 5);
           }, refreshRate + 5);
-        }, refreshRate + 25);
+        }, refreshRate + 5);
       });
     });
   });
