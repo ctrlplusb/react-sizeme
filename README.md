@@ -76,7 +76,7 @@ const SizeMeHOC = SizeMe({
 
 When you execute the `SizeMe` function it will return a Higher Order Component.  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Below is an example:
 
-```javscript
+```javascript
 class MyComponent extends Component {
   render() {
     const { width, height } = this.props.size;
