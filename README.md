@@ -30,7 +30,7 @@ https://react-sizeme-example-esbefmsitg.now.sh
 
 Below is a partial example highlighting the use of the library. Read the Usage section in it's entirety for a full description on configuration and usage.
 
-```
+```javascript
 class MyComponent extends Component {
   render() {
     const { width, height } = this.props.size;
@@ -48,19 +48,19 @@ export default SizeMeHOC(MyComponent);  // Wired up here!
 
 First install the library.
 
-```
+```javascript
 npm install react-sizeme
 ```
 
 Then identify a Component you would like to make aware of it's size. We provide you with a helper function called `SizeMe`.  You can import it like so:
 
-```
+```javascript
 import SizeMe from 'react-sizeme';
 ```
 
 You first have to pass the `SizeMe` function a configuration object.  The entire configuration object is optional, as is each of it's properties, in which case the defaults would be used.  Here is a full configuration example with the default values for each of the properties:
 
-```
+```javascript
 const SizeMeHOC = SizeMe({
   // If true any changes to `width` will result in a new `size` prop being
   // passed to your Component.
@@ -76,7 +76,7 @@ const SizeMeHOC = SizeMe({
 
 When you execute the `SizeMe` function it will return a Higher Order Component.  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Below is an example:
 
-```
+```javscript
 class MyComponent extends Component {
   render() {
     const { width, height } = this.props.size;
@@ -132,7 +132,7 @@ Therefore for the first render of your component we actually render a lightweigh
 
 An example of this:
 
-```
+```javascript
 import cssStyles from './styles.css';
 import MySizeAwareComponent from './MySizeAwareComponent';
 
@@ -151,7 +151,7 @@ function App() {
 
 In cases where the styles/classes are contained within your component and you want more accurate first-render `size` resolving we recommend that you create a wrapper component that passes the className/style into your component.  For example we could refactor our `MySizeAwareComponent` like so:
 
-```
+```javascript
 import React from 'react';
 import cssStyles from './styles.css';
 import SizeMe from 'react-sizeme';
