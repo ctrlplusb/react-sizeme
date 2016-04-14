@@ -23,7 +23,7 @@ Give your Components the ability to have render logic based on their height/widt
 
 Perhaps it's easiest just to show a live example:
 
-https://react-sizeme-example-armpgxfodd.now.sh
+https://react-sizeme-example-xcnwvtdzmb.now.sh
 
 ## Simple Example 
 
@@ -120,7 +120,7 @@ MyComponent.propTypes = {
   })
 }
 
-export default SizeMe(/* default config*/)(MyComponent);
+export default SizeMe({ monitorHeight: true })(MyComponent);
 ```
 
 ## On the First Render of your Component
@@ -187,5 +187,5 @@ We make use of the awesome [element-resize-detector](https://github.com/wnr/elem
 
 ##  Caveats.
 
-* Server Side Rendering is not supported.  I am still thinking of the best approach on what to do in the case of a SSR request.  Perhaps I will allow you to pass in a default `size` configuration that should be resolved should the component run within an SSR environment. I'm open to recommendations on this one.
+* Server Side Rendering is not supported.  I am still thinking of the best approach on what to do in the case of a SSR request.  Perhaps I will just return null values for width/height.  Undecided.  Any recommendations are welcome.
 * Whilst execution is performant and we try and do smart rendering mechanisms we don't recommend that you place a crazy amount of size aware components into your render tree.  If you do require this I highly recommend you do some decent browser testing for impact. 
