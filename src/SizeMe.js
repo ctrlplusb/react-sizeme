@@ -125,10 +125,6 @@ function SizeMe(config = defaultConfig) {
         this.handleDOMNode();
       }
 
-      shouldComponentUpdate(nextProps, nextState) {
-        return this.hasSizeChanged(this.state, nextState);
-      }
-
       componentDidUpdate() {
         this.handleDOMNode();
       }
