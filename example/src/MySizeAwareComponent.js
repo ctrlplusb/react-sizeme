@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { merge } from 'lodash';
 
 let SizeMe;
 
@@ -25,14 +24,15 @@ const spanStyle = {
 
 function MyComponent({ size: { width, height }, style }) {
   return (
-    <div style={merge({}, rootStyle, style)}>
+    <div style={Object.assign({}, rootStyle, style)}>
       <span style={spanStyle}>
         {Math.round(width)}x{Math.round(height)}<br />
-      <span style={{ fontWeight: `normal`, fontStyle: `italic` }}>(rounded)</span>
+        <span style={{ fontWeight: `normal`, fontStyle: `italic` }}>(rounded)</span>
       </span>
     </div>
   );
 }
+
 MyComponent.propTypes = {
   size: PropTypes.shape({
     width: PropTypes.number.isRequired,
@@ -41,4 +41,4 @@ MyComponent.propTypes = {
   style: PropTypes.object
 };
 
-export default SizeMe()(MyComponent);
+export default SizeMe({ monitorHeight: true })(MyComponent);

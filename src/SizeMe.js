@@ -75,8 +75,8 @@ const RenderWrapper = (WrappedComponent) => {
     className: PropTypes.string,
     style: PropTypes.object,
     size: PropTypes.shape({
-      width: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
+      width: PropTypes.number,
+      height: PropTypes.number,
     })
   };
 
