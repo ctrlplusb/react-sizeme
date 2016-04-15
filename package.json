@@ -45,8 +45,8 @@
     "chai": "3.5.0",
     "codecov.io": "0.1.6",
     "commitizen": "2.7.6",
+    "compression": "1.6.1",
     "cz-conventional-changelog": "1.1.5",
-    "element-resize-detector": "1.1.0",
     "enzyme": "2.2.0",
     "eslint": "2.7.0",
     "eslint-config-airbnb": "7.0.0",
@@ -54,11 +54,10 @@
     "eslint-plugin-jsx-a11y": "0.6.2",
     "eslint-plugin-mocha": "2.1.0",
     "eslint-plugin-react": "4.3.0",
+    "express": "4.13.4",
     "ghooks": "1.2.0",
-    "invariant": "2.2.1",
     "isparta": "4.0.0",
     "jsdom": "8.3.1",
-    "lodash": "4.10.0",
     "mocha": "2.4.5",
     "path": "0.12.7",
     "react": "15.0.1",
@@ -85,7 +84,8 @@
     }
   },
   "dependencies": {
-    "compression": "1.6.1",
-    "express": "4.13.4"
+    "invariant": "^2.2.0",
+    "element-resize-detector": "^1.1.0",
+    "lodash": "^4.10.0"
   }
 }
