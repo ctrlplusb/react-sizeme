@@ -28,7 +28,7 @@ https://react-sizeme-example-esbefmsitg.now.sh
 
 ## Simple Example 
 
-Below is a partial example highlighting the use of the library. Read the Usage section in it's entirety for a full description on configuration and usage.
+Below is a partial example highlighting the use of the library. Read the Usage section in its entirety for a full description on configuration and usage.
 
 ```javascript
 class MyComponent extends Component {
@@ -52,13 +52,13 @@ First install the library.
 npm install react-sizeme
 ```
 
-Then identify a Component you would like to make aware of it's size. We provide you with a helper function called `SizeMe`.  You can import it like so:
+Then identify a Component you would like to make aware of its size. We provide you with a helper function called `SizeMe`.  You can import it like so:
 
 ```javascript
 import SizeMe from 'react-sizeme';
 ```
 
-You first have to pass the `SizeMe` function a configuration object.  The entire configuration object is optional, as is each of it's properties, in which case the defaults would be used.  Here is a full configuration example with the default values for each of the properties:
+You first have to pass the `SizeMe` function a configuration object.  The entire configuration object is optional, as is each of its properties, in which case the defaults would be used.  Here is a full configuration example with the default values for each of the properties:
 
 ```javascript
 const SizeMeHOC = SizeMe({
