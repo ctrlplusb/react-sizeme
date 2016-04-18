@@ -22,7 +22,7 @@ Give your Components the ability to have render logic based on their height/widt
 
 ## Live Demo
 
-Perhaps its easiest just to show a live example:
+It really does work! Look:
 
 https://react-sizeme-example-tupkctjbbt.now.sh
 
