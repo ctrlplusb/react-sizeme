@@ -24,24 +24,27 @@ Give your Components the ability to have render logic based on their height/widt
 
 Perhaps its easiest just to show a live example:
 
-https://react-sizeme-example-esbefmsitg.now.sh
+https://react-sizeme-example-tupkctjbbt.now.sh
 
 ## Simple Example 
 
-Below is a partial example highlighting the use of the library. Read the Usage section in its entirety for a full description on configuration and usage.
+Below is a super simple example highlighting the use of the library. Read the Usage section in its entirety for a full description on configuration and usage.
 
 ```javascript
+import SizeMe from 'react-sizeme';
+
 class MyComponent extends Component {
   render() {
+    // Receive width and height via "size" prop!
     const { width, height } = this.props.size;
   
     return (
-      <div>My size is {width}px x {height}px</div>
+      <div>My dimensions are {width}px by {height}px</div>
     );
   }
 }
 
-export default SizeMeHOC(MyComponent);  // Wired up here!
+export default SizeMe()(MyComponent);  // Wired up here!
 ```
 
 ## Usage and API Details
