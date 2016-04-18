@@ -3,7 +3,7 @@
 import React, { Children, Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import { debounce, throttle } from 'lodash';
+import { throttle } from 'lodash';
 import resizeDetector from './resizeDetector';
 
 const defaultConfig = {
@@ -170,14 +170,14 @@ function SizeMe(config = defaultConfig) {
           || (monitorWidth && cWidth !== nWidth);
       }
 
-      checkIfSizeChanged = debounce(throttle((el) => {
+      checkIfSizeChanged = throttle((el) => {
         const { width, height } = el.getBoundingClientRect();
         const next = { width, height };
 
         if (this.hasSizeChanged(this.state, next)) {
           this.setState(next);
         }
-      }, refreshRate), refreshRate)
+      }, refreshRate)
 
       render() {
         const { width, height } = this.state;

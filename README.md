@@ -9,12 +9,12 @@
 [![Codecov](https://img.shields.io/codecov/c/github/ctrlplusb/react-sizeme.svg?style=flat-square)](https://codecov.io/github/ctrlplusb/react-sizeme)
 [![Maintenance](https://img.shields.io/maintenance/yes/2016.svg?style=flat-square)]()
 
+* Responsive Components!
 * Easy to use.
 * Extensive browser support.
 * Supports any Component type, i.e. stateless/class.
 * Works with React 0.14.x and 15.x.x.
-* 7.67KB gzipped
-* Responsive Components!
+* 7.67KB gzipped standalone, even smaller if bundled into your own project. 
 
 ## What is this for?
 
@@ -44,7 +44,7 @@ class MyComponent extends Component {
 export default SizeMeHOC(MyComponent);  // Wired up here!
 ```
 
-## Usage
+## Usage and API Details
 
 First install the library.
 
@@ -73,6 +73,10 @@ const SizeMeHOC = SizeMe({
   refreshRate: 16
 });
 ```
+
+__IMPORTANT__: We don't monitor height by default, so if you use the default settings and your component only changes in height it won't recieve an updated `size` prop.  I figured that in most cases we care about the width only and it would be annoying if vertical text spanning kept throwing out updates.
+
+__IMPORTANT__: `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming. 
 
 When you execute the `SizeMe` function it will return a Higher Order Component.  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Below is an example:
 
@@ -182,11 +186,17 @@ function MyComponentWrapper(props) {
 export default MyComponentWrapper;
 ```
 
-## Under the Hood
+## Things to consider
 
-We make use of the awesome [element-resize-detector](https://github.com/wnr/element-resize-detector) library.  This library makes use of an scroll/object based event strategy which outperforms window resize event listening dramatically.  The original idea from this approach comes from another library, namely [css-element-queries](https://github.com/marcj/css-element-queries) by Marc J. Schmidt.  I recommend looking into these libraries for history, specifics, and more examples.
+The intention of this library to aid in initial render on a target device, i.e. mobile/tablet/desktop.  In this case we just want to know the size as fast as possible.  Therefore the `refreshRate` is configured with a very low value - specifically updates will occur within 16ms time windows.  
+
+If however you wish to use this library to wrap a component that you expect to be resized via user/system actions then I would recommend that you consider setting the `refreshRate` to a higher setting so that you don't spam the browser with updates.  
 
 ##  Caveats.
 
 * Server Side Rendering is not supported.  I am still thinking of the best approach on what to do in the case of a SSR request.  Perhaps I will just return null values for width/height.  Undecided.  Any recommendations are welcome.
 * Whilst execution is performant and we try and do smart rendering mechanisms we don't recommend that you place a crazy amount of size aware components into your render tree.  If you do require this I highly recommend you do some decent browser testing for impact. 
+
+## Extreme Appreciation!
+
+We make use of the awesome [element-resize-detector](https://github.com/wnr/element-resize-detector) library.  This library makes use of an scroll/object based event strategy which outperforms window resize event listening dramatically.  The original idea for this approach comes from another library, namely [css-element-queries](https://github.com/marcj/css-element-queries) by Marc J. Schmidt.  I recommend looking into these libraries for history, specifics, and more examples.  I love them for the work they did, whithout which this library would not be possible. :sparkle-heart:

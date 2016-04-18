@@ -83,15 +83,14 @@ describeWithDOM(`Given the SizeMe library`, () => {
     });
 
     describe(`When mounting and unmounting a size aware component`, () => {
-      it(`Then the resizeDetector registration and deregistration should be called`, (done) => {
-        const refreshRate = 30;
-
+      it(`Then the resizeDetector registration and deregistration should be called`, () => {
         const SizeAwareComponent = SizeMe()(
           ({ size: { width, height } }) => <div>{width} x {height}</div>
         );
 
         const mounted = mount(<SizeAwareComponent />);
 
+        // An add listener should have been called for the placeholder.
         expect(resizeDetectorMock.listenTo.callCount).to.equal(1);
         expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(0);
 
@@ -104,78 +103,19 @@ describeWithDOM(`Given the SizeMe library`, () => {
           })
         });
 
-        // Wait for the render callback
-        setTimeout(() => {
-          // Our actual component should have mounted now
-          expect(mounted.text()).to.equal(`100 x 100`);
-          expect(resizeDetectorMock.listenTo.callCount).to.equal(2);
-          expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(1);
+        // Our actual component should have mounted, therefore a removelistener
+        // should have been called on the placeholder, and an add listener
+        // on the newly mounted component.
+        expect(mounted.text()).to.equal(`100 x 100`);
+        expect(resizeDetectorMock.listenTo.callCount).to.equal(2);
+        expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(1);
 
-          // umount
-          mounted.unmount();
+        // umount
+        mounted.unmount();
 
-          setTimeout(() => {
-            expect(resizeDetectorMock.listenTo.callCount).to.equal(2);
-            expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(2);
-
-            done();
-          }, refreshRate);
-        }, refreshRate + 10);
-      });
-    });
-
-    describe(`When a size change event fires for a mounted size aware component`, () => {
-      it(`Then the resizeDetector should be called appropriately`, (done) => {
-        const refreshRate = 16;
-
-        const SizeAwareComponent = SizeMe()(
-          ({ size: { width, height } }) => <div>{width} x {height}</div>
-        );
-
-        const mounted = mount(<SizeAwareComponent />);
-
-        // The placeholder is mounted.
-        expect(resizeDetectorMock.listenTo.callCount).to.equal(1);
-        expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(0);
-
-        // Get the callback for size changes
-        const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1];
-        checkIfSizeChangedCallback({
-          getBoundingClientRect: () => ({ width: 100, height: 100 })
-        });
-
-        // Ok we fired a fake dom update, now we need to wait for it to
-        // be processed.
-        setTimeout(() => {
-          // Our actual component should be mounted.
-          expect(mounted.text()).to.equal(`100 x 100`);
-          expect(resizeDetectorMock.listenTo.callCount).to.equal(2);
-          expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(1);
-
-          // Fire another size change.
-          checkIfSizeChangedCallback({
-            getBoundingClientRect: () => ({ width: 200, height: 200 })
-          });
-
-          setTimeout(() => {
-            expect(mounted.text()).to.equal(`200 x 200`);
-            expect(resizeDetectorMock.listenTo.callCount).to.equal(3);
-            expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(2);
-
-            // Fire another size change, but with no change in size.
-            checkIfSizeChangedCallback({
-              getBoundingClientRect: () => ({ width: 200, height: 200 })
-            });
-
-            setTimeout(() => {
-              expect(mounted.text()).to.equal(`200 x 200`);
-              expect(resizeDetectorMock.listenTo.callCount).to.equal(3);
-              expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(2);
-
-              done();
-            }, refreshRate + 5);
-          }, refreshRate + 5);
-        }, refreshRate + 5);
+        // The remove listener should have been called!
+        expect(resizeDetectorMock.listenTo.callCount).to.equal(2);
+        expect(resizeDetectorMock.removeAllListeners.callCount).to.equal(2);
       });
     });
   });
@@ -236,7 +176,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
     });
 
     describe(`And the size event has occurred`, () => {
-      it(`Then the actual size aware component should render`, (done) => {
+      it(`Then the actual size aware component should render`, () => {
         const refreshRate = 30;
 
         const SizeAwareComponent = SizeMe({ refreshRate })(
@@ -248,29 +188,19 @@ describeWithDOM(`Given the SizeMe library`, () => {
         // Initial render should be as expected.
         expect(mounted.html()).to.equal(placeholderHtml);
 
-        // Output should be the same before the refresh rate gets hit.
-        setTimeout(() => {
-          expect(mounted.html()).to.equal(placeholderHtml);
-        }, refreshRate - 5);
-
         // Get the callback for size changes.
         const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1];
         checkIfSizeChangedCallback({
           getBoundingClientRect: () => ({ width: 100, height: 100 })
         });
 
-        // Wait till refresh rate gets hit
-        setTimeout(() => {
-          // Update should have occurred by now.
-          expect(mounted.text()).to.equal(`100 x 100`);
-
-          done();
-        }, refreshRate + 5);
+        // Update should have occurred immediately.
+        expect(mounted.text()).to.equal(`100 x 100`);
       });
     });
 
     describe(`And it receives new non-size props`, () => {
-      it(`Then the new props should be passed into the component`, (done) => {
+      it(`Then the new props should be passed into the component`, () => {
         const refreshRate = 16;
 
         const SizeAwareComponent = SizeMe({ refreshRate })(
@@ -287,19 +217,14 @@ describeWithDOM(`Given the SizeMe library`, () => {
           getBoundingClientRect: () => ({ width: 100, height: 100 })
         });
 
-        // Wait for refresh to hit.
-        setTimeout(() => {
-          // Output should contain foo.
-          expect(mounted.text()).to.equal(`100 x 100 & foo`);
+        // Output should contain foo.
+        expect(mounted.text()).to.equal(`100 x 100 & foo`);
 
-          // Update the other prop.
-          mounted.setProps({ otherProp: `bar` });
+        // Update the other prop.
+        mounted.setProps({ otherProp: `bar` });
 
-          // Output should contain foo.
-          expect(mounted.text()).to.equal(`100 x 100 & bar`);
-
-          done();
-        }, refreshRate + 10);
+        // Output should contain foo.
+        expect(mounted.text()).to.equal(`100 x 100 & bar`);
       });
     });
   });
