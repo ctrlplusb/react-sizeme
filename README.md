@@ -16,6 +16,10 @@
 * Works with React 0.14.x and 15.x.x.
 * 7.67KB gzipped standalone, even smaller if bundled into your own project. 
 
+## Release Notes 
+
+See here: https://github.com/ctrlplusb/react-sizeme/releases
+
 ## What is this for?
 
 Give your Components the ability to have render logic based on their height/width.
