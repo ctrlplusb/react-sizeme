@@ -35,16 +35,17 @@ import SizeMe from 'react-sizeme';
 
 class MyComponent extends Component {
   render() {
-    // Receive width and height via "size" prop!
-    const { width, height } = this.props.size;
+    // We receive width and height via "size" prop!
+    const { width } = this.props.size;
   
     return (
-      <div>My dimensions are {width}px by {height}px</div>
+      <div>My width is {width}px</div>
     );
   }
 }
 
-export default SizeMe()(MyComponent);  // Wired up here!
+// Wired up here!
+export default SizeMe()(MyComponent);
 ```
 
 ## Usage and API Details
@@ -65,19 +66,32 @@ You first have to pass the `SizeMe` function a configuration object.  The entire
 
 ```javascript
 const SizeMeHOC = SizeMe({
-  // If true any changes to `width` will result in a new `size` prop being
-  // passed to your Component.
+  // If true, then any changes to your Components rendered width will cause an 
+  // recalculation of the "size" prop which will then be be passed into 
+  // your Component.
+  // If false, then any changes to your Components rendered width will NOT 
+  // cause any recalculation of the "size" prop. Additionally any "size" prop 
+  // that is passed into your Component will always have a `null` value 
+  // for the "width" property.
   monitorWidth: true, 
-  // If true any changes to `height` will result in a new `size` prop being
-  // passed to your Component. 
+  // If true, then any changes to your Components rendered height will cause an 
+  // recalculation of the "size" prop which will then be be passed into 
+  // your Component.
+  // If false, then any changes to your Components rendered height will NOT 
+  // cause any recalculation of the "size" prop. Additionally any "size" prop 
+  // that is passed into your Component will always have a `null` value 
+  // for the "height" property.
   monitorHeight: false,
-  // The maximum speed, in milliseconds, at which size changes should be 
-  // propogated to your Components. This should not be set to lower than 16.
+  // The maximum frequency, in milliseconds, at which size changes should be 
+  // recalculated when changes in your Component's rendered size are being
+  // detected. This should not be set to lower than 16.
   refreshRate: 16
 });
 ```
 
-__IMPORTANT__: We don't monitor height by default, so if you use the default settings and your component only changes in height it won't recieve an updated `size` prop.  I figured that in most cases we care about the width only and it would be annoying if vertical text spanning kept throwing out updates.
+__IMPORTANT__: We don't monitor height by default, so if you use the default settings and your component only changes in height it won't cause a recalculation of the `size` prop.  I figured that in most cases we care about the width only and it would be annoying if vertical text spanning kept throwing out updates.
+
+__IMPORTANT__: If you aren't monitoring a specific dimension (width or height) you will be provided `null` values for the respective dimension.  This is to avoid any possible misconfigured implementation whoopsies.
 
 __IMPORTANT__: `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming. 
 

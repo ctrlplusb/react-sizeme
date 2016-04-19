@@ -172,7 +172,10 @@ function SizeMe(config = defaultConfig) {
 
       checkIfSizeChanged = throttle((el) => {
         const { width, height } = el.getBoundingClientRect();
-        const next = { width, height };
+        const next = {
+          width: monitorWidth ? width : null,
+          height: monitorHeight ? height : null
+        };
 
         if (this.hasSizeChanged(this.state, next)) {
           this.setState(next);

@@ -66,9 +66,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
   describe(`And the resize detector`, () => {
     describe(`When mounting and unmounting the placeholder component`, () => {
       it(`Then the resizeDetector registration and deregistration should be called`, () => {
-        const SizeAwareComponent = SizeMe()(
-          ({ size: { width, height } }) => <div>{width} x {height}</div>
-        );
+        const SizeAwareComponent = SizeMe()(() => <div></div>);
 
         const mounted = mount(<SizeAwareComponent />);
 
@@ -84,7 +82,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
 
     describe(`When mounting and unmounting a size aware component`, () => {
       it(`Then the resizeDetector registration and deregistration should be called`, () => {
-        const SizeAwareComponent = SizeMe()(
+        const SizeAwareComponent = SizeMe({ monitorHeight: true })(
           ({ size: { width, height } }) => <div>{width} x {height}</div>
         );
 
@@ -123,9 +121,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
   describe(`When rendering a size aware component`, () => {
     describe(`And no className or style has been provided`, () => {
       it(`Then it should render the default placeholder`, () => {
-        const SizeAwareComponent = SizeMe()(
-          ({ size: { width, height } }) => <div>{width} x {height}</div>
-        );
+        const SizeAwareComponent = SizeMe()(() => <div></div>);
 
         const mounted = mount(<SizeAwareComponent />);
 
@@ -136,9 +132,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
 
     describe(`And only a className has been provided`, () => {
       it(`Then it should render a placeholder with the className`, () => {
-        const SizeAwareComponent = SizeMe()(
-          ({ size: { width, height } }) => <div>{width} x {height}</div>
-        );
+        const SizeAwareComponent = SizeMe()(() => <div></div>);
 
         const mounted = mount(<SizeAwareComponent className={`foo`} />);
 
@@ -149,9 +143,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
 
     describe(`And only a style has been provided`, () => {
       it(`Then it should render a placeholder with the style`, () => {
-        const SizeAwareComponent = SizeMe()(
-          ({ size: { width, height } }) => <div>{width} x {height}</div>
-        );
+        const SizeAwareComponent = SizeMe()(() => <div></div>);
 
         const mounted = mount(<SizeAwareComponent style={{ height: `20px` }} />);
 
@@ -162,9 +154,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
 
     describe(`And a className and style have been provided`, () => {
       it(`Then it should render a placeholder with both`, () => {
-        const SizeAwareComponent = SizeMe()(
-          ({ size: { width, height } }) => <div>{width} x {height}</div>
-        );
+        const SizeAwareComponent = SizeMe()(() => <div></div>);
 
         const mounted = mount(
           <SizeAwareComponent style={{ height: `20px` }} className={`foo`} />
@@ -175,11 +165,53 @@ describeWithDOM(`Given the SizeMe library`, () => {
       });
     });
 
-    describe(`And the size event has occurred`, () => {
-      it(`Then the actual size aware component should render`, () => {
-        const refreshRate = 30;
+    describe(`And the size event has occurred when only width is being monitored`, () => {
+      it(`Then expected sizes should be provided to the rendered component`, () => {
+        const SizeAwareComponent = SizeMe({ monitorWidth: true, monitorHeight: false })(
+          ({ size: { width, height } }) => <div>{width} x {height || `null`}</div>
+        );
 
-        const SizeAwareComponent = SizeMe({ refreshRate })(
+        const mounted = mount(<SizeAwareComponent />);
+
+        // Initial render should be as expected.
+        expect(mounted.html()).to.equal(placeholderHtml);
+
+        // Get the callback for size changes.
+        const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1];
+        checkIfSizeChangedCallback({
+          getBoundingClientRect: () => ({ width: 100, height: 150 })
+        });
+
+        // Update should have occurred immediately.
+        expect(mounted.text()).to.equal(`100 x null`);
+      });
+    });
+
+    describe(`And the size event has occurred when only height is being monitored`, () => {
+      it(`Then expected sizes should be provided to the rendered component`, () => {
+        const SizeAwareComponent = SizeMe({ monitorWidth: false, monitorHeight: true })(
+          ({ size: { width, height } }) => <div>{width || `null`} x {height}</div>
+        );
+
+        const mounted = mount(<SizeAwareComponent />);
+
+        // Initial render should be as expected.
+        expect(mounted.html()).to.equal(placeholderHtml);
+
+        // Get the callback for size changes.
+        const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1];
+        checkIfSizeChangedCallback({
+          getBoundingClientRect: () => ({ width: 100, height: 150 })
+        });
+
+        // Update should have occurred immediately.
+        expect(mounted.text()).to.equal(`null x 150`);
+      });
+    });
+
+    describe(`And the size event has occurred when width and height are being monitored`, () => {
+      it(`Then expected sizes should be provided to the rendered component`, () => {
+        const SizeAwareComponent = SizeMe({ monitorWidth: true, monitorHeight: true })(
           ({ size: { width, height } }) => <div>{width} x {height}</div>
         );
 
@@ -191,19 +223,17 @@ describeWithDOM(`Given the SizeMe library`, () => {
         // Get the callback for size changes.
         const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1];
         checkIfSizeChangedCallback({
-          getBoundingClientRect: () => ({ width: 100, height: 100 })
+          getBoundingClientRect: () => ({ width: 100, height: 150 })
         });
 
         // Update should have occurred immediately.
-        expect(mounted.text()).to.equal(`100 x 100`);
+        expect(mounted.text()).to.equal(`100 x 150`);
       });
     });
 
     describe(`And it receives new non-size props`, () => {
       it(`Then the new props should be passed into the component`, () => {
-        const refreshRate = 16;
-
-        const SizeAwareComponent = SizeMe({ refreshRate })(
+        const SizeAwareComponent = SizeMe({ monitorHeight: true, monitorWidth: true })(
           function ({ size: { width, height }, otherProp }) {
             return <div>{width} x {height} & {otherProp}</div>;
           }
