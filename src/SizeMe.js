@@ -11,12 +11,18 @@ const defaultConfig = {
   monitorHeight: false
 };
 
+function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || `Component`;
+}
+
 /**
  * This is a utility wrapper component that will allow our higher order
  * component to get a ref handle on our wrapped components html.
  * @see https://gist.github.com/jimfb/32b587ee6177665fb4cf
  */
 class ReferenceWrapper extends Component {
+  static displayName = `SizeMeReferenceWrapper`;
+
   render() {
     return Children.only(this.props.children);
   }
@@ -44,6 +50,7 @@ function Placeholder({ className, style }) {
 
   return (<div {...phProps}></div>);
 }
+Placeholder.displayName = `SizeMePlaceholder`;
 Placeholder.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object
@@ -57,7 +64,7 @@ Placeholder.propTypes = {
  * It took me forever to figure this out, so tread extra careful on this one!
  */
 const RenderWrapper = (WrappedComponent) => {
-  function SizeMeRender({ explicitRef, className, style, size, ...restProps }) {
+  function SizeMeRenderer({ explicitRef, className, style, size, ...restProps }) {
     const { width, height } = size;
 
     const toRender = (width === undefined && height === undefined)
@@ -70,17 +77,20 @@ const RenderWrapper = (WrappedComponent) => {
       </ReferenceWrapper>
     );
   }
-  SizeMeRender.propTypes = {
+
+  SizeMeRenderer.displayName = `SizeMeRenderer(${getDisplayName(WrappedComponent)})`;
+
+  SizeMeRenderer.propTypes = {
     explicitRef: PropTypes.func.isRequired,
     className: PropTypes.string,
     style: PropTypes.object,
     size: PropTypes.shape({
       width: PropTypes.number,
-      height: PropTypes.number,
+      height: PropTypes.number
     })
   };
 
-  return SizeMeRender;
+  return SizeMeRenderer;
 };
 
 /**
@@ -116,6 +126,8 @@ function SizeMe(config = defaultConfig) {
     const SizeMeRenderWrapper = RenderWrapper(WrappedComponent);
 
     class SizeAwareComponent extends React.Component {
+      static displayName = `SizeMe(${getDisplayName(WrappedComponent)})`;
+
       state = {
         width: undefined,
         height: undefined
@@ -130,6 +142,11 @@ function SizeMe(config = defaultConfig) {
       }
 
       componentWillUnmount() {
+        // Change our size checker to a noop just in case we have some
+        // late running events.
+        this.hasSizeChanged = () => undefined;
+        this.checkIfSizeChanged = () => undefined;
+
         if (this.domEl) {
           resizeDetector.removeAllListeners(this.domEl);
           this.domEl = null;
@@ -162,13 +179,13 @@ function SizeMe(config = defaultConfig) {
         this.element = element;
       }
 
-      hasSizeChanged(current, next) {
+      hasSizeChanged = (current, next) => {
         const { height: cHeight, width: cWidth } = current;
         const { height: nHeight, width: nWidth } = next;
 
         return (monitorHeight && cHeight !== nHeight)
           || (monitorWidth && cWidth !== nWidth);
-      }
+      };
 
       checkIfSizeChanged = throttle((el) => {
         const { width, height } = el.getBoundingClientRect();
@@ -180,7 +197,7 @@ function SizeMe(config = defaultConfig) {
         if (this.hasSizeChanged(this.state, next)) {
           this.setState(next);
         }
-      }, refreshRate)
+      }, refreshRate);
 
       render() {
         const { width, height } = this.state;
