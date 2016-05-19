@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import WebpackStatsPlugin from 'stats-webpack-plugin';
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 
 const env = process.env.NODE_ENV;
 const generateStats = process.env.WEBPACK_STATS || false;
@@ -71,6 +72,10 @@ if (env === `production`) {
         warnings: false
       }
     })
+  );
+
+  config.plugins.push(
+    new LodashModuleReplacementPlugin
   );
 }
 
