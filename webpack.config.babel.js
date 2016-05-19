@@ -64,6 +64,9 @@ const config = {
 if (env === `production`) {
   config.plugins.push(
     new webpack.optimize.UglifyJsPlugin({
+      output: {
+        comments: false
+      },
       compressor: {
         pure_getters: true,
         unsafe: true,
