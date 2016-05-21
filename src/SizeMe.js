@@ -11,7 +11,7 @@ const defaultConfig = {
   monitorHeight: false
 };
 
-const isSSR = !window;
+const isSSR = typeof window === `undefined`;
 
 function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || `Component`;
