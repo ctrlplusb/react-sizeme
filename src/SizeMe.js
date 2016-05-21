@@ -4,16 +4,14 @@ import React, { Children, Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import { throttle } from 'lodash';
-
-// Lazily require to not cause bug
-// https://github.com/ctrlplusb/react-sizeme/issues/6
-// import resizeDetector from './resizeDetector';
-const resizeDetector = () => require(`./resizeDetector`).default;
+import resizeDetector from './resizeDetector';
 
 const defaultConfig = {
   monitorWidth: true,
   monitorHeight: false
 };
+
+const isSSR = !window;
 
 function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || `Component`;
@@ -71,7 +69,7 @@ const RenderWrapper = (WrappedComponent) => {
   function SizeMeRenderer({ explicitRef, className, style, size, ...restProps }) {
     const { width, height } = size;
 
-    const toRender = (width === undefined && height === undefined)
+    const toRender = (width === undefined && height === undefined && !isSSR)
       ? <Placeholder className={className} style={style} />
     : <WrappedComponent className={className} style={style} size={size} {...restProps} />;
 
@@ -138,11 +136,15 @@ function SizeMe(config = defaultConfig) {
       };
 
       componentDidMount() {
-        this.handleDOMNode();
+        if (!isSSR) {
+          this.handleDOMNode();
+        }
       }
 
       componentDidUpdate() {
-        this.handleDOMNode();
+        if (!isSSR) {
+          this.handleDOMNode();
+        }
       }
 
       componentWillUnmount() {
