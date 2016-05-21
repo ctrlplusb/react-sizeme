@@ -4,7 +4,11 @@ import React, { Children, Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import { throttle } from 'lodash';
-import resizeDetector from './resizeDetector';
+
+// Lazily require to not cause bug
+// https://github.com/ctrlplusb/react-sizeme/issues/6
+// import resizeDetector from './resizeDetector';
+const resizeDetector = () => require(`./resizeDetector`).default;
 
 const defaultConfig = {
   monitorWidth: true,
@@ -148,7 +152,7 @@ function SizeMe(config = defaultConfig) {
         this.checkIfSizeChanged = () => undefined;
 
         if (this.domEl) {
-          resizeDetector.removeAllListeners(this.domEl);
+          resizeDetector().removeAllListeners(this.domEl);
           this.domEl = null;
         }
       }
@@ -161,18 +165,18 @@ function SizeMe(config = defaultConfig) {
         if (!found) {
           // This is for special cases where the element may be null.
           if (this.domEl) {
-            resizeDetector.removeAllListeners(this.domEl);
+            resizeDetector().removeAllListeners(this.domEl);
             this.domEl = null;
           }
           return;
         }
 
         if (this.domEl) {
-          resizeDetector.removeAllListeners(this.domEl);
+          resizeDetector().removeAllListeners(this.domEl);
         }
 
         this.domEl = found;
-        resizeDetector.listenTo(this.domEl, this.checkIfSizeChanged);
+        resizeDetector().listenTo(this.domEl, this.checkIfSizeChanged);
       }
 
       refCallback = (element) => {

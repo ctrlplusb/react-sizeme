@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle,global-require */
+
 import React from 'react';
 import { expect } from 'chai';
 import { describeWithDOM } from './jsdom';
@@ -38,7 +40,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
       // :: (domeEl, callback) -> void
       listenTo: sinon.spy()
     };
-    SizeMeRewireAPI.__Rewire__(`resizeDetector`, resizeDetectorMock);
+    SizeMeRewireAPI.__Rewire__(`resizeDetector`, () => resizeDetectorMock);
   });
 
   describe(`When providing a configuration object`, () => {
