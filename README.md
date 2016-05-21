@@ -14,9 +14,9 @@
 * Extensive browser support.
 * Supports any Component type, i.e. stateless/class.
 * Works with React 0.14.x and 15.x.x.
-* 7.67KB gzipped standalone, even smaller if bundled into your own project. 
+* 7.67KB gzipped standalone, even smaller if bundled into your own project.
 
-## Release Notes 
+## Release Notes
 
 See here: https://github.com/ctrlplusb/react-sizeme/releases
 
@@ -30,7 +30,7 @@ It really does work! Look:
 
 https://react-sizeme-example-tupkctjbbt.now.sh
 
-## Simple Example 
+## Simple Example
 
 Below is a super simple example highlighting the use of the library. Read the Usage section in its entirety for a full description on configuration and usage.
 
@@ -41,7 +41,7 @@ class MyComponent extends Component {
   render() {
     // We receive width and height via "size" prop!
     const { width } = this.props.size;
-  
+
     return (
       <div>My width is {width}px</div>
     );
@@ -70,23 +70,23 @@ You first have to pass the `SizeMe` function a configuration object.  The entire
 
 ```javascript
 const SizeMeHOC = SizeMe({
-  // If true, then any changes to your Components rendered width will cause an 
-  // recalculation of the "size" prop which will then be be passed into 
+  // If true, then any changes to your Components rendered width will cause an
+  // recalculation of the "size" prop which will then be be passed into
   // your Component.
-  // If false, then any changes to your Components rendered width will NOT 
-  // cause any recalculation of the "size" prop. Additionally any "size" prop 
-  // that is passed into your Component will always have a `null` value 
+  // If false, then any changes to your Components rendered width will NOT
+  // cause any recalculation of the "size" prop. Additionally any "size" prop
+  // that is passed into your Component will always have a `null` value
   // for the "width" property.
-  monitorWidth: true, 
-  // If true, then any changes to your Components rendered height will cause an 
-  // recalculation of the "size" prop which will then be be passed into 
+  monitorWidth: true,
+  // If true, then any changes to your Components rendered height will cause an
+  // recalculation of the "size" prop which will then be be passed into
   // your Component.
-  // If false, then any changes to your Components rendered height will NOT 
-  // cause any recalculation of the "size" prop. Additionally any "size" prop 
-  // that is passed into your Component will always have a `null` value 
+  // If false, then any changes to your Components rendered height will NOT
+  // cause any recalculation of the "size" prop. Additionally any "size" prop
+  // that is passed into your Component will always have a `null` value
   // for the "height" property.
   monitorHeight: false,
-  // The maximum frequency, in milliseconds, at which size changes should be 
+  // The maximum frequency, in milliseconds, at which size changes should be
   // recalculated when changes in your Component's rendered size are being
   // detected. This should not be set to lower than 16.
   refreshRate: 16
@@ -97,7 +97,7 @@ __IMPORTANT__: We don't monitor height by default, so if you use the default set
 
 __IMPORTANT__: If you aren't monitoring a specific dimension (width or height) you will be provided `null` values for the respective dimension.  This is to avoid any possible misconfigured implementation whoopsies.
 
-__IMPORTANT__: `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming. 
+__IMPORTANT__: `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming.
 
 When you execute the `SizeMe` function it will return a Higher Order Component.  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Below is an example:
 
@@ -105,7 +105,7 @@ When you execute the `SizeMe` function it will return a Higher Order Component. 
 class MyComponent extends Component {
   render() {
     const { width, height } = this.props.size;
-  
+
     return (
       <div>My size is {width}px x {height}px</div>
     );
@@ -126,9 +126,9 @@ import SmallChildComponent from './SmallChildComponent';
 import SizeMe from 'react-sizeme';
 
 function MyComponent(props) {
-  const { width, height } = props.size; 
+  const { width, height } = props.size;
 
-  const ToRenderChild = height > 600 
+  const ToRenderChild = height > 600
     ? LargeChildComponent
     : SmallChildComponent;
 
@@ -167,8 +167,8 @@ const inlineStyle = {
 
 function App() {
     return (
-      <MySizeAwareComponent 
-        className={cssStyles.foo} 
+      <MySizeAwareComponent
+        className={cssStyles.foo}
         style={inlineStyle} />
     );
 }
@@ -185,7 +185,7 @@ class MyComponent extends Component {
   render() {
     const className = this.props.className;
     const { width, height } = this.props.size;
-  
+
     return (
       <div className={className}>
         My size is {width}px x {height}px
@@ -215,8 +215,8 @@ If however you wish to use this library to wrap a component that you expect to b
 
 ##  Caveats.
 
-* Server Side Rendering is not supported.  I am still thinking of the best approach on what to do in the case of a SSR request.  Perhaps I will just return null values for width/height.  Undecided.  Any recommendations are welcome.
-* Whilst execution is performant and we try and do smart rendering mechanisms we don't recommend that you place a crazy amount of size aware components into your render tree.  If you do require this I highly recommend you do some decent browser testing for impact. 
+* Server Side Rendering is not supported (yet).  Keep track of this in issue #7.
+* Whilst execution is performant and we try and do smart rendering mechanisms we don't recommend that you place a crazy amount of size aware components into your render tree.  If you do require this I highly recommend you do some decent browser testing for impact.
 
 ## Extreme Appreciation!
 
