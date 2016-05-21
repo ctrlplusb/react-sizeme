@@ -4,11 +4,7 @@ import React, { Children, Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import { throttle } from 'lodash';
-
-// Lazily require to not cause bug
-// https://github.com/ctrlplusb/react-sizeme/issues/6
-// import resizeDetector from './resizeDetector';
-const resizeDetector = () => require(`./resizeDetector`).default;
+import resizeDetector from './resizeDetector';
 
 const defaultConfig = {
   monitorWidth: true,
