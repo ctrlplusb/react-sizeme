@@ -11,8 +11,6 @@ const defaultConfig = {
   monitorHeight: false
 };
 
-const isSSR = typeof window === `undefined`;
-
 function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || `Component`;
 }
@@ -66,10 +64,10 @@ Placeholder.propTypes = {
  * It took me forever to figure this out, so tread extra careful on this one!
  */
 const RenderWrapper = (WrappedComponent) => {
-  function SizeMeRenderer({ explicitRef, className, style, size, ...restProps }) {
+  function SizeMeRenderer({ explicitRef, className, style, size, ssrMode, ...restProps }) {
     const { width, height } = size;
 
-    const toRender = (width === undefined && height === undefined && !isSSR)
+    const toRender = (width === undefined && height === undefined && !ssrMode)
       ? <Placeholder className={className} style={style} />
     : <WrappedComponent className={className} style={style} size={size} {...restProps} />;
 
@@ -89,7 +87,8 @@ const RenderWrapper = (WrappedComponent) => {
     size: PropTypes.shape({
       width: PropTypes.number,
       height: PropTypes.number
-    })
+    }),
+    ssrMode: PropTypes.bool
   };
 
   return SizeMeRenderer;
@@ -136,15 +135,11 @@ function SizeMe(config = defaultConfig) {
       };
 
       componentDidMount() {
-        if (!isSSR) {
-          this.handleDOMNode();
-        }
+        this.handleDOMNode();
       }
 
       componentDidUpdate() {
-        if (!isSSR) {
-          this.handleDOMNode();
-        }
+        this.handleDOMNode();
       }
 
       componentWillUnmount() {
@@ -212,6 +207,7 @@ function SizeMe(config = defaultConfig) {
           <SizeMeRenderWrapper
             explicitRef={this.refCallback}
             size={{ width, height }}
+            ssrMode={!!SizeMe.enableSSRBehaviour}
             {...this.props}
           />
         );
@@ -221,5 +217,15 @@ function SizeMe(config = defaultConfig) {
     return SizeAwareComponent;
   };
 }
+
+/**
+ * Allow SizeMe to run within SSR environments.  This is a "global" behaviour
+ * flag that should be set within the initialisation phase of your application.
+ *
+ * Warning: don't set this flag unless you need to as using it may cause
+ * extra render cycles to happen within your components depending on the logic
+ * contained within them around the usage of the `size` data.
+ */
+SizeMe.enableSSRBehaviour = false;
 
 export default SizeMe;

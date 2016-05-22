@@ -4,7 +4,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { describeWithDOM } from './jsdom';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
+import { renderToString } from 'react-dom/server'
 
 const html = `
 <!doctype html>
@@ -260,7 +261,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
 
   describe(`When running is SSR mode`, () => {
     beforeEach(() => {
-      SizeMeRewireAPI.__Rewire__(`isSSR`, true);
+      SizeMe.enableSSRBehaviour = true;
     });
 
     it(`Then it should render the wrapped rather than the placeholder`, () => {
@@ -270,10 +271,11 @@ describeWithDOM(`Given the SizeMe library`, () => {
         }
       );
 
-      const mounted = mount(<SizeAwareComponent otherProp="foo" />);
+      const mounted = renderToString(<SizeAwareComponent otherProp="foo" />)
+        .replace(/<!-- \/?react-text(: \d)? -->/g, ``);
 
-      // Output should contain foo.
-      expect(mounted.text()).to.equal(`undefined x undefined`);
+      // Output should contain undefined for width and height.
+      expect(mounted).contains(`undefined x undefined`);
     });
   });
 }, html);
