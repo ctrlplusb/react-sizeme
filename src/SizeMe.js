@@ -64,10 +64,18 @@ Placeholder.propTypes = {
  * It took me forever to figure this out, so tread extra careful on this one!
  */
 const RenderWrapper = (WrappedComponent) => {
-  function SizeMeRenderer({ explicitRef, className, style, size, ssrMode, ...restProps }) {
+  function SizeMeRenderer(props) {
+    const {
+      explicitRef,
+      className,
+      style,
+      size,
+      disablePlaceholder,
+      ...restProps
+    } = props;
     const { width, height } = size;
 
-    const toRender = (width === undefined && height === undefined && !ssrMode)
+    const toRender = (width === undefined && height === undefined && !disablePlaceholder)
       ? <Placeholder className={className} style={style} />
     : <WrappedComponent className={className} style={style} size={size} {...restProps} />;
 
@@ -88,7 +96,7 @@ const RenderWrapper = (WrappedComponent) => {
       width: PropTypes.number,
       height: PropTypes.number
     }),
-    ssrMode: PropTypes.bool
+    disablePlaceholder: PropTypes.bool
   };
 
   return SizeMeRenderer;
@@ -207,7 +215,7 @@ function SizeMe(config = defaultConfig) {
           <SizeMeRenderWrapper
             explicitRef={this.refCallback}
             size={{ width, height }}
-            ssrMode={!!SizeMe.enableSSRBehaviour}
+            disablePlaceholder={!!SizeMe.enableSSRBehaviour}
             {...this.props}
           />
         );
