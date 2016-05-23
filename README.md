@@ -112,7 +112,7 @@ const sizeMeConfig = {
 };
 ```
 
-When you execute the `SizeMe` function it will return a Higher Order Component (HOC).  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Below is a more verbose example:
+When you execute the `SizeMe` function it will return a Higher Order Component (HOC).  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Here is a verbose example showing full usage of the API:
 
 ```javascript
 import SizeMe from 'react-sizeme';
