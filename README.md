@@ -1,8 +1,9 @@
 <p align='center'>
-  <img src='https://raw.githubusercontent.com/ctrlplusb/react-sizeme/master/assets/logo.png' width='350'/>
+  <img src='https://raw.githubusercontent.com/ctrlplusb/react-sizeme/master/assets/logo.png' width='250'/>
   <p align='center'>Make your React Components aware of their width and height</p>
 </p>
 
+<p align='center'>
 [![Travis](https://img.shields.io/travis/ctrlplusb/react-sizeme.svg?style=flat-square)](https://travis-ci.org/ctrlplusb/react-sizeme)
 [![npm](https://img.shields.io/npm/v/react-sizeme.svg?style=flat-square)](http://npm.im/react-sizeme)
 [![MIT License](https://img.shields.io/npm/l/react-sizeme.svg?style=flat-square)](http://opensource.org/licenses/MIT)
@@ -15,6 +16,20 @@
 * Supports any Component type, i.e. stateless/class.
 * Works with React 0.14.x and 15.x.x.
 * 7.67KB gzipped standalone, even smaller if bundled into your own project.
+
+
+## Index
+
+ - [Release Notes](https://github.com/ctrlplusb/react-sizeme#release-notes)
+ - [What is this for?](https://github.com/ctrlplusb/react-sizeme#what-is-this-for)
+ - [Live Demo](https://github.com/ctrlplusb/react-sizeme#live-demo)
+ - [Simple Example](https://github.com/ctrlplusb/react-sizeme#simple-example)
+ - [Usage and API Details](https://github.com/ctrlplusb/react-sizeme#usage-and-api-details)
+ - [On the First Render of your Component](https://github.com/ctrlplusb/react-sizeme#on-the-first-render-of-your-component)
+ - [Things to Consider](https://github.com/ctrlplusb/react-sizeme#things-to-consider)
+ - [Server Side Rendering](https://github.com/ctrlplusb/react-sizeme#server-side-rendering)
+ - [Extreme Appreciation](https://github.com/ctrlplusb/react-sizeme#extreme-appreciation)
+
 
 ## Release Notes
 
@@ -213,10 +228,23 @@ The intention of this library to aid in initial render on a target device, i.e. 
 
 If however you wish to use this library to wrap a component that you expect to be resized via user/system actions then I would recommend that you consider setting the `refreshRate` to a higher setting so that you don't spam the browser with updates.  
 
-##  Caveats.
+##  Server Side Rendering
 
-* Server Side Rendering is not supported (yet).  Keep track of this in issue #7.
-* Whilst execution is performant and we try and do smart rendering mechanisms we don't recommend that you place a crazy amount of size aware components into your render tree.  If you do require this I highly recommend you do some decent browser testing for impact.
+Okay, I am gonna be up front here and tell you that using this library in an SSR context is most likely a bad idea.  However, if you insist on doing so you then you should take the time to make yourself fully aware of any possible repurcussions you application may face.  
+
+A standard `SizeMe` configuration involves the rendering of a placeholder component.  After the placeholder is mounted to the DOM we extract it's dimension information and pass it on to your actual component.  We do this in order to avoid any unneccesary render cycles for possibly deep component trees.  Whilst this is useful for a purely client side set up, this is less than useful for an SSR context as the delivered page will contain empty placeholders.  Ideally you want actual content to be delivered so that users without JS can still have an experience, or SEO bots can scrape your website.
+
+Therefore we have provided a global configuration flag on `SizeMe`.  Setting this flag will switch the library into an SSR mode, which essentially disables any placeholder rendering.  Instead your wrapped component will be rendered directly.  You should set the flag within the initialisation of your application (for both client/server).
+
+```javascript
+import SizeMe from 'react-sizeme';
+
+SizeMe.enableSSRBehaviour = true; // default is false
+``` 
+
+In a server context we can't know the width/height of your component so you will simply receive `null` values for both.  It is up to you to decide how you would like to render your component then.  When your component is sent to the client and mounted to the DOM `SizeMe` will calculate and send the dimensions to your component as normal.  I suggest you tread very carefully with how you use this updated information and do lots of testing using various screen dimensions.  Try your best to avoid unnecessary re-rendering of your components, for the sake of your users.
+
+If you come up with any clever strategies for this please do come share them with us! :) 
 
 ## Extreme Appreciation!
 
