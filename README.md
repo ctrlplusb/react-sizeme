@@ -15,7 +15,7 @@
 * Extensive browser support.
 * Supports any Component type, i.e. stateless/class.
 * Works with React 0.14.x and 15.x.x.
-* 7.67KB gzipped standalone, even smaller if bundled into your own project.
+* 7.67KB gzipped standalone, even smaller if bundled with your assets.
 
 
 ## Index
