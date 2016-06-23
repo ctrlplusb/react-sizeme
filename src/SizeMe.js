@@ -222,6 +222,8 @@ function SizeMe(config = defaultConfig) {
       }
     }
 
+    SizeAwareComponent.WrappedComponent = WrappedComponent;
+
     return SizeAwareComponent;
   };
 }
