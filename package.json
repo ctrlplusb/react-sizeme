@@ -74,7 +74,7 @@
     "webpack-hot-middleware": "2.12.1"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
+    "react": "^15.2.1",
     "react-dom": "^0.14.0 || ^15.0.0"
   },
   "config": {
