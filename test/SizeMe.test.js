@@ -4,8 +4,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { describeWithDOM } from './jsdom';
 import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
-import { renderToString } from 'react-dom/server'
+import { mount } from 'enzyme';
+import { renderToString } from 'react-dom/server';
 
 const html = `
 <!doctype html>
@@ -28,7 +28,7 @@ describeWithDOM(`Given the SizeMe library`, () => {
   let SizeMe;
   let SizeMeRewireAPI;
   let resizeDetectorMock;
-  const placeholderHtml = `<div style="width: 100%; height: 100%; position: relative;"></div>`;
+  const placeholderHtml = `<div style="width: 100%; height: 100%;"></div>`;
 
   beforeEach(() => {
     SizeMe = require(`../src/index.js`).default;

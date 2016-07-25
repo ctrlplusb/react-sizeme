@@ -21,8 +21,11 @@ function App() {
 
         <div style={{ float: `left`, width: `40%` }}>
           <MySizeAwareComponent
-            style={{ height: `250px`, backgroundColor: `rgb(29, 165, 154)` }}
-          />
+            style={{ height: `250px`, backgroundColor: `rgb(29, 165, 154)`, position: `relative` }}
+          >
+            <MySizeAwareComponent
+              style={{ height: `50px`, backgroundColor: `rgb(88, 164, 29)`, position: `absolute`, bottom: 0, left: 0, width: `100%` }} />
+          </MySizeAwareComponent>
           <MySizeAwareComponent
             style={{ height: `250px`, backgroundColor: `rgb(252, 181, 193)` }}
           />

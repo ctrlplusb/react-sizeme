@@ -22,18 +22,20 @@ const spanStyle = {
   transform: `translateX(-50%) translateY(-50%)`
 };
 
-function MyComponent({ size: { width, height }, style }) {
+function MyComponent({ children, size: { width, height }, style }) {
   return (
     <div style={Object.assign({}, rootStyle, style)}>
       <span style={spanStyle}>
         {Math.round(width)}x{Math.round(height)}<br />
         <span style={{ fontWeight: `normal`, fontStyle: `italic` }}>(rounded)</span>
       </span>
+      {children}
     </div>
   );
 }
 
 MyComponent.propTypes = {
+  children: PropTypes.node,
   size: PropTypes.shape({
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,

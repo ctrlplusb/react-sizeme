@@ -37,7 +37,7 @@ function Placeholder({ className, style }) {
   // container take the full available space.
   if (!className && !style) {
     phProps.style = {
-      width: `100%`, height: `100%`, position: `relative`
+      width: `100%`, height: `100%`
     };
   } else {
     if (className) {
