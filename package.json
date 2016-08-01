@@ -64,7 +64,7 @@
     "path": "0.12.7",
     "react": "15.3.0",
     "react-addons-test-utils": "15.3.0",
-    "react-dom": "15.2.1",
+    "react-dom": "15.3.0",
     "semantic-release": "4.3.5",
     "sinon": "1.17.5",
     "sinon-chai": "2.8.0",
