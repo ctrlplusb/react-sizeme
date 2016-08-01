@@ -63,7 +63,7 @@
     "mocha": "2.5.3",
     "path": "0.12.7",
     "react": "15.2.1",
-    "react-addons-test-utils": "15.2.1",
+    "react-addons-test-utils": "15.3.0",
     "react-dom": "15.2.1",
     "semantic-release": "4.3.5",
     "sinon": "1.17.5",
