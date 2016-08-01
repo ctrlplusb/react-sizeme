@@ -66,7 +66,7 @@
     "react-addons-test-utils": "15.2.1",
     "react-dom": "15.2.1",
     "semantic-release": "4.3.5",
-    "sinon": "1.17.4",
+    "sinon": "1.17.5",
     "sinon-chai": "2.8.0",
     "stats-webpack-plugin": "0.4.0",
     "webpack": "1.13.1",
