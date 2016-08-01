@@ -60,7 +60,7 @@
     "isparta": "4.0.0",
     "jsdom": "9.4.1",
     "lodash-webpack-plugin": "0.9.3",
-    "mocha": "2.5.3",
+    "mocha": "3.0.0",
     "path": "0.12.7",
     "react": "15.3.0",
     "react-addons-test-utils": "15.3.0",
