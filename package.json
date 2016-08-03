@@ -44,7 +44,7 @@
     "babel-register": "6.11.6",
     "chai": "3.5.0",
     "codecov.io": "0.1.6",
-    "commitizen": "2.8.2",
+    "commitizen": "2.8.3",
     "compression": "1.6.2",
     "cz-conventional-changelog": "1.1.6",
     "enzyme": "2.4.1",
