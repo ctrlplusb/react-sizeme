@@ -68,7 +68,7 @@
     "semantic-release": "4.3.5",
     "sinon": "1.17.5",
     "sinon-chai": "2.8.0",
-    "stats-webpack-plugin": "0.4.0",
+    "stats-webpack-plugin": "0.4.1",
     "webpack": "1.13.1",
     "webpack-dev-middleware": "1.6.1",
     "webpack-hot-middleware": "2.12.2"
