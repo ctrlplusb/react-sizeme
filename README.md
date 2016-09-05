@@ -24,9 +24,9 @@
  - [Live Demo](https://github.com/ctrlplusb/react-sizeme#live-demo)
  - [Quick Example](https://github.com/ctrlplusb/react-sizeme#quick-example)
  - [Usage and API Details](https://github.com/ctrlplusb/react-sizeme#usage-and-api-details)
+ - [`react-component-queries`: a highly recommended abstraction](https://github.com/ctrlplusb/react-sizeme#react-component-queries-a-highly-recommended-abstraction)
  - [On the First Render of your Component](https://github.com/ctrlplusb/react-sizeme#on-the-first-render-of-your-component)
- - [Things to Consider](https://github.com/ctrlplusb/react-sizeme#things-to-consider)
- - [`react-component-queries`: a useful abstraction](https://github.com/ctrlplusb/react-sizeme#react-component-queries-a-useful-abstraction)
+ - [Controlling the `size` data refresh rate](https://github.com/ctrlplusb/react-sizeme#controlling-the-size-data-refresh-rate)
  - [Server Side Rendering](https://github.com/ctrlplusb/react-sizeme#server-side-rendering)
  - [Extreme Appreciation](https://github.com/ctrlplusb/react-sizeme#extreme-appreciation)
 
@@ -195,6 +195,25 @@ __IMPORTANT__:
 * If you aren't monitoring a specific dimension (width or height) you will be provided `null` values for the respective dimension.  This is to avoid any possible misconfigured implementation whoopsies. In the case of Server Side Rendering you would also receive nulls - read more about the SSR case [here](https://github.com/ctrlplusb/react-sizeme#server-side-rendering).
 * `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming.
 
+## `react-component-queries`: a highly recommended abstraction
+
+`react-sizeme` is great, however, it suffers with a couple of problems in my opinion:
+  
+  1. It is raw in that it provides you with the actual dimensions of your component and then requires to execute logic within your component to establish the desired behaviour of your component.  This can be a bit tedious and polute your component with a lot of if-else statements.  
+  2. It is possible that your component may gets spammed with updated `size` props. This is because _any_ time your component changes in size `react-sizeme` will kick in.
+
+With these problems in mind I came up with an abstraction in the form of [`react-component-queries`](https://github.com/ctrlplusb/react-component-queries).  This library allows you to define _query functions_ that will operate on the dimensions provided by `react-sizeme` and when their criteria are met they will pass a custom set of prop(s) to your components. This solves problem 1 by moving the dimension based logic out of your component.  It then solves problem 2 by ensuring that your component will on be called for re-render if any of the prop values change.  That saves you some error prone boilerplate.
+
+This allows you to deal with "simpler" props, for example; a boolean flag indicating if the component is square, an enum representing it's size ('small'|'medium'|'large'), a className, or a style object.  Whatever you feel is most appropriate for your use case.
+
+So, to recap, some of the benefits of using this abstraction are:
+
+  - Easily implement `shouldComponentUpdate` based on the props.
+  - The _query functions_ themselves can be formed into a reusable library of queries for all your components.
+  - Simplify your components by moving the dimension logic away from them, which in turn is easier to test in isolation.
+
+I am not trying to take away from `react-sizeme`, but I want to highlight that it's a bit more of a low level HOC, and if you want to use it you should be aware of the problems above and consider using your own abstraction or this one.
+
 ## On the First Render of your Component
 
 Ok, we have a bit of a chicken/egg scenario.  We can't know the width/height of your Component until it is rendered.  This can lead wasteful rendering cycles should you choose to render your components based on their width/height.  
@@ -234,25 +253,11 @@ function MyComponentWrapper(props) {
 export default MyComponentWrapper;
 ```
 
-## Things to consider
+## Controlling the `size` data refresh rate
 
 The intention of this library to aid in initial render on a target device, i.e. mobile/tablet/desktop.  In this case we just want to know the size as fast as possible.  Therefore the `refreshRate` is configured with a very low value - specifically updates will occur within 16ms time windows.  
 
 If however you wish to use this library to wrap a component that you expect to be resized via user/system actions then I would recommend that you consider setting the `refreshRate` to a higher setting so that you don't spam the browser with updates.  
-
-## `react-component-queries`: a useful abstraction
-
-In most use cases of `react-sizeme` what you are really looking for is to define certain behaviour "breakpoints" for your components based on their dimensions.  `react-sizeme` is a bit raw in that it provides you with the actual dimensions and requires to do a lot of "boilerplate" logic with the dimensions.
-
-With this in mind I came up with a common abstraction in the form of [`react-component-queries`](https://github.com/ctrlplusb/react-component-queries).  This library allows you to define _query functions_ that will operate on the dimensions provided by `react-sizeme` and when their criteria are met they will pass a custom set of prop(s) to your components. 
-
-This allows you to deal with "simpler" props, for example; a boolean flag indicating if the component is square, an enum representing it's size ('small'|'medium'|'large'), a className, or a style object.  Whatever you feel is most appropriate for your use case.
-
-Some of the benefits are:
-
-  - Easily implement `shouldComponentUpdate` based on the props.
-  - The _query functions_ themselves can be formed into a reusable library of queries for all your components.
-  - Simplify your components by moving the dimension logic away from them, which in turn is easier to test in isolation.
 
 ##  Server Side Rendering
 
