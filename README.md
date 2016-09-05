@@ -208,9 +208,9 @@ This allows you to deal with "simpler" props, for example; a boolean flag indica
 
 So, to recap, some of the benefits of using this abstraction are:
 
-  - Easily implement `shouldComponentUpdate` based on the props.
-  - The _query functions_ themselves can be formed into a reusable library of queries for all your components.
   - Simplify your components by moving the dimension logic away from them, which in turn is easier to test in isolation.
+  - `shouldComponentUpdate` is implemented on your behalf.
+  - The _query functions_ themselves can be formed into a reusable library of queries for all your components.
 
 I am not trying to take away from `react-sizeme`, but I want to highlight that it's a bit more of a low level HOC, and if you want to use it you should be aware of the problems above and consider using your own abstraction or this one.
 
