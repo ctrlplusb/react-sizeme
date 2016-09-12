@@ -50,7 +50,7 @@ See here: https://github.com/ctrlplusb/react-sizeme/releases
 Below is a super simple example highlighting the use of the library. Read the Usage section in its entirety for a full description on configuration and usage.
 
 ```javascript
-import SizeMe from 'react-sizeme';
+import sizeMe from 'react-sizeme';
 
 class MyComponent extends Component {
   render() {
@@ -62,7 +62,7 @@ class MyComponent extends Component {
 }
 
 // Wired up here!
-export default SizeMe()(MyComponent);
+export default sizeMe()(MyComponent);
 ```
 
 ## Usage and API Details
@@ -76,7 +76,7 @@ npm install react-sizeme
 We provide you with a function called `SizeMe`.  You can import it like so:
 
 ```javascript
-import SizeMe from 'react-sizeme';
+import sizeMe from 'react-sizeme';
 ```
 
 When using the `SizeMe` function you first have to pass it a configuration object.  The entire configuration object is optional, as is each of its properties (in which case the defaults would be used).  
@@ -107,15 +107,22 @@ const sizeMeConfig = {
   // The maximum frequency, in milliseconds, at which size changes should be
   // recalculated when changes in your Component's rendered size are being
   // detected. This should not be set to lower than 16.
-  refreshRate: 16  // Default value
+  refreshRate: 16,  // Default value
   
+  // The mode in which refreshing should occur.  Valid values are "debounce" 
+  // and "throttle".  "throttle" will eagerly measure your component and then
+  // wait for the refreshRate to pass before doing a new measurement on size
+  // changes. "debounce" will wait for a minimum of the refreshRate before
+  // it does a measurement check on your component.  "debounce" can be useful
+  // in cases where your component is animated into the DOM.
+  refreshMode: 'throttle' // Default value
 };
 ```
 
 When you execute the `SizeMe` function it will return a Higher Order Component (HOC).  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Here is a verbose example showing full usage of the API:
 
 ```javascript
-import SizeMe from 'react-sizeme';
+import sizeMe from 'react-sizeme';
 
 class MyComponent extends Component {
   render() {
@@ -131,16 +138,16 @@ class MyComponent extends Component {
 const config = { monitorHeight: true };
 
 // Call SizeMe with the config to get back the HOC. 
-const SizeMeHOC = SizeMe(config);
+const sizeMeHOC = sizeMe(config);
 
 // Wrap your component with the HOC.
-export default SizeMeHOC(MyComponent);
+export default sizeMeHOC(MyComponent);
 ```
 
 You could also express the above much more concisely:
 
 ```javascript
-import SizeMe from 'react-sizeme';
+import sizeMe from 'react-sizeme';
 
 class MyComponent extends Component {
   render() {
@@ -152,7 +159,7 @@ class MyComponent extends Component {
   }
 }
  
-export default SizeMe({ monitorHeight: true })(MyComponent);
+export default sizeMe({ monitorHeight: true })(MyComponent);
 ```
 
 That's it.  Its really useful for doing things like optionally loading a child component based on the available space.
@@ -163,7 +170,7 @@ Here is an full example of that in action:
 import React, { PropTypes } from 'react';
 import LargeChildComponent from './LargeChildComponent';
 import SmallChildComponent from './SmallChildComponent';
-import SizeMe from 'react-sizeme';
+import sizeMe from 'react-sizeme';
 
 function MyComponent(props) {
   const { width, height } = props.size;
@@ -186,7 +193,7 @@ MyComponent.propTypes = {
   })
 }
 
-export default SizeMe({ monitorHeight: true })(MyComponent);
+export default sizeMe({ monitorHeight: true })(MyComponent);
 ```
 
 __IMPORTANT__:
@@ -225,7 +232,7 @@ In cases where you have styles/classes contained within your component which dir
 ```javascript
 import React from 'react';
 import cssStyles from './styles.css';
-import SizeMe from 'react-sizeme';
+import sizeMe from 'react-sizeme';
 
 class MyComponent extends Component {
   render() {
@@ -240,7 +247,7 @@ class MyComponent extends Component {
   }
 }
 
-const MySizeAwareComponent = SizeMeHOC(MyComponent);
+const MySizeAwareComponent = sizeMe()(MyComponent);
 
 // We create this wrapper component so that our size aware rendering
 // will have a handle on the 'className'.
@@ -268,9 +275,10 @@ A standard `SizeMe` configuration involves the rendering of a placeholder compon
 Therefore we have provided a global configuration flag on `SizeMe`.  Setting this flag will switch the library into an SSR mode, which essentially disables any placeholder rendering.  Instead your wrapped component will be rendered directly.  You should set the flag within the initialisation of your application (for both client/server).
 
 ```javascript
-import SizeMe from 'react-sizeme';
+import sizeMe from 'react-sizeme';
 
-SizeMe.enableSSRBehaviour = true; // default is false
+// This is a global variable. i.e. will be the default for all instances.
+sizeMe.enableSSRBehaviour = true; // default is false
 ``` 
 
 In a server context we can't know the width/height of your component so you will simply receive `null` values for both.  It is up to you to decide how you would like to render your component then.  When your component is sent to the client and mounted to the DOM `SizeMe` will calculate and send the dimensions to your component as normal.  I suggest you tread very carefully with how you use this updated information and do lots of testing using various screen dimensions.  Try your best to avoid unnecessary re-rendering of your components, for the sake of your users.
