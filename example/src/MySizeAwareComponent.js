@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 let sizeMe;
 
 if (process.env.NODE_ENV === 'development') {
-  sizeMe = require('../../src/index.js').default;
+  sizeMe = require('../../src/sizeMe.js').default;
 } else {
   sizeMe = require('react-sizeme').default;
 }

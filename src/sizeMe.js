@@ -115,7 +115,7 @@ const renderWrapper = (WrappedComponent) => {
  *
  * @return The wrapped component.
  */
-function SizeMe(config = defaultConfig) {
+function sizeMe(config = defaultConfig) {
   const { monitorWidth = true, monitorHeight = false, refreshRate = 16 } = config;
 
   invariant(
@@ -161,8 +161,10 @@ function SizeMe(config = defaultConfig) {
       }
 
       handleDOMNode() {
-        const found = this.element &&
-          ReactDOM.findDOMNode(this.element);
+        const found = this.element
+          // One day this will be deprecated then I will be forced into wrapping
+          // the component with a div or such in order to get a dome element handle.
+          && ReactDOM.findDOMNode(this.element); // eslint-disable-line react/no-find-dom-node
 
         /* istanbul ignore next */
         if (!found) {
@@ -213,7 +215,7 @@ function SizeMe(config = defaultConfig) {
           <SizeMeRenderWrapper
             explicitRef={this.refCallback}
             size={{ width, height }}
-            disablePlaceholder={!!SizeMe.enableSSRBehaviour}
+            disablePlaceholder={!!sizeMe.enableSSRBehaviour}
             {...this.props}
           />
         );
@@ -234,6 +236,6 @@ function SizeMe(config = defaultConfig) {
  * extra render cycles to happen within your components depending on the logic
  * contained within them around the usage of the `size` data.
  */
-SizeMe.enableSSRBehaviour = false;
+sizeMe.enableSSRBehaviour = false;
 
-export default SizeMe;
+export default sizeMe;

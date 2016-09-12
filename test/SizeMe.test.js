@@ -33,7 +33,7 @@ describeWithDOM('Given the SizeMe library', () => {
   const placeholderHtml = '<div style="width: 100%; height: 100%;"></div>';
 
   beforeEach(() => {
-    sizeMe = require('../src/index').default;
+    sizeMe = require('../src/sizeMe').default;
 
     // Set up our mocks.
     SizeMeRewireAPI = sizeMe.__RewireAPI__;
