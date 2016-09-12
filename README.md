@@ -55,6 +55,7 @@ import sizeMe from 'react-sizeme';
 class MyComponent extends Component {
   render() {
     // We receive a "size" prop that contains "width" and "height"!
+    // Note: they may be null until the first measure has taken place.
     return (
       <div>My width is {this.props.size.width}px</div>
     );
@@ -73,13 +74,13 @@ First install the library.
 npm install react-sizeme
 ```
 
-We provide you with a function called `SizeMe`.  You can import it like so:
+We provide you with a function called `sizeMe`.  You can import it like so:
 
 ```javascript
 import sizeMe from 'react-sizeme';
 ```
 
-When using the `SizeMe` function you first have to pass it a configuration object.  The entire configuration object is optional, as is each of its properties (in which case the defaults would be used).  
+When using the `sizeMe` function you first have to pass it a configuration object.  The entire configuration object is optional, as is each of its properties (in which case the defaults would be used).  
 
 Here is a full specification of all the properties available to the configuration object:
 
@@ -119,7 +120,7 @@ const sizeMeConfig = {
 };
 ```
 
-When you execute the `SizeMe` function it will return a Higher Order Component (HOC).  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: number, height: number }` - the numbers representing pixel values.  Here is a verbose example showing full usage of the API:
+When you execute the `SizeMe` function it will return a Higher Order Component (HOC).  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: ?number, height: ?number }` - the numbers representing pixel values. Note that the values can be null until the first measurement has taken place, or based on your configuration.  Here is a verbose example showing full usage of the API:
 
 ```javascript
 import sizeMe from 'react-sizeme';
@@ -129,7 +130,7 @@ class MyComponent extends Component {
     const { width, height } = this.props.size;
 
     return (
-      <div>My size is {width}px x {height}px</div>
+      <div>My size is {width || -1}px x {height || -1}px</div>
     );
   }
 }
@@ -270,7 +271,7 @@ If however you wish to use this library to wrap a component that you expect to b
 
 Okay, I am gonna be up front here and tell you that using this library in an SSR context is most likely a bad idea.  However, if you insist on doing so you then you should take the time to make yourself fully aware of any possible repurcussions you application may face.  
 
-A standard `SizeMe` configuration involves the rendering of a placeholder component.  After the placeholder is mounted to the DOM we extract it's dimension information and pass it on to your actual component.  We do this in order to avoid any unneccesary render cycles for possibly deep component trees.  Whilst this is useful for a purely client side set up, this is less than useful for an SSR context as the delivered page will contain empty placeholders.  Ideally you want actual content to be delivered so that users without JS can still have an experience, or SEO bots can scrape your website.
+A standard `sizeMe` configuration involves the rendering of a placeholder component.  After the placeholder is mounted to the DOM we extract it's dimension information and pass it on to your actual component.  We do this in order to avoid any unneccesary render cycles for possibly deep component trees.  Whilst this is useful for a purely client side set up, this is less than useful for an SSR context as the delivered page will contain empty placeholders.  Ideally you want actual content to be delivered so that users without JS can still have an experience, or SEO bots can scrape your website.
 
 Therefore we have provided a global configuration flag on `SizeMe`.  Setting this flag will switch the library into an SSR mode, which essentially disables any placeholder rendering.  Instead your wrapped component will be rendered directly.  You should set the flag within the initialisation of your application (for both client/server).
 
