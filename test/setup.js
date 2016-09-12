@@ -1,6 +1,8 @@
-const chai = require(`chai`);
-const sinonChai = require(`sinon-chai`);
-const createDom = require(`./jsdom`).createDom;
+/* eslint-disable import/no-extraneous-dependencies */
+
+const chai = require('chai');
+const sinonChai = require('sinon-chai');
+const createDom = require('./jsdom').createDom;
 
 // Set up chai assert extensions
 chai.use(sinonChai);

@@ -1,25 +1,25 @@
 import React, { PropTypes } from 'react';
 
-let SizeMe;
+let sizeMe;
 
-if (process.env.NODE_ENV === `development`) {
-  SizeMe = require(`../../src/index.js`).default;
+if (process.env.NODE_ENV === 'development') {
+  sizeMe = require('../../src/index.js').default;
 } else {
-  SizeMe = require(`react-sizeme`).default;
+  sizeMe = require('react-sizeme').default;
 }
 
 const rootStyle = {
-  fontWeight: `bold`,
-  position: `relative`,
-  textAlign: `center`
+  fontWeight: 'bold',
+  position: 'relative',
+  textAlign: 'center',
 };
 
 const spanStyle = {
-  position: `absolute`,
-  display: `block`,
-  top: `50%`,
-  left: `50%`,
-  transform: `translateX(-50%) translateY(-50%)`
+  position: 'absolute',
+  display: 'block',
+  top: '50%',
+  left: '50%',
+  transform: 'translateX(-50%) translateY(-50%)',
 };
 
 function MyComponent({ children, size: { width, height }, style }) {
@@ -27,7 +27,7 @@ function MyComponent({ children, size: { width, height }, style }) {
     <div style={Object.assign({}, rootStyle, style)}>
       <span style={spanStyle}>
         {Math.round(width)}x{Math.round(height)}<br />
-        <span style={{ fontWeight: `normal`, fontStyle: `italic` }}>(rounded)</span>
+        <span style={{ fontWeight: 'normal', fontStyle: 'italic' }}>(rounded)</span>
       </span>
       {children}
     </div>
@@ -40,7 +40,7 @@ MyComponent.propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
   }),
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
-export default SizeMe({ monitorHeight: true })(MyComponent);
+export default sizeMe({ monitorHeight: true })(MyComponent);

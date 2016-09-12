@@ -1,4 +1,10 @@
-const defaultHtml = `<!doctype html><html><body></body></html>`;
+/* eslint-disable global-require */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-continue */
+/* eslint-disable no-restricted-syntax */
+
+const defaultHtml = '<!doctype html><html><body></body></html>';
 
 /**
  * Sets up a DOM environment for use in Node based testing.
@@ -10,7 +16,7 @@ const defaultHtml = `<!doctype html><html><body></body></html>`;
  *   The jsdom instance used to create the test dom.
  */
 export function createDom(html: ?string = defaultHtml) {
-  const jsdom = require(`jsdom`);
+  const jsdom = require('jsdom');
 
   // setup the simplest document possible
   const doc = jsdom.jsdom(html);
@@ -54,7 +60,7 @@ export function createDom(html: ?string = defaultHtml) {
  * @return The created test suite wrapper.
  */
 export function describeWithDOM(description: string, definition: Function, html: ?string) {
-  describe(`(uses jsdom)`, () => {
+  describe('(uses jsdom)', () => {
     createDom(html);
     describe(description, definition);
   });

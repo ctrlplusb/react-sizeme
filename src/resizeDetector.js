@@ -8,7 +8,7 @@ let instance;
 function resizeDetector() {
   if (!instance) {
     instance = createResizeDetector({
-      strategy: `scroll`
+      strategy: 'scroll',
     });
   }
 

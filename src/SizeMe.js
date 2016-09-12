@@ -8,11 +8,11 @@ import resizeDetector from './resizeDetector';
 
 const defaultConfig = {
   monitorWidth: true,
-  monitorHeight: false
+  monitorHeight: false,
 };
 
 function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || `Component`;
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
 /**
@@ -21,7 +21,7 @@ function getDisplayName(WrappedComponent) {
  * @see https://gist.github.com/jimfb/32b587ee6177665fb4cf
  */
 class ReferenceWrapper extends Component {
-  static displayName = `SizeMeReferenceWrapper`;
+  static displayName = 'SizeMeReferenceWrapper';
 
   render() {
     return Children.only(this.props.children);
@@ -36,9 +36,7 @@ function Placeholder({ className, style }) {
   // We will use any provided className/style or else make the temp
   // container take the full available space.
   if (!className && !style) {
-    phProps.style = {
-      width: `100%`, height: `100%`
-    };
+    phProps.style = { width: '100%', height: '100%' };
   } else {
     if (className) {
       phProps.className = className;
@@ -48,12 +46,12 @@ function Placeholder({ className, style }) {
     }
   }
 
-  return (<div {...phProps}></div>);
+  return (<div {...phProps} />);
 }
-Placeholder.displayName = `SizeMePlaceholder`;
+Placeholder.displayName = 'SizeMePlaceholder';
 Placeholder.propTypes = {
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 /**
@@ -63,7 +61,7 @@ Placeholder.propTypes = {
  * the render and the actual component is rendered.
  * It took me forever to figure this out, so tread extra careful on this one!
  */
-const RenderWrapper = (WrappedComponent) => {
+const renderWrapper = (WrappedComponent) => {
   function SizeMeRenderer(props) {
     const {
       explicitRef,
@@ -71,7 +69,7 @@ const RenderWrapper = (WrappedComponent) => {
       style,
       size,
       disablePlaceholder,
-      ...restProps
+      ...restProps,
     } = props;
     const { width, height } = size;
 
@@ -91,12 +89,12 @@ const RenderWrapper = (WrappedComponent) => {
   SizeMeRenderer.propTypes = {
     explicitRef: PropTypes.func.isRequired,
     className: PropTypes.string,
-    style: PropTypes.object,
+    style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
     size: PropTypes.shape({
-      width: PropTypes.number,
-      height: PropTypes.number
+      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }),
-    disablePlaceholder: PropTypes.bool
+    disablePlaceholder: PropTypes.bool,
   };
 
   return SizeMeRenderer;
@@ -122,24 +120,24 @@ function SizeMe(config = defaultConfig) {
 
   invariant(
     monitorWidth || monitorHeight,
-    `You have to monitor at least one of the width or height when using the ` +
-    `"sizeAware" higher order component`);
+    'You have to monitor at least one of the width or height when using the ' +
+    '"sizeAware" higher order component');
 
   invariant(
     refreshRate >= 16,
-    `It is highly recommended that you don't put your refreshRate lower than ` +
-    `16 as this may cause layout thrashing.`
+    'It is highly recommended that you don\'t put your refreshRate lower than ' +
+    '16 as this may cause layout thrashing.'
   );
 
   return function WrapComponent(WrappedComponent) {
-    const SizeMeRenderWrapper = RenderWrapper(WrappedComponent);
+    const SizeMeRenderWrapper = renderWrapper(WrappedComponent);
 
     class SizeAwareComponent extends React.Component {
       static displayName = `SizeMe(${getDisplayName(WrappedComponent)})`;
 
       state = {
         width: undefined,
-        height: undefined
+        height: undefined,
       };
 
       componentDidMount() {
@@ -200,7 +198,7 @@ function SizeMe(config = defaultConfig) {
         const { width, height } = el.getBoundingClientRect();
         const next = {
           width: monitorWidth ? width : null,
-          height: monitorHeight ? height : null
+          height: monitorHeight ? height : null,
         };
 
         if (this.hasSizeChanged(this.state, next)) {
