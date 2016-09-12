@@ -3,12 +3,14 @@
 import React, { Children, Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import { throttle } from 'lodash';
+import { throttle, debounce } from 'lodash';
 import resizeDetector from './resizeDetector';
 
 const defaultConfig = {
   monitorWidth: true,
   monitorHeight: false,
+  refreshRate: 16,
+  refreshMode: 'throttle',
 };
 
 function getDisplayName(WrappedComponent) {
@@ -116,7 +118,12 @@ const renderWrapper = (WrappedComponent) => {
  * @return The wrapped component.
  */
 function sizeMe(config = defaultConfig) {
-  const { monitorWidth = true, monitorHeight = false, refreshRate = 16 } = config;
+  const {
+    monitorWidth = defaultConfig.monitorWidth,
+    monitorHeight = defaultConfig.monitorHeight,
+    refreshRate = defaultConfig.refreshRate,
+    refreshMode = defaultConfig.refreshMode,
+  } = config;
 
   invariant(
     monitorWidth || monitorHeight,
@@ -128,6 +135,13 @@ function sizeMe(config = defaultConfig) {
     'It is highly recommended that you don\'t put your refreshRate lower than ' +
     '16 as this may cause layout thrashing.'
   );
+
+  invariant(
+    refreshMode === 'throttle' || refreshMode === 'debounce',
+    'The refreshMode should have a value of "throttle" or "debounce"'
+  );
+
+  const refreshDelayStrategy = refreshMode === 'throttle' ? throttle : debounce;
 
   return function WrapComponent(WrappedComponent) {
     const SizeMeRenderWrapper = renderWrapper(WrappedComponent);
@@ -196,7 +210,7 @@ function sizeMe(config = defaultConfig) {
           || (monitorWidth && cWidth !== nWidth);
       };
 
-      checkIfSizeChanged = throttle((el) => {
+      checkIfSizeChanged = refreshDelayStrategy((el) => {
         const { width, height } = el.getBoundingClientRect();
         const next = {
           width: monitorWidth ? width : null,

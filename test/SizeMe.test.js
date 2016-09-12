@@ -50,20 +50,21 @@ describeWithDOM('Given the SizeMe library', () => {
   describe('When providing a configuration object', () => {
     describe('And the refresh rate is below 16', () => {
       it('Then an error should be thrown', () => {
-        const action = () => {
-          sizeMe({ refreshRate: 15 });
-        };
-
+        const action = () => sizeMe({ refreshRate: 15 });
         expect(action).to.throw(/don't put your refreshRate lower than 16/);
+      });
+    });
+
+    describe('And setting an invalid refreshMode to "debounce"', () => {
+      it('Then an error should be thrown', () => {
+        const action = () => sizeMe({ refreshMode: 'foo' });
+        expect(action).to.throw(/refreshMode should have a value of/);
       });
     });
 
     describe('And both monitor values are set to false', () => {
       it('Then an error should be thrown', () => {
-        const action = () => {
-          sizeMe({ monitorHeight: false, monitorWidth: false });
-        };
-
+        const action = () => sizeMe({ monitorHeight: false, monitorWidth: false });
         expect(action).to.throw(/You have to monitor at least one of the width or height/);
       });
     });
@@ -85,9 +86,36 @@ describeWithDOM('Given the SizeMe library', () => {
     });
   });
 
+  describe('When setting the "debounce" refreshMode', () => {
+    it('Then the size data should only appear after the refresh rate has expired', (done) => {
+      const config = { refreshMode: 'debounce', refreshRate: 50, monitorHeight: true };
+      const SizeAwareComponent = sizeMe(config)(
+        ({ size: { width, height } }) => <div>{width} x {height}</div>
+      );
+
+      const mounted = mount(<SizeAwareComponent />);
+
+      // Get the callback for size changes.
+      const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1];
+      checkIfSizeChangedCallback({
+        getBoundingClientRect: () => ({
+          width: 100,
+          height: 100,
+        }),
+      });
+
+      setTimeout(() => expect(mounted.text()).equals(''), 25);
+      setTimeout(() => {
+        expect(mounted.text()).equals('100 x 100');
+        done();
+      }, 55);
+    });
+  });
+
   describe('When the wrapped component gets mounted after the placeholder', () => {
     it('Then the resizeDetector registration and deregistration should be called', () => {
-      const SizeAwareComponent = sizeMe({ monitorHeight: true })(
+      const config = { monitorHeight: true };
+      const SizeAwareComponent = sizeMe(config)(
         ({ size: { width, height } }) => <div>{width} x {height}</div>
       );
 

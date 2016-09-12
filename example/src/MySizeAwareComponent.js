@@ -43,4 +43,8 @@ MyComponent.propTypes = {
   style: PropTypes.object,
 };
 
-export default sizeMe({ monitorHeight: true })(MyComponent);
+export default sizeMe({
+  monitorHeight: true,
+  refreshRate: 2500,
+  refreshMode: 'debounce'
+})(MyComponent);
