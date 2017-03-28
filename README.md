@@ -22,15 +22,15 @@ export default sizeMe()(MyComponent)
 
 * Responsive Components!
 * Easy to use.
+* Monitor Width OR Height OR Position (or all of them).
 * Extensive browser support.
 * Supports any Component type, i.e. stateless/class.
-* 7.67KB gzipped standalone, even smaller if bundled with your assets.
+* 8.85KB gzipped.
 
 ## TOCs
 
  - [Intro](https://github.com/ctrlplusb/react-sizeme#intro)
  - [Demo](https://github.com/ctrlplusb/react-sizeme#live-demo)
- - [Quick Example](https://github.com/ctrlplusb/react-sizeme#quick-example)
  - [Usage and API Details](https://github.com/ctrlplusb/react-sizeme#usage-and-api-details)
  - [`react-component-queries`: a highly recommended abstraction](https://github.com/ctrlplusb/react-sizeme#react-component-queries-a-highly-recommended-abstraction)
  - [On the First Render of your Component](https://github.com/ctrlplusb/react-sizeme#on-the-first-render-of-your-component)
@@ -43,11 +43,7 @@ export default sizeMe()(MyComponent)
 
 Give your Components the ability to have render logic based on their height/width/position. Responsive design on the Component level.  This allows you to create highly reusable components that don't care about where they will be rendered.
 
-## Demo
-
-It really does work! Look:
-
-https://react-sizeme-example-anpinwkzyc.now.sh
+Check out a working demo here: https://react-sizeme.now.sh
 
 ## Usage and API Details
 
