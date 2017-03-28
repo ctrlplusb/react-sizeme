@@ -18,7 +18,7 @@
 
     // Semi-strict max width
     "max-len": [
-      "error",
+      1,
       {
         "ignoreComments": true,
         "ignoreStrings": true,

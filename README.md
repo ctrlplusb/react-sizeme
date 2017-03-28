@@ -8,18 +8,28 @@
 [![Travis](https://img.shields.io/travis/ctrlplusb/react-sizeme.svg?style=flat-square)](https://travis-ci.org/ctrlplusb/react-sizeme)
 [![Codecov](https://img.shields.io/codecov/c/github/ctrlplusb/react-sizeme.svg?style=flat-square)](https://codecov.io/github/ctrlplusb/react-sizeme)
 
+```javascript
+import sizeMe from 'react-sizeme'
+
+function MyComponent({ size }) {
+  return (
+    <div>My width is {size.width}px</div>
+  )
+}
+
+export default sizeMe()(MyComponent)
+```
+
 * Responsive Components!
 * Easy to use.
 * Extensive browser support.
 * Supports any Component type, i.e. stateless/class.
-* Works with React 0.14.x and 15.x.x.
 * 7.67KB gzipped standalone, even smaller if bundled with your assets.
 
 ## TOCs
 
- - [What is this for?](https://github.com/ctrlplusb/react-sizeme#what-is-this-for)
- - [Release Notes](https://github.com/ctrlplusb/react-sizeme#release-notes)
- - [Live Demo](https://github.com/ctrlplusb/react-sizeme#live-demo)
+ - [Intro](https://github.com/ctrlplusb/react-sizeme#intro)
+ - [Demo](https://github.com/ctrlplusb/react-sizeme#live-demo)
  - [Quick Example](https://github.com/ctrlplusb/react-sizeme#quick-example)
  - [Usage and API Details](https://github.com/ctrlplusb/react-sizeme#usage-and-api-details)
  - [`react-component-queries`: a highly recommended abstraction](https://github.com/ctrlplusb/react-sizeme#react-component-queries-a-highly-recommended-abstraction)
@@ -29,40 +39,15 @@
  - [Extreme Appreciation](https://github.com/ctrlplusb/react-sizeme#extreme-appreciation)
 
 
-## What is this for?
+## Intro
 
-Give your Components the ability to have render logic based on their height/width. Responsive design on the Component level.  This allows you to create highly reusable components that don't care about where they will be rendered.
+Give your Components the ability to have render logic based on their height/width/position. Responsive design on the Component level.  This allows you to create highly reusable components that don't care about where they will be rendered.
 
-## Live Demo
+## Demo
 
 It really does work! Look:
 
 https://react-sizeme-example-anpinwkzyc.now.sh
-
-## Release Notes
-
-See here: https://github.com/ctrlplusb/react-sizeme/releases
-
-## Quick Example
-
-Below is a super simple example highlighting the use of the library. Read the Usage section in its entirety for a full description on configuration and usage.
-
-```javascript
-import sizeMe from 'react-sizeme';
-
-class MyComponent extends Component {
-  render() {
-    // We receive a "size" prop that contains "width" and "height"!
-    // Note: they may be null until the first measure has taken place.
-    return (
-      <div>My width is {this.props.size.width}px</div>
-    );
-  }
-}
-
-// Wired up here!
-export default sizeMe()(MyComponent);
-```
 
 ## Usage and API Details
 
@@ -80,33 +65,29 @@ import sizeMe from 'react-sizeme';
 
 When using the `sizeMe` function you first have to pass it a configuration object.  The entire configuration object is optional, as is each of its properties (in which case the defaults would be used).  
 
-Here is a full specification of all the properties available to the configuration object:
+Here is a full specification of all the properties available to the configuration object, with the default values assigned:
 
 ```javascript
 const sizeMeConfig = {
-
   // If true, then any changes to your Components rendered width will cause an
   // recalculation of the "size" prop which will then be be passed into
   // your Component.
-  // If false, then any changes to your Components rendered width will NOT
-  // cause any recalculation of the "size" prop. Additionally any "size" prop
-  // that is passed into your Component will always have a `null` value
-  // for the "width" property.
-  monitorWidth: true,  // Default value
+  monitorWidth: true,
 
   // If true, then any changes to your Components rendered height will cause an
   // recalculation of the "size" prop which will then be be passed into
   // your Component.
-  // If false, then any changes to your Components rendered height will NOT
-  // cause any recalculation of the "size" prop. Additionally any "size" prop
-  // that is passed into your Component will always have a `null` value
-  // for the "height" property.
-  monitorHeight: false, // Default value
+  monitorHeight: false,
+
+  // If true, then any changes to your Components position will cause an
+  // recalculation of the "size" prop which will then be be passed into
+  // your Component.
+  monitorPosition: false,
 
   // The maximum frequency, in milliseconds, at which size changes should be
   // recalculated when changes in your Component's rendered size are being
   // detected. This should not be set to lower than 16.
-  refreshRate: 16,  // Default value
+  refreshRate: 16,
 
   // The mode in which refreshing should occur.  Valid values are "debounce"
   // and "throttle".  "throttle" will eagerly measure your component and then
@@ -114,11 +95,11 @@ const sizeMeConfig = {
   // changes. "debounce" will wait for a minimum of the refreshRate before
   // it does a measurement check on your component.  "debounce" can be useful
   // in cases where your component is animated into the DOM.
-  refreshMode: 'throttle' // Default value
-};
+  refreshMode: 'throttle'
+}
 ```
 
-When you execute the `SizeMe` function it will return a Higher Order Component (HOC).  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: ?number, height: ?number }` - the numbers representing pixel values. Note that the values can be null until the first measurement has taken place, or based on your configuration.  Here is a verbose example showing full usage of the API:
+When you execute the `sizeMe` function it will return a Higher Order Component (HOC).  You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability.  Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: ?number, height: ?number, position: ?{ left: number, top: number, right: number, bottom: number} }` - the numbers representing pixel values. Note that the values can be null until the first measurement has taken place, or based on your configuration.  Here is a verbose example showing full usage of the API:
 
 ```javascript
 import sizeMe from 'react-sizeme';
@@ -197,8 +178,8 @@ export default sizeMe({ monitorHeight: true })(MyComponent);
 
 __IMPORTANT__:
 
-*  We don't monitor height by default, so if you use the default settings and your component only changes in height it won't cause a recalculation of the `size` prop.  I figured that in most cases we care about the width only and it would be annoying if vertical text spanning kept throwing out updates.
-* If you aren't monitoring a specific dimension (width or height) you will be provided `null` values for the respective dimension.  This is to avoid any possible misconfigured implementation whoopsies. In the case of Server Side Rendering you would also receive nulls - read more about the SSR case [here](https://github.com/ctrlplusb/react-sizeme#server-side-rendering).
+*  We don't monitor height or position by default as these are likely to create a high throughput of "size prop updates".  It is up to you to enable and handle these appropriately.
+* If you aren't monitoring a specific dimension (width, height, position) you will be provided `null` values for the respective dimension.  This is to avoid any possible misconfigured implementation whoopsies. In the case of Server Side Rendering you would also receive nulls - read more about the SSR case [here](https://github.com/ctrlplusb/react-sizeme#server-side-rendering).
 * `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming.
 
 ## `react-component-queries`: a highly recommended abstraction
@@ -267,9 +248,9 @@ If however you wish to use this library to wrap a component that you expect to b
 
 ##  Server Side Rendering
 
-Okay, I am gonna be up front here and tell you that using this library in an SSR context is most likely a bad idea.  However, if you insist on doing so you then you should take the time to make yourself fully aware of any possible repurcussions you application may face.  
+Okay, I am gonna be up front here and tell you that using this library in an SSR context is most likely a bad idea.  If you insist on doing so you then you should take the time to make yourself fully aware of any possible repercussions you application may face.  
 
-A standard `sizeMe` configuration involves the rendering of a placeholder component.  After the placeholder is mounted to the DOM we extract it's dimension information and pass it on to your actual component.  We do this in order to avoid any unneccesary render cycles for possibly deep component trees.  Whilst this is useful for a purely client side set up, this is less than useful for an SSR context as the delivered page will contain empty placeholders.  Ideally you want actual content to be delivered so that users without JS can still have an experience, or SEO bots can scrape your website.
+A standard `sizeMe` configuration involves the rendering of a placeholder component.  After the placeholder is mounted to the DOM we extract it's dimension information and pass it on to your actual component.  We do this in order to avoid any unnecessary render cycles for possibly deep component trees.  Whilst this is useful for a purely client side set up, this is less than useful for an SSR context as the delivered page will contain empty placeholders.  Ideally you want actual content to be delivered so that users without JS can still have an experience, or SEO bots can scrape your website.
 
 Therefore we have provided a global configuration flag on `SizeMe`.  Setting this flag will switch the library into an SSR mode, which essentially disables any placeholder rendering.  Instead your wrapped component will be rendered directly.  You should set the flag within the initialisation of your application (for both client/server).
 

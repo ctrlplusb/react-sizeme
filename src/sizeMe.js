@@ -9,6 +9,7 @@ import resizeDetector from './resizeDetector'
 const defaultConfig = {
   monitorWidth: true,
   monitorHeight: false,
+  monitorPosition: false,
   refreshRate: 16,
   refreshMode: 'throttle',
 }
@@ -73,11 +74,14 @@ const renderWrapper = (WrappedComponent) => {
       disablePlaceholder,
       ...restProps
     } = props
-    const { width, height } = size
+    const { width, height, position } = size
 
-    const toRender = width === undefined &&
+    const renderPlaceholder = width === undefined &&
       height === undefined &&
+      position === undefined &&
       !disablePlaceholder
+
+    const toRender = renderPlaceholder
       ? <Placeholder className={className} style={style} />
       : (<WrappedComponent
         className={className}
@@ -128,14 +132,14 @@ function sizeMe(config = defaultConfig) {
   const {
     monitorWidth = defaultConfig.monitorWidth,
     monitorHeight = defaultConfig.monitorHeight,
+    monitorPosition = defaultConfig.monitorPosition,
     refreshRate = defaultConfig.refreshRate,
     refreshMode = defaultConfig.refreshMode,
   } = config
 
   invariant(
-    monitorWidth || monitorHeight,
-    'You have to monitor at least one of the width or height when using the ' +
-      '"sizeAware" higher order component',
+    monitorWidth || monitorHeight || monitorPosition,
+    'You have to monitor at least one of the width, height, or position when using "sizeMe"',
   )
 
   invariant(
@@ -160,6 +164,7 @@ function sizeMe(config = defaultConfig) {
       state = {
         width: undefined,
         height: undefined,
+        position: undefined,
       };
 
       componentDidMount() {
@@ -188,7 +193,6 @@ function sizeMe(config = defaultConfig) {
           // the component with a div or such in order to get a dome element handle.
           ReactDOM.findDOMNode(this.element) // eslint-disable-line react/no-find-dom-node
 
-        /* istanbul ignore next */
         if (!found) {
           // This is for special cases where the element may be null.
           if (this.domEl) {
@@ -211,19 +215,35 @@ function sizeMe(config = defaultConfig) {
       };
 
       hasSizeChanged = (current, next) => {
-        const { height: cHeight, width: cWidth } = current
-        const { height: nHeight, width: nWidth } = next
+        const c = current
+        const n = next
+        const cp = c.position || {}
+        const np = n.position || {}
 
-        return (monitorHeight && cHeight !== nHeight) ||
-          (monitorWidth && cWidth !== nWidth)
+        return (monitorHeight && c.height !== n.height) ||
+          (monitorPosition &&
+            (cp.top !== np.top ||
+              cp.left !== np.left ||
+              cp.bottom !== np.bottom ||
+              cp.right !== np.right)) ||
+          (monitorWidth && c.width !== n.width)
       };
 
       checkIfSizeChanged = refreshDelayStrategy(
         (el) => {
-          const { width, height } = el.getBoundingClientRect()
+          const {
+            width,
+            height,
+            right,
+            left,
+            top,
+            bottom,
+          } = el.getBoundingClientRect()
+
           const next = {
             width: monitorWidth ? width : null,
             height: monitorHeight ? height : null,
+            position: monitorPosition ? { right, left, top, bottom } : null,
           }
 
           if (this.hasSizeChanged(this.state, next)) {
@@ -234,12 +254,12 @@ function sizeMe(config = defaultConfig) {
       );
 
       render() {
-        const { width, height } = this.state
+        const { width, height, position } = this.state
 
         return (
           <SizeMeRenderWrapper
             explicitRef={this.refCallback}
-            size={{ width, height }}
+            size={{ width, height, position }}
             disablePlaceholder={!!sizeMe.enableSSRBehaviour}
             {...this.props}
           />
