@@ -12,6 +12,7 @@ const defaultConfig = {
   monitorPosition: false,
   refreshRate: 16,
   refreshMode: 'throttle',
+  noPlaceholder: false,
 }
 
 function getDisplayName(WrappedComponent) {
@@ -135,6 +136,7 @@ function sizeMe(config = defaultConfig) {
     monitorPosition = defaultConfig.monitorPosition,
     refreshRate = defaultConfig.refreshRate,
     refreshMode = defaultConfig.refreshMode,
+    noPlaceholder = defaultConfig.noPlaceholder,
   } = config
 
   invariant(
@@ -256,11 +258,15 @@ function sizeMe(config = defaultConfig) {
       render() {
         const { width, height, position } = this.state
 
+        const disablePlaceholder = sizeMe.enableSSRBehaviour ||
+          sizeMe.noPlaceholders ||
+          noPlaceholder
+
         return (
           <SizeMeRenderWrapper
             explicitRef={this.refCallback}
             size={{ width, height, position }}
-            disablePlaceholder={!!sizeMe.enableSSRBehaviour}
+            disablePlaceholder={disablePlaceholder}
             {...this.props}
           />
         )
@@ -280,7 +286,15 @@ function sizeMe(config = defaultConfig) {
  * Warning: don't set this flag unless you need to as using it may cause
  * extra render cycles to happen within your components depending on the logic
  * contained within them around the usage of the `size` data.
+ *
+ * DEPRECATED: Please use the global disablePlaceholders
  */
 sizeMe.enableSSRBehaviour = false
+
+/**
+ * Global configuration allowing to disable placeholder rendering for all
+ * sizeMe components.
+ */
+sizeMe.noPlaceholders = false
 
 export default sizeMe

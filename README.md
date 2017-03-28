@@ -95,7 +95,17 @@ const sizeMeConfig = {
   // changes. "debounce" will wait for a minimum of the refreshRate before
   // it does a measurement check on your component.  "debounce" can be useful
   // in cases where your component is animated into the DOM.
-  refreshMode: 'throttle'
+  // NOTE: When using "debounce" mode you may want to consider disabling the
+  // placeholder as this adds an extra delay in the rendering time of your
+  // component.
+  refreshMode: 'throttle',
+
+  // By default we render a "placeholder" component initially so we can try
+  // and "prefetch" the expected size for your component.  This is to avoid
+  // any unnecessary deep tree renders.  If you feel this is not an issue
+  // for your component case and you would like to get an eager render of
+  // your component then disable the placeholder using this config option.
+  noPlaceholder: false
 }
 ```
 
@@ -176,11 +186,14 @@ MyComponent.propTypes = {
 export default sizeMe({ monitorHeight: true })(MyComponent);
 ```
 
-__IMPORTANT__:
+> EXTRA POINTS! Combine the above with a code splitting API (e.g. Webpack's System.import) to avoid unnecessary code downloads for your clients. Zing!
+
+__Important things to remember__
 
 *  We don't monitor height or position by default as these are likely to create a high throughput of "size prop updates".  It is up to you to enable and handle these appropriately.
-* If you aren't monitoring a specific dimension (width, height, position) you will be provided `null` values for the respective dimension.  This is to avoid any possible misconfigured implementation whoopsies. In the case of Server Side Rendering you would also receive nulls - read more about the SSR case [here](https://github.com/ctrlplusb/react-sizeme#server-side-rendering).
+* If you aren't monitoring a specific dimension (width, height, position) you will be provided `null` values for the respective dimension.
 * `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming.
+* If you are doing Server Side Rendering please read our recommendations [here](https://github.com/ctrlplusb/react-sizeme#server-side-rendering).
 
 ## `react-component-queries`: a highly recommended abstraction
 
@@ -240,6 +253,8 @@ function MyComponentWrapper(props) {
 export default MyComponentWrapper;
 ```
 
+Should you wish to avoid the render of a placeholder and have an eager render of your component then you can use the `noPlaceholder` configuration option.  Your component will then be rendered directly, however, the `size` prop will not contain any data - so you will have to decide how to best render your component without this information.  After it is rendered `size-me` will do it's thing and pass in the `size` prop.
+
 ## Controlling the `size` data refresh rate
 
 The intention of this library to aid in initial render on a target device, i.e. mobile/tablet/desktop.  In this case we just want to know the size as fast as possible.  Therefore the `refreshRate` is configured with a very low value - specifically updates will occur within 16ms time windows.  
@@ -252,16 +267,18 @@ Okay, I am gonna be up front here and tell you that using this library in an SSR
 
 A standard `sizeMe` configuration involves the rendering of a placeholder component.  After the placeholder is mounted to the DOM we extract it's dimension information and pass it on to your actual component.  We do this in order to avoid any unnecessary render cycles for possibly deep component trees.  Whilst this is useful for a purely client side set up, this is less than useful for an SSR context as the delivered page will contain empty placeholders.  Ideally you want actual content to be delivered so that users without JS can still have an experience, or SEO bots can scrape your website.
 
-Therefore we have provided a global configuration flag on `SizeMe`.  Setting this flag will switch the library into an SSR mode, which essentially disables any placeholder rendering.  Instead your wrapped component will be rendered directly.  You should set the flag within the initialisation of your application (for both client/server).
+To avoid the rendering of placeholders in this context you can make use of the `noPlaceholders` global configuration value.  Setting this flag will disables any placeholder rendering.  Instead your wrapped component will be rendered directly - however it's initial render will contain no values within the `size` prop (i.e. `width`, `height`, and `position` will be `null`).
 
 ```javascript
 import sizeMe from 'react-sizeme';
 
 // This is a global variable. i.e. will be the default for all instances.
-sizeMe.enableSSRBehaviour = true; // default is false
+sizeMe.noPlaceholers = true;
 ```
 
-In a server context we can't know the width/height of your component so you will simply receive `null` values for both.  It is up to you to decide how you would like to render your component then.  When your component is sent to the client and mounted to the DOM `SizeMe` will calculate and send the dimensions to your component as normal.  I suggest you tread very carefully with how you use this updated information and do lots of testing using various screen dimensions.  Try your best to avoid unnecessary re-rendering of your components, for the sake of your users.
+> Note: if you only partialy server render your application you may want to use the component level configuration that allows disabling placeholders per component (e.g. `sizeMe({ noPlaceholder: true })`)
+
+It is up to you to decide how you would like to initially render your component then.  When your component is sent to the client and mounted to the DOM `SizeMe` will calculate and send the dimensions to your component as normal.  I suggest you tread very carefully with how you use this updated information and do lots of testing using various screen dimensions.  Try your best to avoid unnecessary re-rendering of your components, for the sake of your users.
 
 If you come up with any clever strategies for this please do come share them with us! :)
 

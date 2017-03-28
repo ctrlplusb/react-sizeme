@@ -93,6 +93,30 @@ describe('Given the SizeMe library', () => {
     })
   })
 
+  describe('When disabling placeholders via the component config', () => {
+    it('Then the component should render without any size info', () => {
+      const SizeAwareComponent = sizeMe({ noPlaceholder: true })(SizeRender)
+      const mounted = mount(<SizeAwareComponent />)
+      expect(mounted.text()).toEqual(expected({}))
+    })
+  })
+
+  describe('When disabling placeholders via the global config', () => {
+    beforeEach(() => {
+      sizeMe.noPlaceholders = true
+    })
+
+    afterEach(() => {
+      sizeMe.noPlaceholders = false
+    })
+
+    it('should not use placeholders when the global config is set', () => {
+      const SizeAwareComponent = sizeMe()(SizeRender)
+      const mounted = mount(<SizeAwareComponent />)
+      expect(mounted.text()).toEqual(expected({}))
+    })
+  })
+
   describe('When mounting and unmounting the placeholder component', () => {
     it('Then the resizeDetector registration and deregistration should be called', () => {
       const SizeAwareComponent = sizeMe()(SizeRender)
