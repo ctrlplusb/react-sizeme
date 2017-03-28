@@ -229,7 +229,7 @@ class MyContainerComponent extends React.Component {
 
 Zing. Let me know if you have issues/ideas!
 
-## A highly recommended abstraction (`react-component-queries`)
+## A highly recommended abstraction (`react-component-queries`) ##
 
 `react-sizeme` is great, however, it suffers with a couple of problems in my opinion:
 
