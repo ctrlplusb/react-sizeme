@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -13,7 +15,11 @@ describe('Given the SizeMe library', () => {
   let resizeDetectorMock
   const placeholderHtml = '<div style="width: 100%; height: 100%;"></div>'
 
-  const SizeRender = ({ size = {}, debug }) => {
+  const SizeRender = ({ size, debug }) => {
+    if (size == null) {
+      return <div>No given size</div>
+    }
+
     const { width, height, position } = size
     const p = position || {}
     const result = (
@@ -114,6 +120,48 @@ describe('Given the SizeMe library', () => {
       const SizeAwareComponent = sizeMe()(SizeRender)
       const mounted = mount(<SizeAwareComponent />)
       expect(mounted.text()).toEqual(expected({}))
+    })
+  })
+
+  describe('When using the sizeCallback fn', () => {
+    it('should pass the size data to the callback and pass down no size prop', () => {
+      const SizeAwareComponent = sizeMe({ monitorHeight: true })(SizeRender)
+
+      class SizeCallbackWrapper extends React.Component {
+        state = {
+          size: null,
+        };
+        onSize = size =>
+          this.setState({
+            size,
+          });
+        render() {
+          return <SizeAwareComponent onSize={this.onSize} />
+        }
+      }
+      const mounted = mount(<SizeCallbackWrapper />)
+
+      // Get the callback for size changes.
+      const { listenTo } = resizeDetectorMock
+      const checkIfSizeChangedCallback = listenTo.args[0][1]
+      checkIfSizeChangedCallback({
+        getBoundingClientRect: () => ({
+          width: 100,
+          height: 50,
+        }),
+      })
+
+      return delay(
+        () => {
+          expect(mounted.state()).toMatchObject({
+            size: { width: 100, height: 50 },
+          })
+          expect(mounted.find(SizeAwareComponent).text()).toEqual(
+            'No given size',
+          )
+        },
+        20,
+      )
     })
   })
 

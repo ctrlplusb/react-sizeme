@@ -73,23 +73,27 @@ const renderWrapper = (WrappedComponent) => {
       style,
       size,
       disablePlaceholder,
+      onSize,
       ...restProps
     } = props
-    const { width, height, position } = size
 
-    const renderPlaceholder = width === undefined &&
-      height === undefined &&
-      position === undefined &&
-      !disablePlaceholder
+    const noSizeData = size == null ||
+      (size.width == null && size.height == null && size.position == null)
+
+    const renderPlaceholder = noSizeData && !disablePlaceholder
+
+    const renderProps = {
+      className,
+      style,
+    }
+
+    if (size != null) {
+      renderProps.size = size
+    }
 
     const toRender = renderPlaceholder
       ? <Placeholder className={className} style={style} />
-      : (<WrappedComponent
-        className={className}
-        style={style}
-        size={size}
-        {...restProps}
-      />)
+      : <WrappedComponent {...renderProps} {...restProps} />
 
     return (
       <ReferenceWrapper ref={explicitRef}>
@@ -163,6 +167,10 @@ function sizeMe(config = defaultConfig) {
     class SizeAwareComponent extends React.Component {
       static displayName = `SizeMe(${getDisplayName(WrappedComponent)})`;
 
+      static propTypes = {
+        onSize: PropTypes.func,
+      };
+
       state = {
         width: undefined,
         height: undefined,
@@ -170,7 +178,12 @@ function sizeMe(config = defaultConfig) {
       };
 
       componentDidMount() {
+        this.determineStrategy(this.props)
         this.handleDOMNode()
+      }
+
+      componentWillReceiveProps(nextProps) {
+        this.determineStrategy(nextProps)
       }
 
       componentDidUpdate() {
@@ -188,6 +201,22 @@ function sizeMe(config = defaultConfig) {
           this.domEl = null
         }
       }
+
+      determineStrategy = (props) => {
+        this.strategy = props.onSize ? 'callback' : 'render'
+      };
+
+      strategisedSetState = (state) => {
+        if (this.strategy === 'callback') {
+          this.callbackState = state
+          this.props.onSize(state)
+        } else {
+          this.setState(state)
+        }
+      };
+
+      strategisedGetState = () =>
+        this.strategy === 'callback' ? this.callbackState : this.state;
 
       handleDOMNode() {
         const found = this.element &&
@@ -249,23 +278,22 @@ function sizeMe(config = defaultConfig) {
           }
 
           if (this.hasSizeChanged(this.state, next)) {
-            this.setState(next)
+            this.strategisedSetState(next)
           }
         },
         refreshRate,
       );
 
       render() {
-        const { width, height, position } = this.state
-
         const disablePlaceholder = sizeMe.enableSSRBehaviour ||
           sizeMe.noPlaceholders ||
-          noPlaceholder
+          noPlaceholder ||
+          this.strategy === 'callback'
 
         return (
           <SizeMeRenderWrapper
             explicitRef={this.refCallback}
-            size={{ width, height, position }}
+            size={this.strategy === 'callback' ? null : this.state}
             disablePlaceholder={disablePlaceholder}
             {...this.props}
           />

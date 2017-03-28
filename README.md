@@ -191,6 +191,41 @@ __Important things to remember__
 * `refreshRate` is set very low.  If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming.
 * If you are doing Server Side Rendering please read our recommendations [here](https://github.com/ctrlplusb/react-sizeme#server-side-rendering).
 
+## `onSize` callback alternative usage
+
+`react-sizeme` has now been extended to allow you to use your size aware components in an alternative fashion - having their size data be passed to a given callback function, rather than passed down to your component via a prop.  This can give a nice alternative level of control, allowing the parent component to act as the intelligent container making all the decisions based on the size data.
+
+I would highlight that for now this is an experimental feature, and wouldn't recommend over-use of it unless you are brave or have desperate need of it.  I'd like to gather some nice feedback from the community on how useful this is to them and what other considerations I should make around it's API.
+
+Here is an example of it's usage.
+
+Firstly, create a component you wish to know the size of:
+
+```jsx
+import sizeMe from 'react-sizeme'
+
+function Hello({ to }) {
+  // ❗️ NOTE: no size prop will be provided if onSize callback was provided.
+  return <div>Hello {to}!</div>
+}
+
+export default sizeMe()(Hello)
+```
+
+Now create a component that will render your component, providing it a `onSize` callback function to get it's size.
+
+```jsx
+class MyContainerComponent extends React.Component {
+  onSize = (size) => {
+    console.log('MyComponent')
+  }
+
+  render() {
+    return <Hello to="🌎" onSize={this.onSize} />
+  }
+}
+```
+
 ## `react-component-queries`: a highly recommended abstraction
 
 `react-sizeme` is great, however, it suffers with a couple of problems in my opinion:
