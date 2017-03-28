@@ -1,16 +1,48 @@
 {
+  "root": true,
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "plugins": [],
   "env": {
     "browser": true,
     "es6": true,
-    "mocha": true,
-    "node": true
+    "node": true,
+    "jest": true,
   },
   "ecmaFeatures": {
     "defaultParams": true
   },
   "rules": {
-    "react/jsx-filename-extension": 0
+    // It really is not confusing.
+    "no-confusing-arrow": 0,
+
+    // Semi-strict max width
+    "max-len": [
+      "error",
+      {
+        "ignoreComments": true,
+        "ignoreStrings": true,
+        "code": 80
+      }
+    ],
+
+    // Going hipster
+    "semi": [2, "never"],
+
+    // A .jsx extension is not required for files containing jsx
+    "react/jsx-filename-extension": 0,
+
+    // These rules are annoying
+    "react/sort-comp": 0,
+    "react/forbid-prop-types": 0,
+
+    // This rule sucks at Higher Order Components
+    "react/no-unused-prop-types": 0,
+
+    // Annoying, and works fine without escaping them
+    "react/no-unescaped-entities": 0,
+
+    // Its a lib not a proj
+    "react/require-default-props": 0
   }
 }

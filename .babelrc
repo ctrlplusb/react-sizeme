@@ -1,14 +1,44 @@
 {
-  "presets": ["es2015", "stage-1", "react"],
-  "ignore": [
-    "/node_modules/"
+  "presets": [
+    ["env", { "targets": { "node": true } }],
+    "stage-3",
+    "react"
+  ],
+  "plugins": [
+    "transform-class-properties"
   ],
   "env": {
-    "test": {
-      "plugins": ["rewire"]
+    "commonjs": {
+      "presets": [
+        "latest",
+        "stage-3",
+        "react"
+      ],
+      "plugins": [
+        "transform-class-properties"
+      ],
     },
-    "production": {
-      "plugins": ["lodash"]
+    "umd": {
+      "presets": [
+        ["latest", { "es2015": { "modules": false } }],
+        "stage-3",
+        "react"
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "lodash"
+      ],
+    },
+    "test": {
+      "presets": [
+        ["env", { "targets": { "node": true } }],
+        "stage-3",
+        "react"
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "rewire"
+      ]
     }
   }
 }

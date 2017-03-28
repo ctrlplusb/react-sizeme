@@ -1,20 +1,20 @@
 /* eslint-disable react/no-multi-comp */
 
-import React, { Children, Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import invariant from 'invariant';
-import { throttle, debounce } from 'lodash';
-import resizeDetector from './resizeDetector';
+import React, { Children, Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
+import invariant from 'invariant'
+import { throttle, debounce } from 'lodash'
+import resizeDetector from './resizeDetector'
 
 const defaultConfig = {
   monitorWidth: true,
   monitorHeight: false,
   refreshRate: 16,
   refreshMode: 'throttle',
-};
+}
 
 function getDisplayName(WrappedComponent) {
-  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component'
 }
 
 /**
@@ -26,35 +26,35 @@ class ReferenceWrapper extends Component {
   static displayName = 'SizeMeReferenceWrapper';
 
   render() {
-    return Children.only(this.props.children);
+    return Children.only(this.props.children)
   }
 }
-ReferenceWrapper.propTypes = { children: PropTypes.element.isRequired };
+ReferenceWrapper.propTypes = { children: PropTypes.element.isRequired }
 
 function Placeholder({ className, style }) {
   // Lets create the props for the temp element.
-  const phProps = {};
+  const phProps = {}
 
   // We will use any provided className/style or else make the temp
   // container take the full available space.
   if (!className && !style) {
-    phProps.style = { width: '100%', height: '100%' };
+    phProps.style = { width: '100%', height: '100%' }
   } else {
     if (className) {
-      phProps.className = className;
+      phProps.className = className
     }
     if (style) {
-      phProps.style = style;
+      phProps.style = style
     }
   }
 
-  return (<div {...phProps} />);
+  return <div {...phProps} />
 }
-Placeholder.displayName = 'SizeMePlaceholder';
+Placeholder.displayName = 'SizeMePlaceholder'
 Placeholder.propTypes = {
   className: PropTypes.string,
-  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-};
+  style: PropTypes.object,
+}
 
 /**
  * As we need to maintain a ref on the root node that is rendered within our
@@ -71,22 +71,29 @@ const renderWrapper = (WrappedComponent) => {
       style,
       size,
       disablePlaceholder,
-      ...restProps,
-    } = props;
-    const { width, height } = size;
+      ...restProps
+    } = props
+    const { width, height } = size
 
-    const toRender = (width === undefined && height === undefined && !disablePlaceholder)
+    const toRender = width === undefined &&
+      height === undefined &&
+      !disablePlaceholder
       ? <Placeholder className={className} style={style} />
-    : <WrappedComponent className={className} style={style} size={size} {...restProps} />;
+      : (<WrappedComponent
+        className={className}
+        style={style}
+        size={size}
+        {...restProps}
+      />)
 
     return (
       <ReferenceWrapper ref={explicitRef}>
         {toRender}
       </ReferenceWrapper>
-    );
+    )
   }
 
-  SizeMeRenderer.displayName = `SizeMeRenderer(${getDisplayName(WrappedComponent)})`;
+  SizeMeRenderer.displayName = `SizeMeRenderer(${getDisplayName(WrappedComponent)})`
 
   SizeMeRenderer.propTypes = {
     explicitRef: PropTypes.func.isRequired,
@@ -97,10 +104,10 @@ const renderWrapper = (WrappedComponent) => {
       height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }),
     disablePlaceholder: PropTypes.bool,
-  };
+  }
 
-  return SizeMeRenderer;
-};
+  return SizeMeRenderer
+}
 
 /**
  * :: config -> Component -> WrappedComponent
@@ -123,28 +130,29 @@ function sizeMe(config = defaultConfig) {
     monitorHeight = defaultConfig.monitorHeight,
     refreshRate = defaultConfig.refreshRate,
     refreshMode = defaultConfig.refreshMode,
-  } = config;
+  } = config
 
   invariant(
     monitorWidth || monitorHeight,
     'You have to monitor at least one of the width or height when using the ' +
-    '"sizeAware" higher order component');
+      '"sizeAware" higher order component',
+  )
 
   invariant(
     refreshRate >= 16,
-    'It is highly recommended that you don\'t put your refreshRate lower than ' +
-    '16 as this may cause layout thrashing.'
-  );
+    "It is highly recommended that you don't put your refreshRate lower than " +
+      '16 as this may cause layout thrashing.',
+  )
 
   invariant(
     refreshMode === 'throttle' || refreshMode === 'debounce',
-    'The refreshMode should have a value of "throttle" or "debounce"'
-  );
+    'The refreshMode should have a value of "throttle" or "debounce"',
+  )
 
-  const refreshDelayStrategy = refreshMode === 'throttle' ? throttle : debounce;
+  const refreshDelayStrategy = refreshMode === 'throttle' ? throttle : debounce
 
   return function WrapComponent(WrappedComponent) {
-    const SizeMeRenderWrapper = renderWrapper(WrappedComponent);
+    const SizeMeRenderWrapper = renderWrapper(WrappedComponent)
 
     class SizeAwareComponent extends React.Component {
       static displayName = `SizeMe(${getDisplayName(WrappedComponent)})`;
@@ -155,75 +163,78 @@ function sizeMe(config = defaultConfig) {
       };
 
       componentDidMount() {
-        this.handleDOMNode();
+        this.handleDOMNode()
       }
 
       componentDidUpdate() {
-        this.handleDOMNode();
+        this.handleDOMNode()
       }
 
       componentWillUnmount() {
         // Change our size checker to a noop just in case we have some
         // late running events.
-        this.hasSizeChanged = () => undefined;
-        this.checkIfSizeChanged = () => undefined;
+        this.hasSizeChanged = () => undefined
+        this.checkIfSizeChanged = () => undefined
 
         if (this.domEl) {
-          resizeDetector().removeAllListeners(this.domEl);
-          this.domEl = null;
+          resizeDetector().removeAllListeners(this.domEl)
+          this.domEl = null
         }
       }
 
       handleDOMNode() {
-        const found = this.element
+        const found = this.element &&
           // One day this will be deprecated then I will be forced into wrapping
           // the component with a div or such in order to get a dome element handle.
-          && ReactDOM.findDOMNode(this.element); // eslint-disable-line react/no-find-dom-node
+          ReactDOM.findDOMNode(this.element) // eslint-disable-line react/no-find-dom-node
 
         /* istanbul ignore next */
         if (!found) {
           // This is for special cases where the element may be null.
           if (this.domEl) {
-            resizeDetector().removeAllListeners(this.domEl);
-            this.domEl = null;
+            resizeDetector().removeAllListeners(this.domEl)
+            this.domEl = null
           }
-          return;
+          return
         }
 
         if (this.domEl) {
-          resizeDetector().removeAllListeners(this.domEl);
+          resizeDetector().removeAllListeners(this.domEl)
         }
 
-        this.domEl = found;
-        resizeDetector().listenTo(this.domEl, this.checkIfSizeChanged);
+        this.domEl = found
+        resizeDetector().listenTo(this.domEl, this.checkIfSizeChanged)
       }
 
       refCallback = (element) => {
-        this.element = element;
-      }
-
-      hasSizeChanged = (current, next) => {
-        const { height: cHeight, width: cWidth } = current;
-        const { height: nHeight, width: nWidth } = next;
-
-        return (monitorHeight && cHeight !== nHeight)
-          || (monitorWidth && cWidth !== nWidth);
+        this.element = element
       };
 
-      checkIfSizeChanged = refreshDelayStrategy((el) => {
-        const { width, height } = el.getBoundingClientRect();
-        const next = {
-          width: monitorWidth ? width : null,
-          height: monitorHeight ? height : null,
-        };
+      hasSizeChanged = (current, next) => {
+        const { height: cHeight, width: cWidth } = current
+        const { height: nHeight, width: nWidth } = next
 
-        if (this.hasSizeChanged(this.state, next)) {
-          this.setState(next);
-        }
-      }, refreshRate);
+        return (monitorHeight && cHeight !== nHeight) ||
+          (monitorWidth && cWidth !== nWidth)
+      };
+
+      checkIfSizeChanged = refreshDelayStrategy(
+        (el) => {
+          const { width, height } = el.getBoundingClientRect()
+          const next = {
+            width: monitorWidth ? width : null,
+            height: monitorHeight ? height : null,
+          }
+
+          if (this.hasSizeChanged(this.state, next)) {
+            this.setState(next)
+          }
+        },
+        refreshRate,
+      );
 
       render() {
-        const { width, height } = this.state;
+        const { width, height } = this.state
 
         return (
           <SizeMeRenderWrapper
@@ -232,14 +243,14 @@ function sizeMe(config = defaultConfig) {
             disablePlaceholder={!!sizeMe.enableSSRBehaviour}
             {...this.props}
           />
-        );
+        )
       }
     }
 
-    SizeAwareComponent.WrappedComponent = WrappedComponent;
+    SizeAwareComponent.WrappedComponent = WrappedComponent
 
-    return SizeAwareComponent;
-  };
+    return SizeAwareComponent
+  }
 }
 
 /**
@@ -250,6 +261,6 @@ function sizeMe(config = defaultConfig) {
  * extra render cycles to happen within your components depending on the logic
  * contained within them around the usage of the `size` data.
  */
-sizeMe.enableSSRBehaviour = false;
+sizeMe.enableSSRBehaviour = false
 
-export default sizeMe;
+export default sizeMe

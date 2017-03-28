@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import MySizeAwareComponent from './MySizeAwareComponent.js';
+import React from 'react'
+import { render } from 'react-dom'
+
+import MySizeAwareComponent from './MySizeAwareComponent.js'
 
 function App() {
   return (
@@ -21,10 +22,21 @@ function App() {
 
         <div style={{ float: 'left', width: '40%' }}>
           <MySizeAwareComponent
-            style={{ height: '250px', backgroundColor: 'rgb(29, 165, 154)', position: 'relative' }}
+            style={{
+              height: '250px',
+              backgroundColor: 'rgb(29, 165, 154)',
+              position: 'relative',
+            }}
           >
             <MySizeAwareComponent
-              style={{ height: '50px', backgroundColor: 'rgb(88, 164, 29)', position: 'absolute', bottom: 0, left: 0, width: '100%' }}
+              style={{
+                height: '50px',
+                backgroundColor: 'rgb(88, 164, 29)',
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '100%',
+              }}
             />
           </MySizeAwareComponent>
           <MySizeAwareComponent
@@ -33,7 +45,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+render(<App />, document.getElementById('app'))

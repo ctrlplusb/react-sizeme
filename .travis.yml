@@ -1,22 +1,16 @@
 sudo: false
 language: node_js
 cache:
+  yarn: true
   directories:
     - node_modules
-branches:
-  only:
-    - master
-notifications:
-  email: false
 node_js:
-  - '4'
-before_install:
-  - npm i -g npm@^3.0.0
-before_script:
-  - npm prune
+- '6'
 script:
-  - npm run test:coverage
-  - npm run build
+# Unfortunately flow falls over when a dep exists in peer deps and others. :(
+# @see https://github.com/flowtype/flow-typed/issues/528
+#- yarn run flow:defs
+- yarn run check
 after_success:
-  - npm run report-coverage
-  - npm run semantic-release
+# Deploy code coverage report to codecov.io
+- yarn run test:coverage:deploy

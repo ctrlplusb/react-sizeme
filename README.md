@@ -4,11 +4,10 @@
 </p>
 
 <p align='center'>
-[![Travis](https://img.shields.io/travis/ctrlplusb/react-sizeme.svg?style=flat-square)](https://travis-ci.org/ctrlplusb/react-sizeme)
 [![npm](https://img.shields.io/npm/v/react-sizeme.svg?style=flat-square)](http://npm.im/react-sizeme)
 [![MIT License](https://img.shields.io/npm/l/react-sizeme.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![Travis](https://img.shields.io/travis/ctrlplusb/react-sizeme.svg?style=flat-square)](https://travis-ci.org/ctrlplusb/react-sizeme)
 [![Codecov](https://img.shields.io/codecov/c/github/ctrlplusb/react-sizeme.svg?style=flat-square)](https://codecov.io/github/ctrlplusb/react-sizeme)
-[![Maintenance](https://img.shields.io/maintenance/yes/2016.svg?style=flat-square)]()
 
 * Responsive Components!
 * Easy to use.
@@ -95,7 +94,7 @@ const sizeMeConfig = {
   // that is passed into your Component will always have a `null` value
   // for the "width" property.
   monitorWidth: true,  // Default value
-  
+
   // If true, then any changes to your Components rendered height will cause an
   // recalculation of the "size" prop which will then be be passed into
   // your Component.
@@ -104,13 +103,13 @@ const sizeMeConfig = {
   // that is passed into your Component will always have a `null` value
   // for the "height" property.
   monitorHeight: false, // Default value
-  
+
   // The maximum frequency, in milliseconds, at which size changes should be
   // recalculated when changes in your Component's rendered size are being
   // detected. This should not be set to lower than 16.
   refreshRate: 16,  // Default value
-  
-  // The mode in which refreshing should occur.  Valid values are "debounce" 
+
+  // The mode in which refreshing should occur.  Valid values are "debounce"
   // and "throttle".  "throttle" will eagerly measure your component and then
   // wait for the refreshRate to pass before doing a new measurement on size
   // changes. "debounce" will wait for a minimum of the refreshRate before
@@ -138,7 +137,7 @@ class MyComponent extends Component {
 // Create the config
 const config = { monitorHeight: true };
 
-// Call SizeMe with the config to get back the HOC. 
+// Call SizeMe with the config to get back the HOC.
 const sizeMeHOC = sizeMe(config);
 
 // Wrap your component with the HOC.
@@ -159,7 +158,7 @@ class MyComponent extends Component {
     );
   }
 }
- 
+
 export default sizeMe({ monitorHeight: true })(MyComponent);
 ```
 
@@ -206,7 +205,7 @@ __IMPORTANT__:
 ## `react-component-queries`: a highly recommended abstraction
 
 `react-sizeme` is great, however, it suffers with a couple of problems in my opinion:
-  
+
   1. It is raw in that it provides you with the actual dimensions of your component and then requires to execute logic within your component to establish the desired behaviour of your component.  This can be a bit tedious and polute your component with a lot of if-else statements.  
   2. It is possible that your component may gets spammed with updated `size` props. This is because _any_ time your component changes in size `react-sizeme` will kick in.
 
@@ -280,11 +279,11 @@ import sizeMe from 'react-sizeme';
 
 // This is a global variable. i.e. will be the default for all instances.
 sizeMe.enableSSRBehaviour = true; // default is false
-``` 
+```
 
 In a server context we can't know the width/height of your component so you will simply receive `null` values for both.  It is up to you to decide how you would like to render your component then.  When your component is sent to the client and mounted to the DOM `SizeMe` will calculate and send the dimensions to your component as normal.  I suggest you tread very carefully with how you use this updated information and do lots of testing using various screen dimensions.  Try your best to avoid unnecessary re-rendering of your components, for the sake of your users.
 
-If you come up with any clever strategies for this please do come share them with us! :) 
+If you come up with any clever strategies for this please do come share them with us! :)
 
 ## Extreme Appreciation!
 
