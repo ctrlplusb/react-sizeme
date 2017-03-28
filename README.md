@@ -32,6 +32,7 @@ export default sizeMe()(MyComponent)
  - [Intro](https://github.com/ctrlplusb/react-sizeme#intro)
  - [Demo](https://github.com/ctrlplusb/react-sizeme#live-demo)
  - [Usage and API Details](https://github.com/ctrlplusb/react-sizeme#usage-and-api-details)
+ - [`onSize` callback alternative usage](https://github.com/ctrlplusb/react-sizeme#onsize-callback-alternative-usage)
  - [`react-component-queries`: a highly recommended abstraction](https://github.com/ctrlplusb/react-sizeme#react-component-queries-a-highly-recommended-abstraction)
  - [On the First Render of your Component](https://github.com/ctrlplusb/react-sizeme#on-the-first-render-of-your-component)
  - [Controlling the `size` data refresh rate](https://github.com/ctrlplusb/react-sizeme#controlling-the-size-data-refresh-rate)
@@ -225,6 +226,8 @@ class MyContainerComponent extends React.Component {
   }
 }
 ```
+
+Zing. Let me know if you have issues/ideas!
 
 ## `react-component-queries`: a highly recommended abstraction
 
