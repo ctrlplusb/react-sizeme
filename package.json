@@ -1,6 +1,6 @@
 {
   "name": "react-sizeme",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Make your React Components aware of their dimensions and position.",
   "license": "MIT",
   "main": "commonjs/index.js",
