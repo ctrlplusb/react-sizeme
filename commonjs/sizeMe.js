@@ -120,20 +120,23 @@ var renderWrapper = function renderWrapper(WrappedComponent) {
         style = props.style,
         size = props.size,
         disablePlaceholder = props.disablePlaceholder,
-        restProps = _objectWithoutProperties(props, ['explicitRef', 'className', 'style', 'size', 'disablePlaceholder']);
+        onSize = props.onSize,
+        restProps = _objectWithoutProperties(props, ['explicitRef', 'className', 'style', 'size', 'disablePlaceholder', 'onSize']);
 
-    var width = size.width,
-        height = size.height,
-        position = size.position;
+    var noSizeData = size == null || size.width == null && size.height == null && size.position == null;
 
+    var renderPlaceholder = noSizeData && !disablePlaceholder;
 
-    var renderPlaceholder = width === undefined && height === undefined && position === undefined && !disablePlaceholder;
-
-    var toRender = renderPlaceholder ? _react2.default.createElement(Placeholder, { className: className, style: style }) : _react2.default.createElement(WrappedComponent, _extends({
+    var renderProps = {
       className: className,
-      style: style,
-      size: size
-    }, restProps));
+      style: style
+    };
+
+    if (size != null) {
+      renderProps.size = size;
+    }
+
+    var toRender = renderPlaceholder ? _react2.default.createElement(Placeholder, { className: className, style: style }) : _react2.default.createElement(WrappedComponent, _extends({}, renderProps, restProps));
 
     return _react2.default.createElement(
       ReferenceWrapper,
@@ -217,6 +220,17 @@ function sizeMe() {
           width: undefined,
           height: undefined,
           position: undefined
+        }, _this2.determineStrategy = function (props) {
+          _this2.strategy = props.onSize ? 'callback' : 'render';
+        }, _this2.strategisedSetState = function (state) {
+          if (_this2.strategy === 'callback') {
+            _this2.callbackState = state;
+            _this2.props.onSize(state);
+          } else {
+            _this2.setState(state);
+          }
+        }, _this2.strategisedGetState = function () {
+          return _this2.strategy === 'callback' ? _this2.callbackState : _this2.state;
         }, _this2.refCallback = function (element) {
           _this2.element = element;
         }, _this2.hasSizeChanged = function (current, next) {
@@ -242,7 +256,7 @@ function sizeMe() {
           };
 
           if (_this2.hasSizeChanged(_this2.state, next)) {
-            _this2.setState(next);
+            _this2.strategisedSetState(next);
           }
         }, refreshRate), _temp), _possibleConstructorReturn(_this2, _ret);
       }
@@ -250,7 +264,13 @@ function sizeMe() {
       _createClass(SizeAwareComponent, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+          this.determineStrategy(this.props);
           this.handleDOMNode();
+        }
+      }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+          this.determineStrategy(nextProps);
         }
       }, {
         key: 'componentDidUpdate',
@@ -301,17 +321,11 @@ function sizeMe() {
       }, {
         key: 'render',
         value: function render() {
-          var _state = this.state,
-              width = _state.width,
-              height = _state.height,
-              position = _state.position;
-
-
-          var disablePlaceholder = sizeMe.enableSSRBehaviour || sizeMe.noPlaceholders || noPlaceholder;
+          var disablePlaceholder = sizeMe.enableSSRBehaviour || sizeMe.noPlaceholders || noPlaceholder || this.strategy === 'callback';
 
           return _react2.default.createElement(SizeMeRenderWrapper, _extends({
             explicitRef: this.refCallback,
-            size: { width: width, height: height, position: position },
+            size: this.strategy === 'callback' ? null : this.state,
             disablePlaceholder: disablePlaceholder
           }, this.props));
         }
@@ -321,6 +335,9 @@ function sizeMe() {
     }(_react2.default.Component);
 
     SizeAwareComponent.displayName = 'SizeMe(' + getDisplayName(WrappedComponent) + ')';
+    SizeAwareComponent.propTypes = {
+      onSize: _react.PropTypes.func
+    };
 
 
     SizeAwareComponent.WrappedComponent = WrappedComponent;
