@@ -229,11 +229,9 @@ class MyContainerComponent extends React.Component {
 
 Zing. Let me know if you have issues/ideas!
 
+#  A highly recommended abstraction (`react-component-queries`)
 
-
-## A highly recommended abstraction (`react-component-queries`)
-
-`react-sizeme` is great, however, it suffers with a couple of problems in my opinion:
+This library is great, however, it is quite low-level and has some "side-effects":
 
   1. It is raw in that it provides you with the actual dimensions of your component and then requires to execute logic within your component to establish the desired behaviour of your component.  This can be a bit tedious and polute your component with a lot of if-else statements.  
   2. It is possible that your component may gets spammed with updated `size` props. This is because _any_ time your component changes in size `react-sizeme` will kick in.
