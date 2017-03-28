@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "build": "babel-node ./tools/scripts/build.js",
-    "check": "yarn run lint && yarn run test",
+    "check": "yarn run test",
     "clean": "rimraf ./commonjs && rimraf ./umd && rimraf ./coverage && rimraf ./umd",
     "example:web": "echo 'Make sure to `cd example/web && yarn install`' && cd example/web && yarn run start",
     "lint": "eslint src",
