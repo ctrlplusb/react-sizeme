@@ -417,14 +417,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _debounce2 = __webpack_require__(5);
-
-var _debounce3 = _interopRequireDefault(_debounce2);
-
-var _throttle2 = __webpack_require__(28);
-
-var _throttle3 = _interopRequireDefault(_throttle2);
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -440,6 +432,14 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 var _invariant = __webpack_require__(20);
 
 var _invariant2 = _interopRequireDefault(_invariant);
+
+var _throttle = __webpack_require__(28);
+
+var _throttle2 = _interopRequireDefault(_throttle);
+
+var _debounce = __webpack_require__(5);
+
+var _debounce2 = _interopRequireDefault(_debounce);
 
 var _resizeDetector = __webpack_require__(8);
 
@@ -616,7 +616,7 @@ function sizeMe() {
 
   (0, _invariant2.default)(refreshMode === 'throttle' || refreshMode === 'debounce', 'The refreshMode should have a value of "throttle" or "debounce"');
 
-  var refreshDelayStrategy = refreshMode === 'throttle' ? _throttle3.default : _debounce3.default;
+  var refreshDelayStrategy = refreshMode === 'throttle' ? _throttle2.default : _debounce2.default;
 
   return function WrapComponent(WrappedComponent) {
     var SizeMeRenderWrapper = renderWrapper(WrappedComponent);
