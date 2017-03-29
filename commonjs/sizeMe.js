@@ -20,7 +20,13 @@ var _invariant = require('invariant');
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _lodash = require('lodash');
+var _throttle = require('lodash/throttle');
+
+var _throttle2 = _interopRequireDefault(_throttle);
+
+var _debounce = require('lodash/debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
 
 var _resizeDetector = require('./resizeDetector');
 
@@ -197,7 +203,7 @@ function sizeMe() {
 
   (0, _invariant2.default)(refreshMode === 'throttle' || refreshMode === 'debounce', 'The refreshMode should have a value of "throttle" or "debounce"');
 
-  var refreshDelayStrategy = refreshMode === 'throttle' ? _lodash.throttle : _lodash.debounce;
+  var refreshDelayStrategy = refreshMode === 'throttle' ? _throttle2.default : _debounce2.default;
 
   return function WrapComponent(WrappedComponent) {
     var SizeMeRenderWrapper = renderWrapper(WrappedComponent);
