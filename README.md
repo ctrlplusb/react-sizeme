@@ -102,6 +102,7 @@ const sizeMeConfig = {
   // any unnecessary deep tree renders.  If you feel this is not an issue
   // for your component case and you would like to get an eager render of
   // your component then disable the placeholder using this config option.
+  // NOTE: You can set this globally. See the docs on first render.
   noPlaceholder: false
 }
 ```
@@ -307,7 +308,7 @@ To avoid the rendering of placeholders in this context you can make use of the `
 import sizeMe from 'react-sizeme';
 
 // This is a global variable. i.e. will be the default for all instances.
-sizeMe.noPlaceholers = true;
+sizeMe.noPlaceholders = true;
 ```
 
 > Note: if you only partialy server render your application you may want to use the component level configuration that allows disabling placeholders per component (e.g. `sizeMe({ noPlaceholder: true })`)
