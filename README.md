@@ -155,7 +155,8 @@ That's it.  Its really useful for doing things like optionally loading a child c
 Here is an full example of that in action:
 
 ```javascript
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import LargeChildComponent from './LargeChildComponent';
 import SmallChildComponent from './SmallChildComponent';
 import sizeMe from 'react-sizeme';

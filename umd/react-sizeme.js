@@ -16,9 +16,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-/******/
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
@@ -1401,13 +1401,24 @@ module.exports = function(options) {
             function isInDocument(element) {
                 return element === element.ownerDocument.body || element.ownerDocument.body.contains(element);
             }
-            return !isInDocument(element);
+
+            if (!isInDocument(element)) {
+                return true;
+            }
+
+            // FireFox returns null style in hidden iframes. See https://github.com/wnr/element-resize-detector/issues/68 and https://bugzilla.mozilla.org/show_bug.cgi?id=795520
+            if (getComputedStyle(element) === null) {
+                return true;
+            }
+
+            return false;
         }
 
         function isUnrendered(element) {
             // Check the absolute positioned container since the top level container is display: inline.
             var container = getState(element).container.childNodes[0];
-            return getComputedStyle(container).width.indexOf("px") === -1; //Can only compute pixel value when rendered.
+            var style = getComputedStyle(container);
+            return !style.width || style.width.indexOf("px") === -1; //Can only compute pixel value when rendered.
         }
 
         function getStyle() {

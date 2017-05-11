@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
-import React, { Children, Component, PropTypes } from 'react'
+import React, { Children, Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import invariant from 'invariant'
 import throttle from 'lodash/throttle'
@@ -26,7 +27,7 @@ function getDisplayName(WrappedComponent) {
  * @see https://gist.github.com/jimfb/32b587ee6177665fb4cf
  */
 class ReferenceWrapper extends Component {
-  static displayName = 'SizeMeReferenceWrapper';
+  static displayName = 'SizeMeReferenceWrapper'
 
   render() {
     return Children.only(this.props.children)
@@ -78,7 +79,8 @@ const renderWrapper = (WrappedComponent) => {
       ...restProps
     } = props
 
-    const noSizeData = size == null ||
+    const noSizeData =
+      size == null ||
       (size.width == null && size.height == null && size.position == null)
 
     const renderPlaceholder = noSizeData && !disablePlaceholder
@@ -166,17 +168,17 @@ function sizeMe(config = defaultConfig) {
     const SizeMeRenderWrapper = renderWrapper(WrappedComponent)
 
     class SizeAwareComponent extends React.Component {
-      static displayName = `SizeMe(${getDisplayName(WrappedComponent)})`;
+      static displayName = `SizeMe(${getDisplayName(WrappedComponent)})`
 
       static propTypes = {
         onSize: PropTypes.func,
-      };
+      }
 
       state = {
         width: undefined,
         height: undefined,
         position: undefined,
-      };
+      }
 
       componentDidMount() {
         this.determineStrategy(this.props)
@@ -205,7 +207,7 @@ function sizeMe(config = defaultConfig) {
 
       determineStrategy = (props) => {
         this.strategy = props.onSize ? 'callback' : 'render'
-      };
+      }
 
       strategisedSetState = (state) => {
         if (this.strategy === 'callback') {
@@ -214,13 +216,14 @@ function sizeMe(config = defaultConfig) {
         } else {
           this.setState(state)
         }
-      };
+      }
 
       strategisedGetState = () =>
-        this.strategy === 'callback' ? this.callbackState : this.state;
+        this.strategy === 'callback' ? this.callbackState : this.state
 
       handleDOMNode() {
-        const found = this.element &&
+        const found =
+          this.element &&
           // One day this will be deprecated then I will be forced into wrapping
           // the component with a div or such in order to get a dome element handle.
           ReactDOM.findDOMNode(this.element) // eslint-disable-line react/no-find-dom-node
@@ -244,7 +247,7 @@ function sizeMe(config = defaultConfig) {
 
       refCallback = (element) => {
         this.element = element
-      };
+      }
 
       hasSizeChanged = (current, next) => {
         const c = current
@@ -252,41 +255,41 @@ function sizeMe(config = defaultConfig) {
         const cp = c.position || {}
         const np = n.position || {}
 
-        return (monitorHeight && c.height !== n.height) ||
+        return (
+          (monitorHeight && c.height !== n.height) ||
           (monitorPosition &&
             (cp.top !== np.top ||
               cp.left !== np.left ||
               cp.bottom !== np.bottom ||
               cp.right !== np.right)) ||
           (monitorWidth && c.width !== n.width)
-      };
+        )
+      }
 
-      checkIfSizeChanged = refreshDelayStrategy(
-        (el) => {
-          const {
-            width,
-            height,
-            right,
-            left,
-            top,
-            bottom,
-          } = el.getBoundingClientRect()
+      checkIfSizeChanged = refreshDelayStrategy((el) => {
+        const {
+          width,
+          height,
+          right,
+          left,
+          top,
+          bottom,
+        } = el.getBoundingClientRect()
 
-          const next = {
-            width: monitorWidth ? width : null,
-            height: monitorHeight ? height : null,
-            position: monitorPosition ? { right, left, top, bottom } : null,
-          }
+        const next = {
+          width: monitorWidth ? width : null,
+          height: monitorHeight ? height : null,
+          position: monitorPosition ? { right, left, top, bottom } : null,
+        }
 
-          if (this.hasSizeChanged(this.state, next)) {
-            this.strategisedSetState(next)
-          }
-        },
-        refreshRate,
-      );
+        if (this.hasSizeChanged(this.state, next)) {
+          this.strategisedSetState(next)
+        }
+      }, refreshRate)
 
       render() {
-        const disablePlaceholder = sizeMe.enableSSRBehaviour ||
+        const disablePlaceholder =
+          sizeMe.enableSSRBehaviour ||
           sizeMe.noPlaceholders ||
           noPlaceholder ||
           this.strategy === 'callback'
