@@ -12,6 +12,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -82,7 +86,7 @@ var ReferenceWrapper = function (_Component) {
 
 ReferenceWrapper.displayName = 'SizeMeReferenceWrapper';
 
-ReferenceWrapper.propTypes = { children: _react.PropTypes.element.isRequired };
+ReferenceWrapper.propTypes = { children: _propTypes2.default.element.isRequired };
 
 function Placeholder(_ref) {
   var className = _ref.className,
@@ -108,8 +112,8 @@ function Placeholder(_ref) {
 }
 Placeholder.displayName = 'SizeMePlaceholder';
 Placeholder.propTypes = {
-  className: _react.PropTypes.string,
-  style: _react.PropTypes.object
+  className: _propTypes2.default.string,
+  style: _propTypes2.default.object
 };
 
 /**
@@ -154,13 +158,13 @@ var renderWrapper = function renderWrapper(WrappedComponent) {
   SizeMeRenderer.displayName = 'SizeMeRenderer(' + getDisplayName(WrappedComponent) + ')';
 
   SizeMeRenderer.propTypes = {
-    explicitRef: _react.PropTypes.func.isRequired,
-    className: _react.PropTypes.string,
-    style: _react.PropTypes.object, // eslint-disable-line react/forbid-prop-types
-    size: _react.PropTypes.shape({
-      width: _react.PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      height: _react.PropTypes.number }),
-    disablePlaceholder: _react.PropTypes.bool
+    explicitRef: _propTypes2.default.func.isRequired,
+    className: _propTypes2.default.string,
+    style: _propTypes2.default.object, // eslint-disable-line react/forbid-prop-types
+    size: _propTypes2.default.shape({
+      width: _propTypes2.default.number, // eslint-disable-line react/no-unused-prop-types
+      height: _propTypes2.default.number }),
+    disablePlaceholder: _propTypes2.default.bool
   };
 
   return SizeMeRenderer;
@@ -342,7 +346,7 @@ function sizeMe() {
 
     SizeAwareComponent.displayName = 'SizeMe(' + getDisplayName(WrappedComponent) + ')';
     SizeAwareComponent.propTypes = {
-      onSize: _react.PropTypes.func
+      onSize: _propTypes2.default.func
     };
 
 
