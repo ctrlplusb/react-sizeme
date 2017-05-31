@@ -233,7 +233,7 @@ function sizeMe() {
         }, _this2.determineStrategy = function (props) {
           if (props.onSize) {
             if (!_this2.callbackState) {
-              _this2.callbackState = _this2.state;
+              _this2.callbackState = _extends({}, _this2.state);
             }
             _this2.strategy = 'callback';
           } else {
