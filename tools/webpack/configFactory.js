@@ -32,6 +32,12 @@ function webpackConfigFactory({ target }) {
         commonjs: 'react-dom',
         commonjs2: 'react-dom',
       },
+      'prop-types': {
+        root: 'PropTypes',
+        amd: 'prop-types',
+        commonjs: 'prop-types',
+        commonjs2: 'prop-types',
+      },
     },
     plugins: removeEmpty([
       new webpack.DefinePlugin({
