@@ -644,7 +644,14 @@ function sizeMe() {
           height: undefined,
           position: undefined
         }, _this2.determineStrategy = function (props) {
-          _this2.strategy = props.onSize ? 'callback' : 'render';
+          if (props.onSize) {
+            if (!_this2.callbackState) {
+              _this2.callbackState = _extends({}, _this2.state);
+            }
+            _this2.strategy = 'callback';
+          } else {
+            _this2.strategy = 'render';
+          }
         }, _this2.strategisedSetState = function (state) {
           if (_this2.strategy === 'callback') {
             _this2.callbackState = state;
@@ -678,7 +685,7 @@ function sizeMe() {
             position: monitorPosition ? { right: right, left: left, top: top, bottom: bottom } : null
           };
 
-          if (_this2.hasSizeChanged(_this2.state, next)) {
+          if (_this2.hasSizeChanged(_this2.strategisedGetState(), next)) {
             _this2.strategisedSetState(next);
           }
         }, refreshRate), _temp), _possibleConstructorReturn(_this2, _ret);

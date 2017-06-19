@@ -206,7 +206,16 @@ function sizeMe(config = defaultConfig) {
       }
 
       determineStrategy = (props) => {
-        this.strategy = props.onSize ? 'callback' : 'render'
+        if (props.onSize) {
+          if (!this.callbackState) {
+            this.callbackState = {
+              ...this.state,
+            }
+          }
+          this.strategy = 'callback'
+        } else {
+          this.strategy = 'render'
+        }
       }
 
       strategisedSetState = (state) => {
@@ -282,7 +291,7 @@ function sizeMe(config = defaultConfig) {
           position: monitorPosition ? { right, left, top, bottom } : null,
         }
 
-        if (this.hasSizeChanged(this.state, next)) {
+        if (this.hasSizeChanged(this.strategisedGetState(), next)) {
           this.strategisedSetState(next)
         }
       }, refreshRate)
