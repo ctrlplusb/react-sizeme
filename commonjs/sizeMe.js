@@ -114,16 +114,15 @@ Placeholder.displayName = 'SizeMePlaceholder';
 Placeholder.propTypes = {
   className: _propTypes2.default.string,
   style: _propTypes2.default.object
-};
 
-/**
- * As we need to maintain a ref on the root node that is rendered within our
- * SizeMe component we need to wrap our entire render in a sub component.
- * Without this, we lose the DOM ref after the placeholder is removed from
- * the render and the actual component is rendered.
- * It took me forever to figure this out, so tread extra careful on this one!
- */
-var renderWrapper = function renderWrapper(WrappedComponent) {
+  /**
+   * As we need to maintain a ref on the root node that is rendered within our
+   * SizeMe component we need to wrap our entire render in a sub component.
+   * Without this, we lose the DOM ref after the placeholder is removed from
+   * the render and the actual component is rendered.
+   * It took me forever to figure this out, so tread extra careful on this one!
+   */
+};var renderWrapper = function renderWrapper(WrappedComponent) {
   function SizeMeRenderer(props) {
     var explicitRef = props.explicitRef,
         className = props.className,
@@ -163,7 +162,8 @@ var renderWrapper = function renderWrapper(WrappedComponent) {
     style: _propTypes2.default.object, // eslint-disable-line react/forbid-prop-types
     size: _propTypes2.default.shape({
       width: _propTypes2.default.number, // eslint-disable-line react/no-unused-prop-types
-      height: _propTypes2.default.number }),
+      height: _propTypes2.default.number // eslint-disable-line react/no-unused-prop-types
+    }),
     disablePlaceholder: _propTypes2.default.bool
   };
 

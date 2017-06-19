@@ -7,7 +7,7 @@
 		exports["ReactSizeMe"] = factory(require("react"), require("react-dom"));
 	else
 		root["ReactSizeMe"] = factory(root["React"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_35__, __WEBPACK_EXTERNAL_MODULE_36__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_36__, __WEBPACK_EXTERNAL_MODULE_37__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -421,7 +421,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(35);
+var _react = __webpack_require__(36);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -429,7 +429,7 @@ var _propTypes = __webpack_require__(33);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(36);
+var _reactDom = __webpack_require__(37);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -527,16 +527,15 @@ Placeholder.displayName = 'SizeMePlaceholder';
 Placeholder.propTypes = {
   className: _propTypes2.default.string,
   style: _propTypes2.default.object
-};
 
-/**
- * As we need to maintain a ref on the root node that is rendered within our
- * SizeMe component we need to wrap our entire render in a sub component.
- * Without this, we lose the DOM ref after the placeholder is removed from
- * the render and the actual component is rendered.
- * It took me forever to figure this out, so tread extra careful on this one!
- */
-var renderWrapper = function renderWrapper(WrappedComponent) {
+  /**
+   * As we need to maintain a ref on the root node that is rendered within our
+   * SizeMe component we need to wrap our entire render in a sub component.
+   * Without this, we lose the DOM ref after the placeholder is removed from
+   * the render and the actual component is rendered.
+   * It took me forever to figure this out, so tread extra careful on this one!
+   */
+};var renderWrapper = function renderWrapper(WrappedComponent) {
   function SizeMeRenderer(props) {
     var explicitRef = props.explicitRef,
         className = props.className,
@@ -576,7 +575,8 @@ var renderWrapper = function renderWrapper(WrappedComponent) {
     style: _propTypes2.default.object, // eslint-disable-line react/forbid-prop-types
     size: _propTypes2.default.shape({
       width: _propTypes2.default.number, // eslint-disable-line react/no-unused-prop-types
-      height: _propTypes2.default.number }),
+      height: _propTypes2.default.number // eslint-disable-line react/no-unused-prop-types
+    }),
     disablePlaceholder: _propTypes2.default.bool
   };
 
@@ -2712,7 +2712,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)))
 
 /***/ }),
 /* 25 */
@@ -3058,11 +3058,14 @@ module.exports = toNumber;
 
 var emptyFunction = __webpack_require__(20);
 var invariant = __webpack_require__(21);
+var ReactPropTypesSecret = __webpack_require__(34);
 
 module.exports = function() {
-  // Important!
-  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
-  function shim() {
+  function shim(props, propName, componentName, location, propFullName, secret) {
+    if (secret === ReactPropTypesSecret) {
+      // It is still safe when called from React.
+      return;
+    }
     invariant(
       false,
       'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
@@ -3074,6 +3077,8 @@ module.exports = function() {
   function getShim() {
     return shim;
   };
+  // Important!
+  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
   var ReactPropTypes = {
     array: shim,
     bool: shim,
@@ -3139,6 +3144,27 @@ if (false) {
 
 /***/ }),
 /* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports) {
 
 var g;
@@ -3165,16 +3191,16 @@ module.exports = g;
 
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_35__;
-
-/***/ }),
 /* 36 */
 /***/ (function(module, exports) {
 
 module.exports = __WEBPACK_EXTERNAL_MODULE_36__;
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_37__;
 
 /***/ })
 /******/ ]);
