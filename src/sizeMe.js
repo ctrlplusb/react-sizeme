@@ -105,7 +105,9 @@ const renderWrapper = (WrappedComponent) => {
     )
   }
 
-  SizeMeRenderer.displayName = `SizeMeRenderer(${getDisplayName(WrappedComponent)})`
+  SizeMeRenderer.displayName = `SizeMeRenderer(${getDisplayName(
+    WrappedComponent,
+  )})`
 
   SizeMeRenderer.propTypes = {
     explicitRef: PropTypes.func.isRequired,
@@ -303,10 +305,12 @@ function sizeMe(config = defaultConfig) {
           noPlaceholder ||
           this.strategy === 'callback'
 
+        const size = { ...this.state }
+
         return (
           <SizeMeRenderWrapper
             explicitRef={this.refCallback}
-            size={this.strategy === 'callback' ? null : this.state}
+            size={this.strategy === 'callback' ? null : size}
             disablePlaceholder={disablePlaceholder}
             {...this.props}
           />

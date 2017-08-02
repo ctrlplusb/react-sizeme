@@ -753,9 +753,11 @@ function sizeMe() {
         value: function render() {
           var disablePlaceholder = sizeMe.enableSSRBehaviour || sizeMe.noPlaceholders || noPlaceholder || this.strategy === 'callback';
 
+          var size = _extends({}, this.state);
+
           return _react2.default.createElement(SizeMeRenderWrapper, _extends({
             explicitRef: this.refCallback,
-            size: this.strategy === 'callback' ? null : this.state,
+            size: this.strategy === 'callback' ? null : size,
             disablePlaceholder: disablePlaceholder
           }, this.props));
         }
