@@ -1,6 +1,6 @@
 <p align='center'>
   <img src='https://raw.githubusercontent.com/ctrlplusb/react-sizeme/master/assets/logo.png' width='250'/>
-  <p align='center'>Make your React Components aware of their width and height</p>
+  <p align='center'>Make your React Components aware of their width, height and position!</p>
 </p>
 
 [![npm](https://img.shields.io/npm/v/react-sizeme.svg?style=flat-square)](http://npm.im/react-sizeme)
