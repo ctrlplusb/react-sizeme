@@ -22,7 +22,7 @@ export default sizeMe()(MyComponent)
 
 * Responsive Components!
 * Easy to use.
-* Monitor Width OR Height OR Position (or all of them).
+* Monitor Width OR Height.
 * Extensive browser support.
 * Supports any Component type, i.e. stateless/class.
 * 8.85KB gzipped.
@@ -76,6 +76,10 @@ const sizeMeConfig = {
   // your Component.
   monitorHeight: false,
 
+  // NOTE: This currently does not work, apologies. You will get a value if
+  // you set this to true, but if only your components position changes and 
+  // not its size then you will not get an updated position. I need to 
+  // look deeper into this to find a performant solution. 
   // If true, then any changes to your Components position will cause an
   // recalculation of the "size" prop which will then be be passed into
   // your Component.

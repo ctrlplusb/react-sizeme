@@ -1,4 +1,5 @@
 /* eslint-disable react/no-multi-comp */
+/* eslint-disable react/require-default-props */
 
 import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
@@ -67,7 +68,7 @@ Placeholder.propTypes = {
  * the render and the actual component is rendered.
  * It took me forever to figure this out, so tread extra careful on this one!
  */
-const renderWrapper = (WrappedComponent) => {
+const renderWrapper = WrappedComponent => {
   function SizeMeRenderer(props) {
     const {
       explicitRef,
@@ -94,15 +95,13 @@ const renderWrapper = (WrappedComponent) => {
       renderProps.size = size
     }
 
-    const toRender = renderPlaceholder
-      ? <Placeholder className={className} style={style} />
-      : <WrappedComponent {...renderProps} {...restProps} />
-
-    return (
-      <ReferenceWrapper ref={explicitRef}>
-        {toRender}
-      </ReferenceWrapper>
+    const toRender = renderPlaceholder ? (
+      <Placeholder className={className} style={style} />
+    ) : (
+      <WrappedComponent {...renderProps} {...restProps} />
     )
+
+    return <ReferenceWrapper ref={explicitRef}>{toRender}</ReferenceWrapper>
   }
 
   SizeMeRenderer.displayName = `SizeMeRenderer(${getDisplayName(
@@ -118,6 +117,7 @@ const renderWrapper = (WrappedComponent) => {
       height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }),
     disablePlaceholder: PropTypes.bool,
+    onSize: PropTypes.func,
   }
 
   return SizeMeRenderer
@@ -207,7 +207,7 @@ function sizeMe(config = defaultConfig) {
         }
       }
 
-      determineStrategy = (props) => {
+      determineStrategy = props => {
         if (props.onSize) {
           if (!this.callbackState) {
             this.callbackState = {
@@ -220,7 +220,7 @@ function sizeMe(config = defaultConfig) {
         }
       }
 
-      strategisedSetState = (state) => {
+      strategisedSetState = state => {
         if (this.strategy === 'callback') {
           this.callbackState = state
           this.props.onSize(state)
@@ -256,7 +256,7 @@ function sizeMe(config = defaultConfig) {
         resizeDetector().listenTo(this.domEl, this.checkIfSizeChanged)
       }
 
-      refCallback = (element) => {
+      refCallback = element => {
         this.element = element
       }
 
@@ -277,7 +277,7 @@ function sizeMe(config = defaultConfig) {
         )
       }
 
-      checkIfSizeChanged = refreshDelayStrategy((el) => {
+      checkIfSizeChanged = refreshDelayStrategy(el => {
         const {
           width,
           height,

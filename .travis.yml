@@ -1,6 +1,7 @@
 sudo: false
 language: node_js
 cache:
+  npm: true
   directories:
     - node_modules
 node_js:
