@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("prop-types"), require("react"), require("react-dom"));
+		module.exports = factory(require("react"), require("prop-types"), require("react-dom"));
 	else if(typeof define === 'function' && define.amd)
-		define(["prop-types", "react", "react-dom"], factory);
+		define(["react", "prop-types", "react-dom"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactSizeMe"] = factory(require("prop-types"), require("react"), require("react-dom"));
+		exports["ReactSizeMe"] = factory(require("react"), require("prop-types"), require("react-dom"));
 	else
-		root["ReactSizeMe"] = factory(root["PropTypes"], root["React"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_31__, __WEBPACK_EXTERNAL_MODULE_32__, __WEBPACK_EXTERNAL_MODULE_33__) {
+		root["ReactSizeMe"] = factory(root["React"], root["PropTypes"], root["ReactDOM"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_8__, __WEBPACK_EXTERNAL_MODULE_9__, __WEBPACK_EXTERNAL_MODULE_10__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -43,9 +43,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -73,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -117,108 +114,9 @@ module.exports = isObject;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-var detector = module.exports = {};
-
-detector.isIE = function(version) {
-    function isAnyIeVersion() {
-        var agent = navigator.userAgent.toLowerCase();
-        return agent.indexOf("msie") !== -1 || agent.indexOf("trident") !== -1 || agent.indexOf(" edge/") !== -1;
-    }
-
-    if(!isAnyIeVersion()) {
-        return false;
-    }
-
-    if(!version) {
-        return true;
-    }
-
-    //Shamelessly stolen from https://gist.github.com/padolsey/527683
-    var ieVersion = (function(){
-        var undef,
-            v = 3,
-            div = document.createElement("div"),
-            all = div.getElementsByTagName("i");
-
-        do {
-            div.innerHTML = "<!--[if gt IE " + (++v) + "]><i></i><![endif]-->";
-        }
-        while (all[0]);
-
-        return v > 4 ? v : undef;
-    }());
-
-    return version === ieVersion;
-};
-
-detector.isLegacyOpera = function() {
-    return !!window.opera;
-};
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = module.exports = {};
-
-/**
- * Loops through the collection and calls the callback for each element. if the callback returns truthy, the loop is broken and returns the same value.
- * @public
- * @param {*} collection The collection to loop through. Needs to have a length property set and have indices set from 0 to length - 1.
- * @param {function} callback The callback to be called for each element. The element will be given as a parameter to the callback. If this callback returns truthy, the loop is broken and the same value is returned.
- * @returns {*} The value that a callback has returned (if truthy). Otherwise nothing.
- */
-utils.forEach = function(collection, callback) {
-    for(var i = 0; i < collection.length; i++) {
-        var result = callback(collection[i]);
-        if(result) {
-            return result;
-        }
-    }
-};
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(4);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(22);
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var isObject = __webpack_require__(0),
-    now = __webpack_require__(27),
-    toNumber = __webpack_require__(29);
+    now = __webpack_require__(13),
+    toNumber = __webpack_require__(16);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -407,7 +305,130 @@ module.exports = debounce;
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var freeGlobal = __webpack_require__(14);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(2);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = module.exports = {};
+
+/**
+ * Loops through the collection and calls the callback for each element. if the callback returns truthy, the loop is broken and returns the same value.
+ * @public
+ * @param {*} collection The collection to loop through. Needs to have a length property set and have indices set from 0 to length - 1.
+ * @param {function} callback The callback to be called for each element. The element will be given as a parameter to the callback. If this callback returns truthy, the loop is broken and the same value is returned.
+ * @returns {*} The value that a callback has returned (if truthy). Otherwise nothing.
+ */
+utils.forEach = function(collection, callback) {
+    for(var i = 0; i < collection.length; i++) {
+        var result = callback(collection[i]);
+        if(result) {
+            return result;
+        }
+    }
+};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var detector = module.exports = {};
+
+detector.isIE = function(version) {
+    function isAnyIeVersion() {
+        var agent = navigator.userAgent.toLowerCase();
+        return agent.indexOf("msie") !== -1 || agent.indexOf("trident") !== -1 || agent.indexOf(" edge/") !== -1;
+    }
+
+    if(!isAnyIeVersion()) {
+        return false;
+    }
+
+    if(!version) {
+        return true;
+    }
+
+    //Shamelessly stolen from https://gist.github.com/padolsey/527683
+    var ieVersion = (function(){
+        var undef,
+            v = 3,
+            div = document.createElement("div"),
+            all = div.getElementsByTagName("i");
+
+        do {
+            div.innerHTML = "<!--[if gt IE " + (++v) + "]><i></i><![endif]-->";
+        }
+        while (all[0]);
+
+        return v > 4 ? v : undef;
+    }());
+
+    return version === ieVersion;
+};
+
+detector.isLegacyOpera = function() {
+    return !!window.opera;
+};
+
+
+/***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sizeMe = undefined;
+
+var _sizeMe = __webpack_require__(7);
+
+var _sizeMe2 = _interopRequireDefault(_sizeMe);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.sizeMe = _sizeMe2.default;
+
+// Backward compat
+
+exports.default = _sizeMe2.default;
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -421,31 +442,31 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(32);
+var _react = __webpack_require__(8);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = __webpack_require__(31);
+var _propTypes = __webpack_require__(9);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = __webpack_require__(33);
+var _reactDom = __webpack_require__(10);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _invariant = __webpack_require__(20);
+var _invariant = __webpack_require__(11);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _throttle = __webpack_require__(28);
+var _throttle = __webpack_require__(12);
 
 var _throttle2 = _interopRequireDefault(_throttle);
 
-var _debounce = __webpack_require__(5);
+var _debounce = __webpack_require__(1);
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _resizeDetector = __webpack_require__(8);
+var _resizeDetector = __webpack_require__(22);
 
 var _resizeDetector2 = _interopRequireDefault(_resizeDetector);
 
@@ -458,6 +479,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* eslint-disable react/no-multi-comp */
+/* eslint-disable react/require-default-props */
 
 var defaultConfig = {
   monitorWidth: true,
@@ -577,7 +599,8 @@ Placeholder.propTypes = {
       width: _propTypes2.default.number, // eslint-disable-line react/no-unused-prop-types
       height: _propTypes2.default.number // eslint-disable-line react/no-unused-prop-types
     }),
-    disablePlaceholder: _propTypes2.default.bool
+    disablePlaceholder: _propTypes2.default.bool,
+    onSize: _propTypes2.default.func
   };
 
   return SizeMeRenderer;
@@ -799,31 +822,481 @@ sizeMe.noPlaceholders = false;
 exports.default = sizeMe;
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 8 */
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.sizeMe = undefined;
-
-var _sizeMe = __webpack_require__(6);
-
-var _sizeMe2 = _interopRequireDefault(_sizeMe);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.sizeMe = _sizeMe2.default;
-
-// Backward compat
-
-exports.default = _sizeMe2.default;
+module.exports = __WEBPACK_EXTERNAL_MODULE_8__;
 
 /***/ }),
-/* 8 */
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_9__;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_10__;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var invariant = function(condition, format, a, b, c, d, e, f) {
+  if (false) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  }
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error(
+        'Minified exception occurred; use the non-minified dev environment ' +
+        'for the full error message and additional helpful warnings.'
+      );
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(
+        format.replace(/%s/g, function() { return args[argIndex++]; })
+      );
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+};
+
+module.exports = invariant;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var debounce = __webpack_require__(1),
+    isObject = __webpack_require__(0);
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide `options` to indicate whether `func`
+ * should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+module.exports = throttle;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var root = __webpack_require__(2);
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+module.exports = freeGlobal;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(0),
+    isSymbol = __webpack_require__(17);
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(18),
+    isObjectLike = __webpack_require__(21);
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(3),
+    getRawTag = __webpack_require__(19),
+    objectToString = __webpack_require__(20);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(3);
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+module.exports = getRawTag;
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+module.exports = objectToString;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -833,7 +1306,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _elementResizeDetector = __webpack_require__(13);
+var _elementResizeDetector = __webpack_require__(23);
 
 var _elementResizeDetector2 = _interopRequireDefault(_elementResizeDetector);
 
@@ -856,13 +1329,595 @@ function resizeDetector() {
 exports.default = resizeDetector;
 
 /***/ }),
-/* 9 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(10);
+var forEach                 = __webpack_require__(4).forEach;
+var elementUtilsMaker       = __webpack_require__(24);
+var listenerHandlerMaker    = __webpack_require__(25);
+var idGeneratorMaker        = __webpack_require__(26);
+var idHandlerMaker          = __webpack_require__(27);
+var reporterMaker           = __webpack_require__(28);
+var browserDetector         = __webpack_require__(5);
+var batchProcessorMaker     = __webpack_require__(29);
+var stateHandler            = __webpack_require__(31);
+
+//Detection strategies.
+var objectStrategyMaker     = __webpack_require__(32);
+var scrollStrategyMaker     = __webpack_require__(33);
+
+function isCollection(obj) {
+    return Array.isArray(obj) || obj.length !== undefined;
+}
+
+function toArray(collection) {
+    if (!Array.isArray(collection)) {
+        var array = [];
+        forEach(collection, function (obj) {
+            array.push(obj);
+        });
+        return array;
+    } else {
+        return collection;
+    }
+}
+
+function isElement(obj) {
+    return obj && obj.nodeType === 1;
+}
+
+/**
+ * @typedef idHandler
+ * @type {object}
+ * @property {function} get Gets the resize detector id of the element.
+ * @property {function} set Generate and sets the resize detector id of the element.
+ */
+
+/**
+ * @typedef Options
+ * @type {object}
+ * @property {boolean} callOnAdd    Determines if listeners should be called when they are getting added.
+                                    Default is true. If true, the listener is guaranteed to be called when it has been added.
+                                    If false, the listener will not be guarenteed to be called when it has been added (does not prevent it from being called).
+ * @property {idHandler} idHandler  A custom id handler that is responsible for generating, setting and retrieving id's for elements.
+                                    If not provided, a default id handler will be used.
+ * @property {reporter} reporter    A custom reporter that handles reporting logs, warnings and errors.
+                                    If not provided, a default id handler will be used.
+                                    If set to false, then nothing will be reported.
+ * @property {boolean} debug        If set to true, the the system will report debug messages as default for the listenTo method.
+ */
+
+/**
+ * Creates an element resize detector instance.
+ * @public
+ * @param {Options?} options Optional global options object that will decide how this instance will work.
+ */
+module.exports = function(options) {
+    options = options || {};
+
+    //idHandler is currently not an option to the listenTo function, so it should not be added to globalOptions.
+    var idHandler;
+
+    if (options.idHandler) {
+        // To maintain compatability with idHandler.get(element, readonly), make sure to wrap the given idHandler
+        // so that readonly flag always is true when it's used here. This may be removed next major version bump.
+        idHandler = {
+            get: function (element) { return options.idHandler.get(element, true); },
+            set: options.idHandler.set
+        };
+    } else {
+        var idGenerator = idGeneratorMaker();
+        var defaultIdHandler = idHandlerMaker({
+            idGenerator: idGenerator,
+            stateHandler: stateHandler
+        });
+        idHandler = defaultIdHandler;
+    }
+
+    //reporter is currently not an option to the listenTo function, so it should not be added to globalOptions.
+    var reporter = options.reporter;
+
+    if(!reporter) {
+        //If options.reporter is false, then the reporter should be quiet.
+        var quiet = reporter === false;
+        reporter = reporterMaker(quiet);
+    }
+
+    //batchProcessor is currently not an option to the listenTo function, so it should not be added to globalOptions.
+    var batchProcessor = getOption(options, "batchProcessor", batchProcessorMaker({ reporter: reporter }));
+
+    //Options to be used as default for the listenTo function.
+    var globalOptions = {};
+    globalOptions.callOnAdd     = !!getOption(options, "callOnAdd", true);
+    globalOptions.debug         = !!getOption(options, "debug", false);
+
+    var eventListenerHandler    = listenerHandlerMaker(idHandler);
+    var elementUtils            = elementUtilsMaker({
+        stateHandler: stateHandler
+    });
+
+    //The detection strategy to be used.
+    var detectionStrategy;
+    var desiredStrategy = getOption(options, "strategy", "object");
+    var strategyOptions = {
+        reporter: reporter,
+        batchProcessor: batchProcessor,
+        stateHandler: stateHandler,
+        idHandler: idHandler
+    };
+
+    if(desiredStrategy === "scroll") {
+        if (browserDetector.isLegacyOpera()) {
+            reporter.warn("Scroll strategy is not supported on legacy Opera. Changing to object strategy.");
+            desiredStrategy = "object";
+        } else if (browserDetector.isIE(9)) {
+            reporter.warn("Scroll strategy is not supported on IE9. Changing to object strategy.");
+            desiredStrategy = "object";
+        }
+    }
+
+    if(desiredStrategy === "scroll") {
+        detectionStrategy = scrollStrategyMaker(strategyOptions);
+    } else if(desiredStrategy === "object") {
+        detectionStrategy = objectStrategyMaker(strategyOptions);
+    } else {
+        throw new Error("Invalid strategy name: " + desiredStrategy);
+    }
+
+    //Calls can be made to listenTo with elements that are still being installed.
+    //Also, same elements can occur in the elements list in the listenTo function.
+    //With this map, the ready callbacks can be synchronized between the calls
+    //so that the ready callback can always be called when an element is ready - even if
+    //it wasn't installed from the function itself.
+    var onReadyCallbacks = {};
+
+    /**
+     * Makes the given elements resize-detectable and starts listening to resize events on the elements. Calls the event callback for each event for each element.
+     * @public
+     * @param {Options?} options Optional options object. These options will override the global options. Some options may not be overriden, such as idHandler.
+     * @param {element[]|element} elements The given array of elements to detect resize events of. Single element is also valid.
+     * @param {function} listener The callback to be executed for each resize event for each element.
+     */
+    function listenTo(options, elements, listener) {
+        function onResizeCallback(element) {
+            var listeners = eventListenerHandler.get(element);
+            forEach(listeners, function callListenerProxy(listener) {
+                listener(element);
+            });
+        }
+
+        function addListener(callOnAdd, element, listener) {
+            eventListenerHandler.add(element, listener);
+
+            if(callOnAdd) {
+                listener(element);
+            }
+        }
+
+        //Options object may be omitted.
+        if(!listener) {
+            listener = elements;
+            elements = options;
+            options = {};
+        }
+
+        if(!elements) {
+            throw new Error("At least one element required.");
+        }
+
+        if(!listener) {
+            throw new Error("Listener required.");
+        }
+
+        if (isElement(elements)) {
+            // A single element has been passed in.
+            elements = [elements];
+        } else if (isCollection(elements)) {
+            // Convert collection to array for plugins.
+            // TODO: May want to check so that all the elements in the collection are valid elements.
+            elements = toArray(elements);
+        } else {
+            return reporter.error("Invalid arguments. Must be a DOM element or a collection of DOM elements.");
+        }
+
+        var elementsReady = 0;
+
+        var callOnAdd = getOption(options, "callOnAdd", globalOptions.callOnAdd);
+        var onReadyCallback = getOption(options, "onReady", function noop() {});
+        var debug = getOption(options, "debug", globalOptions.debug);
+
+        forEach(elements, function attachListenerToElement(element) {
+            if (!stateHandler.getState(element)) {
+                stateHandler.initState(element);
+                idHandler.set(element);
+            }
+
+            var id = idHandler.get(element);
+
+            debug && reporter.log("Attaching listener to element", id, element);
+
+            if(!elementUtils.isDetectable(element)) {
+                debug && reporter.log(id, "Not detectable.");
+                if(elementUtils.isBusy(element)) {
+                    debug && reporter.log(id, "System busy making it detectable");
+
+                    //The element is being prepared to be detectable. Do not make it detectable.
+                    //Just add the listener, because the element will soon be detectable.
+                    addListener(callOnAdd, element, listener);
+                    onReadyCallbacks[id] = onReadyCallbacks[id] || [];
+                    onReadyCallbacks[id].push(function onReady() {
+                        elementsReady++;
+
+                        if(elementsReady === elements.length) {
+                            onReadyCallback();
+                        }
+                    });
+                    return;
+                }
+
+                debug && reporter.log(id, "Making detectable...");
+                //The element is not prepared to be detectable, so do prepare it and add a listener to it.
+                elementUtils.markBusy(element, true);
+                return detectionStrategy.makeDetectable({ debug: debug }, element, function onElementDetectable(element) {
+                    debug && reporter.log(id, "onElementDetectable");
+
+                    if (stateHandler.getState(element)) {
+                        elementUtils.markAsDetectable(element);
+                        elementUtils.markBusy(element, false);
+                        detectionStrategy.addListener(element, onResizeCallback);
+                        addListener(callOnAdd, element, listener);
+
+                        // Since the element size might have changed since the call to "listenTo", we need to check for this change,
+                        // so that a resize event may be emitted.
+                        // Having the startSize object is optional (since it does not make sense in some cases such as unrendered elements), so check for its existance before.
+                        // Also, check the state existance before since the element may have been uninstalled in the installation process.
+                        var state = stateHandler.getState(element);
+                        if (state && state.startSize) {
+                            var width = element.offsetWidth;
+                            var height = element.offsetHeight;
+                            if (state.startSize.width !== width || state.startSize.height !== height) {
+                                onResizeCallback(element);
+                            }
+                        }
+
+                        if(onReadyCallbacks[id]) {
+                            forEach(onReadyCallbacks[id], function(callback) {
+                                callback();
+                            });
+                        }
+                    } else {
+                        // The element has been unisntalled before being detectable.
+                        debug && reporter.log(id, "Element uninstalled before being detectable.");
+                    }
+
+                    delete onReadyCallbacks[id];
+
+                    elementsReady++;
+                    if(elementsReady === elements.length) {
+                        onReadyCallback();
+                    }
+                });
+            }
+
+            debug && reporter.log(id, "Already detecable, adding listener.");
+
+            //The element has been prepared to be detectable and is ready to be listened to.
+            addListener(callOnAdd, element, listener);
+            elementsReady++;
+        });
+
+        if(elementsReady === elements.length) {
+            onReadyCallback();
+        }
+    }
+
+    function uninstall(elements) {
+        if(!elements) {
+            return reporter.error("At least one element is required.");
+        }
+
+        if (isElement(elements)) {
+            // A single element has been passed in.
+            elements = [elements];
+        } else if (isCollection(elements)) {
+            // Convert collection to array for plugins.
+            // TODO: May want to check so that all the elements in the collection are valid elements.
+            elements = toArray(elements);
+        } else {
+            return reporter.error("Invalid arguments. Must be a DOM element or a collection of DOM elements.");
+        }
+
+        forEach(elements, function (element) {
+            eventListenerHandler.removeAllListeners(element);
+            detectionStrategy.uninstall(element);
+            stateHandler.cleanState(element);
+        });
+    }
+
+    return {
+        listenTo: listenTo,
+        removeListener: eventListenerHandler.removeListener,
+        removeAllListeners: eventListenerHandler.removeAllListeners,
+        uninstall: uninstall
+    };
+};
+
+function getOption(options, name, defaultValue) {
+    var value = options[name];
+
+    if((value === undefined || value === null) && defaultValue !== undefined) {
+        return defaultValue;
+    }
+
+    return value;
+}
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function(options) {
+    var getState = options.stateHandler.getState;
+
+    /**
+     * Tells if the element has been made detectable and ready to be listened for resize events.
+     * @public
+     * @param {element} The element to check.
+     * @returns {boolean} True or false depending on if the element is detectable or not.
+     */
+    function isDetectable(element) {
+        var state = getState(element);
+        return state && !!state.isDetectable;
+    }
+
+    /**
+     * Marks the element that it has been made detectable and ready to be listened for resize events.
+     * @public
+     * @param {element} The element to mark.
+     */
+    function markAsDetectable(element) {
+        getState(element).isDetectable = true;
+    }
+
+    /**
+     * Tells if the element is busy or not.
+     * @public
+     * @param {element} The element to check.
+     * @returns {boolean} True or false depending on if the element is busy or not.
+     */
+    function isBusy(element) {
+        return !!getState(element).busy;
+    }
+
+    /**
+     * Marks the object is busy and should not be made detectable.
+     * @public
+     * @param {element} element The element to mark.
+     * @param {boolean} busy If the element is busy or not.
+     */
+    function markBusy(element, busy) {
+        getState(element).busy = !!busy;
+    }
+
+    return {
+        isDetectable: isDetectable,
+        markAsDetectable: markAsDetectable,
+        isBusy: isBusy,
+        markBusy: markBusy
+    };
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function(idHandler) {
+    var eventListeners = {};
+
+    /**
+     * Gets all listeners for the given element.
+     * @public
+     * @param {element} element The element to get all listeners for.
+     * @returns All listeners for the given element.
+     */
+    function getListeners(element) {
+        var id = idHandler.get(element);
+
+        if (id === undefined) {
+            return [];
+        }
+
+        return eventListeners[id] || [];
+    }
+
+    /**
+     * Stores the given listener for the given element. Will not actually add the listener to the element.
+     * @public
+     * @param {element} element The element that should have the listener added.
+     * @param {function} listener The callback that the element has added.
+     */
+    function addListener(element, listener) {
+        var id = idHandler.get(element);
+
+        if(!eventListeners[id]) {
+            eventListeners[id] = [];
+        }
+
+        eventListeners[id].push(listener);
+    }
+
+    function removeListener(element, listener) {
+        var listeners = getListeners(element);
+        for (var i = 0, len = listeners.length; i < len; ++i) {
+            if (listeners[i] === listener) {
+              listeners.splice(i, 1);
+              break;
+            }
+        }
+    }
+
+    function removeAllListeners(element) {
+      var listeners = getListeners(element);
+      if (!listeners) { return; }
+      listeners.length = 0;
+    }
+
+    return {
+        get: getListeners,
+        add: addListener,
+        removeListener: removeListener,
+        removeAllListeners: removeAllListeners
+    };
+};
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function() {
+    var idCount = 1;
+
+    /**
+     * Generates a new unique id in the context.
+     * @public
+     * @returns {number} A unique id in the context.
+     */
+    function generate() {
+        return idCount++;
+    }
+
+    return {
+        generate: generate
+    };
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function(options) {
+    var idGenerator     = options.idGenerator;
+    var getState        = options.stateHandler.getState;
+
+    /**
+     * Gets the resize detector id of the element.
+     * @public
+     * @param {element} element The target element to get the id of.
+     * @returns {string|number|null} The id of the element. Null if it has no id.
+     */
+    function getId(element) {
+        var state = getState(element);
+
+        if (state && state.id !== undefined) {
+            return state.id;
+        }
+
+        return null;
+    }
+
+    /**
+     * Sets the resize detector id of the element. Requires the element to have a resize detector state initialized.
+     * @public
+     * @param {element} element The target element to set the id of.
+     * @returns {string|number|null} The id of the element.
+     */
+    function setId(element) {
+        var state = getState(element);
+
+        if (!state) {
+            throw new Error("setId required the element to have a resize detection state.");
+        }
+
+        var id = idGenerator.generate();
+
+        state.id = id;
+
+        return id;
+    }
+
+    return {
+        get: getId,
+        set: setId
+    };
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* global console: false */
+
+/**
+ * Reporter that handles the reporting of logs, warnings and errors.
+ * @public
+ * @param {boolean} quiet Tells if the reporter should be quiet or not.
+ */
+module.exports = function(quiet) {
+    function noop() {
+        //Does nothing.
+    }
+
+    var reporter = {
+        log: noop,
+        warn: noop,
+        error: noop
+    };
+
+    if(!quiet && window.console) {
+        var attachFunction = function(reporter, name) {
+            //The proxy is needed to be able to call the method with the console context,
+            //since we cannot use bind.
+            reporter[name] = function reporterProxy() {
+                var f = console[name];
+                if (f.apply) { //IE9 does not support console.log.apply :)
+                    f.apply(console, arguments);
+                } else {
+                    for (var i = 0; i < arguments.length; i++) {
+                        f(arguments[i]);
+                    }
+                }
+            };
+        };
+
+        attachFunction(reporter, "log");
+        attachFunction(reporter, "warn");
+        attachFunction(reporter, "error");
+    }
+
+    return reporter;
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(30);
 
 module.exports = function batchProcessorMaker(options) {
     options             = options || {};
@@ -1001,7 +2056,7 @@ function Batch() {
 
 
 /***/ }),
-/* 10 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1023,7 +2078,36 @@ function getOption(options, name, defaultValue) {
 
 
 /***/ }),
-/* 11 */
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var prop = "_erd";
+
+function initState(element) {
+    element[prop] = {};
+    return getState(element);
+}
+
+function getState(element) {
+    return element[prop];
+}
+
+function cleanState(element) {
+    delete element[prop];
+}
+
+module.exports = {
+    initState: initState,
+    getState: getState,
+    cleanState: cleanState
+};
+
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1034,7 +2118,7 @@ function getOption(options, name, defaultValue) {
 
 
 
-var browserDetector = __webpack_require__(1);
+var browserDetector = __webpack_require__(5);
 
 module.exports = function(options) {
     options             = options || {};
@@ -1244,7 +2328,7 @@ module.exports = function(options) {
 
 
 /***/ }),
-/* 12 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1255,7 +2339,7 @@ module.exports = function(options) {
 
 
 
-var forEach = __webpack_require__(2).forEach;
+var forEach = __webpack_require__(4).forEach;
 
 module.exports = function(options) {
     options             = options || {};
@@ -1896,1091 +2980,6 @@ module.exports = function(options) {
     };
 };
 
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var forEach                 = __webpack_require__(2).forEach;
-var elementUtilsMaker       = __webpack_require__(14);
-var listenerHandlerMaker    = __webpack_require__(17);
-var idGeneratorMaker        = __webpack_require__(15);
-var idHandlerMaker          = __webpack_require__(16);
-var reporterMaker           = __webpack_require__(18);
-var browserDetector         = __webpack_require__(1);
-var batchProcessorMaker     = __webpack_require__(9);
-var stateHandler            = __webpack_require__(19);
-
-//Detection strategies.
-var objectStrategyMaker     = __webpack_require__(11);
-var scrollStrategyMaker     = __webpack_require__(12);
-
-function isCollection(obj) {
-    return Array.isArray(obj) || obj.length !== undefined;
-}
-
-function toArray(collection) {
-    if (!Array.isArray(collection)) {
-        var array = [];
-        forEach(collection, function (obj) {
-            array.push(obj);
-        });
-        return array;
-    } else {
-        return collection;
-    }
-}
-
-function isElement(obj) {
-    return obj && obj.nodeType === 1;
-}
-
-/**
- * @typedef idHandler
- * @type {object}
- * @property {function} get Gets the resize detector id of the element.
- * @property {function} set Generate and sets the resize detector id of the element.
- */
-
-/**
- * @typedef Options
- * @type {object}
- * @property {boolean} callOnAdd    Determines if listeners should be called when they are getting added.
-                                    Default is true. If true, the listener is guaranteed to be called when it has been added.
-                                    If false, the listener will not be guarenteed to be called when it has been added (does not prevent it from being called).
- * @property {idHandler} idHandler  A custom id handler that is responsible for generating, setting and retrieving id's for elements.
-                                    If not provided, a default id handler will be used.
- * @property {reporter} reporter    A custom reporter that handles reporting logs, warnings and errors.
-                                    If not provided, a default id handler will be used.
-                                    If set to false, then nothing will be reported.
- * @property {boolean} debug        If set to true, the the system will report debug messages as default for the listenTo method.
- */
-
-/**
- * Creates an element resize detector instance.
- * @public
- * @param {Options?} options Optional global options object that will decide how this instance will work.
- */
-module.exports = function(options) {
-    options = options || {};
-
-    //idHandler is currently not an option to the listenTo function, so it should not be added to globalOptions.
-    var idHandler;
-
-    if (options.idHandler) {
-        // To maintain compatability with idHandler.get(element, readonly), make sure to wrap the given idHandler
-        // so that readonly flag always is true when it's used here. This may be removed next major version bump.
-        idHandler = {
-            get: function (element) { return options.idHandler.get(element, true); },
-            set: options.idHandler.set
-        };
-    } else {
-        var idGenerator = idGeneratorMaker();
-        var defaultIdHandler = idHandlerMaker({
-            idGenerator: idGenerator,
-            stateHandler: stateHandler
-        });
-        idHandler = defaultIdHandler;
-    }
-
-    //reporter is currently not an option to the listenTo function, so it should not be added to globalOptions.
-    var reporter = options.reporter;
-
-    if(!reporter) {
-        //If options.reporter is false, then the reporter should be quiet.
-        var quiet = reporter === false;
-        reporter = reporterMaker(quiet);
-    }
-
-    //batchProcessor is currently not an option to the listenTo function, so it should not be added to globalOptions.
-    var batchProcessor = getOption(options, "batchProcessor", batchProcessorMaker({ reporter: reporter }));
-
-    //Options to be used as default for the listenTo function.
-    var globalOptions = {};
-    globalOptions.callOnAdd     = !!getOption(options, "callOnAdd", true);
-    globalOptions.debug         = !!getOption(options, "debug", false);
-
-    var eventListenerHandler    = listenerHandlerMaker(idHandler);
-    var elementUtils            = elementUtilsMaker({
-        stateHandler: stateHandler
-    });
-
-    //The detection strategy to be used.
-    var detectionStrategy;
-    var desiredStrategy = getOption(options, "strategy", "object");
-    var strategyOptions = {
-        reporter: reporter,
-        batchProcessor: batchProcessor,
-        stateHandler: stateHandler,
-        idHandler: idHandler
-    };
-
-    if(desiredStrategy === "scroll") {
-        if (browserDetector.isLegacyOpera()) {
-            reporter.warn("Scroll strategy is not supported on legacy Opera. Changing to object strategy.");
-            desiredStrategy = "object";
-        } else if (browserDetector.isIE(9)) {
-            reporter.warn("Scroll strategy is not supported on IE9. Changing to object strategy.");
-            desiredStrategy = "object";
-        }
-    }
-
-    if(desiredStrategy === "scroll") {
-        detectionStrategy = scrollStrategyMaker(strategyOptions);
-    } else if(desiredStrategy === "object") {
-        detectionStrategy = objectStrategyMaker(strategyOptions);
-    } else {
-        throw new Error("Invalid strategy name: " + desiredStrategy);
-    }
-
-    //Calls can be made to listenTo with elements that are still being installed.
-    //Also, same elements can occur in the elements list in the listenTo function.
-    //With this map, the ready callbacks can be synchronized between the calls
-    //so that the ready callback can always be called when an element is ready - even if
-    //it wasn't installed from the function itself.
-    var onReadyCallbacks = {};
-
-    /**
-     * Makes the given elements resize-detectable and starts listening to resize events on the elements. Calls the event callback for each event for each element.
-     * @public
-     * @param {Options?} options Optional options object. These options will override the global options. Some options may not be overriden, such as idHandler.
-     * @param {element[]|element} elements The given array of elements to detect resize events of. Single element is also valid.
-     * @param {function} listener The callback to be executed for each resize event for each element.
-     */
-    function listenTo(options, elements, listener) {
-        function onResizeCallback(element) {
-            var listeners = eventListenerHandler.get(element);
-            forEach(listeners, function callListenerProxy(listener) {
-                listener(element);
-            });
-        }
-
-        function addListener(callOnAdd, element, listener) {
-            eventListenerHandler.add(element, listener);
-
-            if(callOnAdd) {
-                listener(element);
-            }
-        }
-
-        //Options object may be omitted.
-        if(!listener) {
-            listener = elements;
-            elements = options;
-            options = {};
-        }
-
-        if(!elements) {
-            throw new Error("At least one element required.");
-        }
-
-        if(!listener) {
-            throw new Error("Listener required.");
-        }
-
-        if (isElement(elements)) {
-            // A single element has been passed in.
-            elements = [elements];
-        } else if (isCollection(elements)) {
-            // Convert collection to array for plugins.
-            // TODO: May want to check so that all the elements in the collection are valid elements.
-            elements = toArray(elements);
-        } else {
-            return reporter.error("Invalid arguments. Must be a DOM element or a collection of DOM elements.");
-        }
-
-        var elementsReady = 0;
-
-        var callOnAdd = getOption(options, "callOnAdd", globalOptions.callOnAdd);
-        var onReadyCallback = getOption(options, "onReady", function noop() {});
-        var debug = getOption(options, "debug", globalOptions.debug);
-
-        forEach(elements, function attachListenerToElement(element) {
-            if (!stateHandler.getState(element)) {
-                stateHandler.initState(element);
-                idHandler.set(element);
-            }
-
-            var id = idHandler.get(element);
-
-            debug && reporter.log("Attaching listener to element", id, element);
-
-            if(!elementUtils.isDetectable(element)) {
-                debug && reporter.log(id, "Not detectable.");
-                if(elementUtils.isBusy(element)) {
-                    debug && reporter.log(id, "System busy making it detectable");
-
-                    //The element is being prepared to be detectable. Do not make it detectable.
-                    //Just add the listener, because the element will soon be detectable.
-                    addListener(callOnAdd, element, listener);
-                    onReadyCallbacks[id] = onReadyCallbacks[id] || [];
-                    onReadyCallbacks[id].push(function onReady() {
-                        elementsReady++;
-
-                        if(elementsReady === elements.length) {
-                            onReadyCallback();
-                        }
-                    });
-                    return;
-                }
-
-                debug && reporter.log(id, "Making detectable...");
-                //The element is not prepared to be detectable, so do prepare it and add a listener to it.
-                elementUtils.markBusy(element, true);
-                return detectionStrategy.makeDetectable({ debug: debug }, element, function onElementDetectable(element) {
-                    debug && reporter.log(id, "onElementDetectable");
-
-                    if (stateHandler.getState(element)) {
-                        elementUtils.markAsDetectable(element);
-                        elementUtils.markBusy(element, false);
-                        detectionStrategy.addListener(element, onResizeCallback);
-                        addListener(callOnAdd, element, listener);
-
-                        // Since the element size might have changed since the call to "listenTo", we need to check for this change,
-                        // so that a resize event may be emitted.
-                        // Having the startSize object is optional (since it does not make sense in some cases such as unrendered elements), so check for its existance before.
-                        // Also, check the state existance before since the element may have been uninstalled in the installation process.
-                        var state = stateHandler.getState(element);
-                        if (state && state.startSize) {
-                            var width = element.offsetWidth;
-                            var height = element.offsetHeight;
-                            if (state.startSize.width !== width || state.startSize.height !== height) {
-                                onResizeCallback(element);
-                            }
-                        }
-
-                        if(onReadyCallbacks[id]) {
-                            forEach(onReadyCallbacks[id], function(callback) {
-                                callback();
-                            });
-                        }
-                    } else {
-                        // The element has been unisntalled before being detectable.
-                        debug && reporter.log(id, "Element uninstalled before being detectable.");
-                    }
-
-                    delete onReadyCallbacks[id];
-
-                    elementsReady++;
-                    if(elementsReady === elements.length) {
-                        onReadyCallback();
-                    }
-                });
-            }
-
-            debug && reporter.log(id, "Already detecable, adding listener.");
-
-            //The element has been prepared to be detectable and is ready to be listened to.
-            addListener(callOnAdd, element, listener);
-            elementsReady++;
-        });
-
-        if(elementsReady === elements.length) {
-            onReadyCallback();
-        }
-    }
-
-    function uninstall(elements) {
-        if(!elements) {
-            return reporter.error("At least one element is required.");
-        }
-
-        if (isElement(elements)) {
-            // A single element has been passed in.
-            elements = [elements];
-        } else if (isCollection(elements)) {
-            // Convert collection to array for plugins.
-            // TODO: May want to check so that all the elements in the collection are valid elements.
-            elements = toArray(elements);
-        } else {
-            return reporter.error("Invalid arguments. Must be a DOM element or a collection of DOM elements.");
-        }
-
-        forEach(elements, function (element) {
-            eventListenerHandler.removeAllListeners(element);
-            detectionStrategy.uninstall(element);
-            stateHandler.cleanState(element);
-        });
-    }
-
-    return {
-        listenTo: listenTo,
-        removeListener: eventListenerHandler.removeListener,
-        removeAllListeners: eventListenerHandler.removeAllListeners,
-        uninstall: uninstall
-    };
-};
-
-function getOption(options, name, defaultValue) {
-    var value = options[name];
-
-    if((value === undefined || value === null) && defaultValue !== undefined) {
-        return defaultValue;
-    }
-
-    return value;
-}
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function(options) {
-    var getState = options.stateHandler.getState;
-
-    /**
-     * Tells if the element has been made detectable and ready to be listened for resize events.
-     * @public
-     * @param {element} The element to check.
-     * @returns {boolean} True or false depending on if the element is detectable or not.
-     */
-    function isDetectable(element) {
-        var state = getState(element);
-        return state && !!state.isDetectable;
-    }
-
-    /**
-     * Marks the element that it has been made detectable and ready to be listened for resize events.
-     * @public
-     * @param {element} The element to mark.
-     */
-    function markAsDetectable(element) {
-        getState(element).isDetectable = true;
-    }
-
-    /**
-     * Tells if the element is busy or not.
-     * @public
-     * @param {element} The element to check.
-     * @returns {boolean} True or false depending on if the element is busy or not.
-     */
-    function isBusy(element) {
-        return !!getState(element).busy;
-    }
-
-    /**
-     * Marks the object is busy and should not be made detectable.
-     * @public
-     * @param {element} element The element to mark.
-     * @param {boolean} busy If the element is busy or not.
-     */
-    function markBusy(element, busy) {
-        getState(element).busy = !!busy;
-    }
-
-    return {
-        isDetectable: isDetectable,
-        markAsDetectable: markAsDetectable,
-        isBusy: isBusy,
-        markBusy: markBusy
-    };
-};
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function() {
-    var idCount = 1;
-
-    /**
-     * Generates a new unique id in the context.
-     * @public
-     * @returns {number} A unique id in the context.
-     */
-    function generate() {
-        return idCount++;
-    }
-
-    return {
-        generate: generate
-    };
-};
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function(options) {
-    var idGenerator     = options.idGenerator;
-    var getState        = options.stateHandler.getState;
-
-    /**
-     * Gets the resize detector id of the element.
-     * @public
-     * @param {element} element The target element to get the id of.
-     * @returns {string|number|null} The id of the element. Null if it has no id.
-     */
-    function getId(element) {
-        var state = getState(element);
-
-        if (state && state.id !== undefined) {
-            return state.id;
-        }
-
-        return null;
-    }
-
-    /**
-     * Sets the resize detector id of the element. Requires the element to have a resize detector state initialized.
-     * @public
-     * @param {element} element The target element to set the id of.
-     * @returns {string|number|null} The id of the element.
-     */
-    function setId(element) {
-        var state = getState(element);
-
-        if (!state) {
-            throw new Error("setId required the element to have a resize detection state.");
-        }
-
-        var id = idGenerator.generate();
-
-        state.id = id;
-
-        return id;
-    }
-
-    return {
-        get: getId,
-        set: setId
-    };
-};
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function(idHandler) {
-    var eventListeners = {};
-
-    /**
-     * Gets all listeners for the given element.
-     * @public
-     * @param {element} element The element to get all listeners for.
-     * @returns All listeners for the given element.
-     */
-    function getListeners(element) {
-        var id = idHandler.get(element);
-
-        if (id === undefined) {
-            return [];
-        }
-
-        return eventListeners[id] || [];
-    }
-
-    /**
-     * Stores the given listener for the given element. Will not actually add the listener to the element.
-     * @public
-     * @param {element} element The element that should have the listener added.
-     * @param {function} listener The callback that the element has added.
-     */
-    function addListener(element, listener) {
-        var id = idHandler.get(element);
-
-        if(!eventListeners[id]) {
-            eventListeners[id] = [];
-        }
-
-        eventListeners[id].push(listener);
-    }
-
-    function removeListener(element, listener) {
-        var listeners = getListeners(element);
-        for (var i = 0, len = listeners.length; i < len; ++i) {
-            if (listeners[i] === listener) {
-              listeners.splice(i, 1);
-              break;
-            }
-        }
-    }
-
-    function removeAllListeners(element) {
-      var listeners = getListeners(element);
-      if (!listeners) { return; }
-      listeners.length = 0;
-    }
-
-    return {
-        get: getListeners,
-        add: addListener,
-        removeListener: removeListener,
-        removeAllListeners: removeAllListeners
-    };
-};
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/* global console: false */
-
-/**
- * Reporter that handles the reporting of logs, warnings and errors.
- * @public
- * @param {boolean} quiet Tells if the reporter should be quiet or not.
- */
-module.exports = function(quiet) {
-    function noop() {
-        //Does nothing.
-    }
-
-    var reporter = {
-        log: noop,
-        warn: noop,
-        error: noop
-    };
-
-    if(!quiet && window.console) {
-        var attachFunction = function(reporter, name) {
-            //The proxy is needed to be able to call the method with the console context,
-            //since we cannot use bind.
-            reporter[name] = function reporterProxy() {
-                var f = console[name];
-                if (f.apply) { //IE9 does not support console.log.apply :)
-                    f.apply(console, arguments);
-                } else {
-                    for (var i = 0; i < arguments.length; i++) {
-                        f(arguments[i]);
-                    }
-                }
-            };
-        };
-
-        attachFunction(reporter, "log");
-        attachFunction(reporter, "warn");
-        attachFunction(reporter, "error");
-    }
-
-    return reporter;
-};
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var prop = "_erd";
-
-function initState(element) {
-    element[prop] = {};
-    return getState(element);
-}
-
-function getState(element) {
-    return element[prop];
-}
-
-function cleanState(element) {
-    delete element[prop];
-}
-
-module.exports = {
-    initState: initState,
-    getState: getState,
-    cleanState: cleanState
-};
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright 2013-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var invariant = function(condition, format, a, b, c, d, e, f) {
-  if (false) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  }
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-};
-
-module.exports = invariant;
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(3),
-    getRawTag = __webpack_require__(23),
-    objectToString = __webpack_require__(24);
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-
-module.exports = freeGlobal;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(3);
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the raw `toStringTag`.
- */
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag),
-      tag = value[symToStringTag];
-
-  try {
-    value[symToStringTag] = undefined;
-    var unmasked = true;
-  } catch (e) {}
-
-  var result = nativeObjectToString.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag] = tag;
-    } else {
-      delete value[symToStringTag];
-    }
-  }
-  return result;
-}
-
-module.exports = getRawTag;
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */
-function objectToString(value) {
-  return nativeObjectToString.call(value);
-}
-
-module.exports = objectToString;
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var baseGetTag = __webpack_require__(21),
-    isObjectLike = __webpack_require__(25);
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && baseGetTag(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(4);
-
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => Logs the number of milliseconds it took for the deferred invocation.
- */
-var now = function() {
-  return root.Date.now();
-};
-
-module.exports = now;
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var debounce = __webpack_require__(5),
-    isObject = __webpack_require__(0);
-
-/** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a throttled function that only invokes `func` at most once per
- * every `wait` milliseconds. The throttled function comes with a `cancel`
- * method to cancel delayed `func` invocations and a `flush` method to
- * immediately invoke them. Provide `options` to indicate whether `func`
- * should be invoked on the leading and/or trailing edge of the `wait`
- * timeout. The `func` is invoked with the last arguments provided to the
- * throttled function. Subsequent calls to the throttled function return the
- * result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is
- * invoked on the trailing edge of the timeout only if the throttled function
- * is invoked more than once during the `wait` timeout.
- *
- * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
- * until to the next tick, similar to `setTimeout` with a timeout of `0`.
- *
- * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
- * for details over the differences between `_.throttle` and `_.debounce`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to throttle.
- * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
- * @param {Object} [options={}] The options object.
- * @param {boolean} [options.leading=true]
- *  Specify invoking on the leading edge of the timeout.
- * @param {boolean} [options.trailing=true]
- *  Specify invoking on the trailing edge of the timeout.
- * @returns {Function} Returns the new throttled function.
- * @example
- *
- * // Avoid excessively updating the position while scrolling.
- * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
- *
- * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
- * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
- * jQuery(element).on('click', throttled);
- *
- * // Cancel the trailing throttled invocation.
- * jQuery(window).on('popstate', throttled.cancel);
- */
-function throttle(func, wait, options) {
-  var leading = true,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  if (isObject(options)) {
-    leading = 'leading' in options ? !!options.leading : leading;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-  return debounce(func, wait, {
-    'leading': leading,
-    'maxWait': wait,
-    'trailing': trailing
-  });
-}
-
-module.exports = throttle;
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(0),
-    isSymbol = __webpack_require__(26);
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3.2);
- * // => 3.2
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3.2');
- * // => 3.2
- */
-function toNumber(value) {
-  if (typeof value == 'number') {
-    return value;
-  }
-  if (isSymbol(value)) {
-    return NAN;
-  }
-  if (isObject(value)) {
-    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = toNumber;
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_31__;
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_32__;
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE_33__;
 
 /***/ })
 /******/ ]);
