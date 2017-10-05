@@ -487,7 +487,8 @@ var defaultConfig = {
   monitorPosition: false,
   refreshRate: 16,
   refreshMode: 'throttle',
-  noPlaceholder: false
+  noPlaceholder: false,
+  resizeDetectorStrategy: 'scroll'
 };
 
 function getDisplayName(WrappedComponent) {
@@ -634,7 +635,9 @@ function sizeMe() {
       _config$refreshMode = config.refreshMode,
       refreshMode = _config$refreshMode === undefined ? defaultConfig.refreshMode : _config$refreshMode,
       _config$noPlaceholder = config.noPlaceholder,
-      noPlaceholder = _config$noPlaceholder === undefined ? defaultConfig.noPlaceholder : _config$noPlaceholder;
+      noPlaceholder = _config$noPlaceholder === undefined ? defaultConfig.noPlaceholder : _config$noPlaceholder,
+      _config$resizeDetecto = config.resizeDetectorStrategy,
+      resizeDetectorStrategy = _config$resizeDetecto === undefined ? defaultConfig.resizeDetectorStrategy : _config$resizeDetecto;
 
 
   (0, _invariant2.default)(monitorWidth || monitorHeight || monitorPosition, 'You have to monitor at least one of the width, height, or position when using "sizeMe"');
@@ -743,7 +746,7 @@ function sizeMe() {
           };
 
           if (this.domEl) {
-            (0, _resizeDetector2.default)().removeAllListeners(this.domEl);
+            (0, _resizeDetector2.default)(resizeDetectorStrategy).removeAllListeners(this.domEl);
             this.domEl = null;
           }
         }
@@ -758,18 +761,18 @@ function sizeMe() {
           if (!found) {
             // This is for special cases where the element may be null.
             if (this.domEl) {
-              (0, _resizeDetector2.default)().removeAllListeners(this.domEl);
+              (0, _resizeDetector2.default)(resizeDetectorStrategy).removeAllListeners(this.domEl);
               this.domEl = null;
             }
             return;
           }
 
           if (this.domEl) {
-            (0, _resizeDetector2.default)().removeAllListeners(this.domEl);
+            (0, _resizeDetector2.default)(resizeDetectorStrategy).removeAllListeners(this.domEl);
           }
 
           this.domEl = found;
-          (0, _resizeDetector2.default)().listenTo(this.domEl, this.checkIfSizeChanged);
+          (0, _resizeDetector2.default)(resizeDetectorStrategy).listenTo(this.domEl, this.checkIfSizeChanged);
         }
       }, {
         key: 'render',
@@ -1317,9 +1320,11 @@ var instance = void 0;
 // Lazily require to not cause bug
 // https://github.com/ctrlplusb/react-sizeme/issues/6
 function resizeDetector() {
+  var strategy = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'scroll';
+
   if (!instance) {
     instance = (0, _elementResizeDetector2.default)({
-      strategy: 'scroll'
+      strategy: strategy
     });
   }
 
