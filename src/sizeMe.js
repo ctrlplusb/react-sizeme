@@ -16,6 +16,7 @@ const defaultConfig = {
   refreshRate: 16,
   refreshMode: 'throttle',
   noPlaceholder: false,
+  resizeDetectorStrategy: 'scroll',
 }
 
 function getDisplayName(WrappedComponent) {
@@ -146,6 +147,7 @@ function sizeMe(config = defaultConfig) {
     refreshRate = defaultConfig.refreshRate,
     refreshMode = defaultConfig.refreshMode,
     noPlaceholder = defaultConfig.noPlaceholder,
+    resizeDetectorStrategy = defaultConfig.resizeDetectorStrategy,
   } = config
 
   invariant(
@@ -202,7 +204,7 @@ function sizeMe(config = defaultConfig) {
         this.checkIfSizeChanged = () => undefined
 
         if (this.domEl) {
-          resizeDetector().removeAllListeners(this.domEl)
+          resizeDetector(resizeDetectorStrategy).removeAllListeners(this.domEl)
           this.domEl = null
         }
       }
@@ -242,18 +244,23 @@ function sizeMe(config = defaultConfig) {
         if (!found) {
           // This is for special cases where the element may be null.
           if (this.domEl) {
-            resizeDetector().removeAllListeners(this.domEl)
+            resizeDetector(resizeDetectorStrategy).removeAllListeners(
+              this.domEl,
+            )
             this.domEl = null
           }
           return
         }
 
         if (this.domEl) {
-          resizeDetector().removeAllListeners(this.domEl)
+          resizeDetector(resizeDetectorStrategy).removeAllListeners(this.domEl)
         }
 
         this.domEl = found
-        resizeDetector().listenTo(this.domEl, this.checkIfSizeChanged)
+        resizeDetector(resizeDetectorStrategy).listenTo(
+          this.domEl,
+          this.checkIfSizeChanged,
+        )
       }
 
       refCallback = element => {
