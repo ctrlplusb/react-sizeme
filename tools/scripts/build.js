@@ -14,7 +14,10 @@ const nodeEnv = Object.assign({}, process.env, {
 })
 
 exec(
-  'cross-env BABEL_ENV=commonjs babel --ignore **/__tests__ ./src -d ./commonjs',
+  'cross-env BABEL_ENV=commonjs babel --ignore **/__tests__ ./src/react -d ./commonjs',
+)
+exec(
+  'cross-env BABEL_ENV=commonjs babel --ignore **/__tests__ ./src/preact -d ./preact',
 )
 exec(
   'cross-env BABEL_ENV=umd webpack --config ./tools/webpack/umd.config.babel.js',

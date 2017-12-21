@@ -8,9 +8,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
+var _preact = require('preact');
 
 var _propTypes = require('prop-types');
 
@@ -32,7 +30,7 @@ var _debounce = require('lodash/debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _resizeDetector = require('../resizeDetector');
+var _resizeDetector = require('./resizeDetector');
 
 var _resizeDetector2 = _interopRequireDefault(_resizeDetector);
 
@@ -79,12 +77,12 @@ var ReferenceWrapper = function (_Component) {
   _createClass(ReferenceWrapper, [{
     key: 'render',
     value: function render() {
-      return _react.Children.only(this.props.children);
+      return this.props.children;
     }
   }]);
 
   return ReferenceWrapper;
-}(_react.Component);
+}(_preact.Component);
 
 ReferenceWrapper.displayName = 'SizeMeReferenceWrapper';
 
@@ -110,7 +108,7 @@ function Placeholder(_ref) {
     }
   }
 
-  return _react2.default.createElement('div', phProps);
+  return React.createElement('div', phProps);
 }
 Placeholder.displayName = 'SizeMePlaceholder';
 Placeholder.propTypes = {
@@ -147,9 +145,9 @@ Placeholder.propTypes = {
       renderProps.size = size;
     }
 
-    var toRender = renderPlaceholder ? _react2.default.createElement(Placeholder, { className: className, style: style }) : _react2.default.createElement(WrappedComponent, _extends({}, renderProps, restProps));
+    var toRender = renderPlaceholder ? React.createElement(Placeholder, { className: className, style: style }) : React.createElement(WrappedComponent, _extends({}, renderProps, restProps));
 
-    return _react2.default.createElement(
+    return React.createElement(
       ReferenceWrapper,
       { ref: explicitRef },
       toRender
@@ -217,8 +215,8 @@ function sizeMe() {
   return function WrapComponent(WrappedComponent) {
     var SizeMeRenderWrapper = renderWrapper(WrappedComponent);
 
-    var SizeAwareComponent = function (_React$Component) {
-      _inherits(SizeAwareComponent, _React$Component);
+    var SizeAwareComponent = function (_Component2) {
+      _inherits(SizeAwareComponent, _Component2);
 
       function SizeAwareComponent() {
         var _ref2;
@@ -347,7 +345,7 @@ function sizeMe() {
 
           var size = _extends({}, this.state);
 
-          return _react2.default.createElement(SizeMeRenderWrapper, _extends({
+          return React.createElement(SizeMeRenderWrapper, _extends({
             explicitRef: this.refCallback,
             size: this.strategy === 'callback' ? null : size,
             disablePlaceholder: disablePlaceholder
@@ -356,7 +354,7 @@ function sizeMe() {
       }]);
 
       return SizeAwareComponent;
-    }(_react2.default.Component);
+    }(_preact.Component);
 
     SizeAwareComponent.displayName = 'SizeMe(' + getDisplayName(WrappedComponent) + ')';
     SizeAwareComponent.propTypes = {
