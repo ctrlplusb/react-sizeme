@@ -14,10 +14,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
 var _invariant = require('invariant');
 
 var _invariant2 = _interopRequireDefault(_invariant);
@@ -320,7 +316,7 @@ function sizeMe() {
           var found = this.element &&
           // One day this will be deprecated then I will be forced into wrapping
           // the component with a div or such in order to get a dome element handle.
-          _reactDom2.default.findDOMNode(this.element); // eslint-disable-line react/no-find-dom-node
+          this.element.base;
 
           if (!found) {
             // This is for special cases where the element may be null.

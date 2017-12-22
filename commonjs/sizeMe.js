@@ -32,7 +32,7 @@ var _debounce = require('lodash/debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _resizeDetector = require('../resizeDetector');
+var _resizeDetector = require('./resizeDetector');
 
 var _resizeDetector2 = _interopRequireDefault(_resizeDetector);
 
