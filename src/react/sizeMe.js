@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 import invariant from 'invariant'
 import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
-import resizeDetector from '../resizeDetector'
+import resizeDetector from './resizeDetector'
 
 const defaultConfig = {
   monitorWidth: true,
