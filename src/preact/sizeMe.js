@@ -3,7 +3,6 @@
 
 import { h, Component } from 'preact'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import invariant from 'invariant'
 import throttle from 'lodash/throttle'
 import debounce from 'lodash/debounce'
@@ -239,7 +238,7 @@ function sizeMe(config = defaultConfig) {
           this.element &&
           // One day this will be deprecated then I will be forced into wrapping
           // the component with a div or such in order to get a dome element handle.
-          ReactDOM.findDOMNode(this.element) // eslint-disable-line react/no-find-dom-node
+          this.element.base
 
         if (!found) {
           // This is for special cases where the element may be null.
