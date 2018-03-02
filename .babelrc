@@ -8,7 +8,7 @@
     "transform-class-properties"
   ],
   "env": {
-    "commonjs": {
+    "react": {
       "presets": [
         "latest",
         "stage-3",
@@ -16,6 +16,19 @@
       ],
       "plugins": [
         "transform-class-properties"
+      ],
+    },
+    "preact": {
+      "presets": [
+        "latest",
+        "stage-3",
+        "react"
+      ],
+      "plugins": [
+        "transform-class-properties",
+        ["transform-react-jsx", {
+          "pragma": "h"
+        }]
       ],
     },
     "umd": {

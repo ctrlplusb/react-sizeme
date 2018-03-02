@@ -104,7 +104,7 @@ function Placeholder(_ref) {
     }
   }
 
-  return React.createElement('div', phProps);
+  return (0, _preact.h)('div', phProps);
 }
 Placeholder.displayName = 'SizeMePlaceholder';
 Placeholder.propTypes = {
@@ -141,9 +141,9 @@ Placeholder.propTypes = {
       renderProps.size = size;
     }
 
-    var toRender = renderPlaceholder ? React.createElement(Placeholder, { className: className, style: style }) : React.createElement(WrappedComponent, _extends({}, renderProps, restProps));
+    var toRender = renderPlaceholder ? (0, _preact.h)(Placeholder, { className: className, style: style }) : (0, _preact.h)(WrappedComponent, _extends({}, renderProps, restProps));
 
-    return React.createElement(
+    return (0, _preact.h)(
       ReferenceWrapper,
       { ref: explicitRef },
       toRender
@@ -341,7 +341,7 @@ function sizeMe() {
 
           var size = _extends({}, this.state);
 
-          return React.createElement(SizeMeRenderWrapper, _extends({
+          return (0, _preact.h)(SizeMeRenderWrapper, _extends({
             explicitRef: this.refCallback,
             size: this.strategy === 'callback' ? null : size,
             disablePlaceholder: disablePlaceholder
