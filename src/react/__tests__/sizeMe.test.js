@@ -24,12 +24,8 @@ describe('Given the SizeMe library', () => {
     const p = position || {}
     const result = (
       <div>
-        w: {width || 'null'},
-        h: {height || 'null'},
-        l: {p.left || 'null'},
-        r: {p.right || 'null'},
-        t: {p.top || 'null'},
-        b: {p.bottom || 'null'}
+        w: {width || 'null'}, h: {height || 'null'}, l: {p.left || 'null'}, r:{' '}
+        {p.right || 'null'}, t: {p.top || 'null'}, b: {p.bottom || 'null'}
       </div>
     )
     if (debug) {
@@ -40,22 +36,21 @@ describe('Given the SizeMe library', () => {
 
   const expected = ({ width, height, position }) => {
     const p = position || {}
-    return `w: ${width || 'null'}, h: ${height || 'null'}, l: ${p.left || 'null'}, r: ${p.right || 'null'}, t: ${p.top || 'null'}, b: ${p.bottom || 'null'}`
+    return `w: ${width || 'null'}, h: ${height || 'null'}, l: ${p.left ||
+      'null'}, r: ${p.right || 'null'}, t: ${p.top || 'null'}, b: ${p.bottom ||
+      'null'}`
   }
 
   const delay = (fn, time) =>
     new Promise((resolve, reject) => {
-      setTimeout(
-        () => {
-          try {
-            fn()
-          } catch (err) {
-            reject(err)
-          }
-          resolve()
-        },
-        time,
-      )
+      setTimeout(() => {
+        try {
+          fn()
+        } catch (err) {
+          reject(err)
+        }
+        resolve()
+      }, time)
     })
 
   beforeEach(() => {
@@ -130,11 +125,11 @@ describe('Given the SizeMe library', () => {
       class SizeCallbackWrapper extends React.Component {
         state = {
           size: null,
-        };
+        }
         onSize = size =>
           this.setState({
             size,
-          });
+          })
         render() {
           return <SizeAwareComponent onSize={this.onSize} />
         }
@@ -151,17 +146,12 @@ describe('Given the SizeMe library', () => {
         }),
       })
 
-      return delay(
-        () => {
-          expect(mounted.state()).toMatchObject({
-            size: { width: 100, height: 50 },
-          })
-          expect(mounted.find(SizeAwareComponent).text()).toEqual(
-            'No given size',
-          )
-        },
-        20,
-      )
+      return delay(() => {
+        expect(mounted.state()).toMatchObject({
+          size: { width: 100, height: 50 },
+        })
+        expect(mounted.find(SizeAwareComponent).text()).toEqual('No given size')
+      }, 20)
     })
   })
 

@@ -9,7 +9,7 @@ function webpackConfigFactory({ target }) {
 
   return {
     entry: {
-      index: resolvePath(appRootDir.get(), './src/index.js'),
+      index: resolvePath(appRootDir.get(), './src/react/index.js'),
     },
     output: {
       path: resolvePath(appRootDir.get(), './umd'),
