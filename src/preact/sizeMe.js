@@ -31,7 +31,7 @@ class ReferenceWrapper extends Component {
   static displayName = 'SizeMeReferenceWrapper'
 
   render() {
-    return this.props.children
+    return this.props.children[0]
   }
 }
 ReferenceWrapper.propTypes = { children: PropTypes.element.isRequired }

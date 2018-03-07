@@ -73,7 +73,7 @@ var ReferenceWrapper = function (_Component) {
   _createClass(ReferenceWrapper, [{
     key: 'render',
     value: function render() {
-      return this.props.children;
+      return this.props.children[0];
     }
   }]);
 
