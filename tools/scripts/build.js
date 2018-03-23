@@ -1,9 +1,10 @@
-import { readFileSync } from 'fs'
-import { inInstall } from 'in-publish'
-import prettyBytes from 'pretty-bytes'
-import { sync as gzipSizeSync } from 'gzip-size'
-import { pipe } from 'ramda'
-import { getPackageJson, exec } from '../utils'
+const { readFileSync } = require('fs')
+const { inInstall } = require('in-publish')
+const prettyBytes = require('pretty-bytes')
+const gzipSize = require('gzip-size')
+const { pipe } = require('ramda')
+const { exec } = require('../utils')
+const packageJson = require('../../package.json')
 
 if (inInstall()) {
   process.exit(0)
@@ -13,22 +14,13 @@ const nodeEnv = Object.assign({}, process.env, {
   NODE_ENV: 'production',
 })
 
-exec(
-  'cross-env BABEL_ENV=commonjs babel --ignore **/__tests__ ./src -d ./commonjs',
-)
-exec(
-  'cross-env BABEL_ENV=umd webpack --config ./tools/webpack/umd.config.babel.js',
-  nodeEnv,
-)
-exec(
-  'cross-env BABEL_ENV=umd webpack --config ./tools/webpack/umd-min.config.babel.js',
-  nodeEnv,
-)
+exec('npx rollup -c rollup-min.config.js', nodeEnv)
+exec('npx rollup -c rollup.config.js', nodeEnv)
 
 function fileGZipSize(path) {
-  return pipe(readFileSync, gzipSizeSync, prettyBytes)(path)
+  return pipe(readFileSync, gzipSize.sync, prettyBytes)(path)
 }
 
-const umdMinFilePath = `umd/${getPackageJson().name}.min.js`
-
-console.log(`\ngzipped, the UMD build is ${fileGZipSize(umdMinFilePath)}`)
+console.log(
+  `\ngzipped, the build is ${fileGZipSize(`dist/${packageJson.name}.min.js`)}`,
+)

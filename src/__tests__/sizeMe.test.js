@@ -5,9 +5,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import React from 'react'
-import sinon from 'sinon'
-import { mount } from 'enzyme'
+import enzyme, { mount } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import { renderToStaticMarkup } from 'react-dom/server'
+
+enzyme.configure({ adapter: new Adapter() })
 
 describe('Given the SizeMe library', () => {
   let sizeMe
@@ -24,12 +26,8 @@ describe('Given the SizeMe library', () => {
     const p = position || {}
     const result = (
       <div>
-        w: {width || 'null'},
-        h: {height || 'null'},
-        l: {p.left || 'null'},
-        r: {p.right || 'null'},
-        t: {p.top || 'null'},
-        b: {p.bottom || 'null'}
+        w: {width || 'null'}, h: {height || 'null'}, l: {p.left || 'null'}, r:{' '}
+        {p.right || 'null'}, t: {p.top || 'null'}, b: {p.bottom || 'null'}
       </div>
     )
     if (debug) {
@@ -40,37 +38,32 @@ describe('Given the SizeMe library', () => {
 
   const expected = ({ width, height, position }) => {
     const p = position || {}
-    return `w: ${width || 'null'}, h: ${height || 'null'}, l: ${p.left || 'null'}, r: ${p.right || 'null'}, t: ${p.top || 'null'}, b: ${p.bottom || 'null'}`
+    return `w: ${width || 'null'}, h: ${height || 'null'}, l: ${p.left ||
+      'null'}, r: ${p.right || 'null'}, t: ${p.top || 'null'}, b: ${p.bottom ||
+      'null'}`
   }
 
   const delay = (fn, time) =>
     new Promise((resolve, reject) => {
-      setTimeout(
-        () => {
-          try {
-            fn()
-          } catch (err) {
-            reject(err)
-          }
-          resolve()
-        },
-        time,
-      )
+      setTimeout(() => {
+        try {
+          fn()
+        } catch (err) {
+          reject(err)
+        }
+        resolve()
+      }, time)
     })
 
   beforeEach(() => {
-    sizeMe = require('../sizeMe').default
-
-    // Set up our mocks.
-    SizeMeRewireAPI = sizeMe.__RewireAPI__
-
     resizeDetectorMock = {
       // :: domEl -> void
-      removeAllListeners: sinon.spy(),
+      removeAllListeners: jest.fn(),
       // :: (domeEl, callback) -> void
-      listenTo: sinon.spy(),
+      listenTo: jest.fn(),
     }
-    SizeMeRewireAPI.__Rewire__('resizeDetector', () => resizeDetectorMock)
+    jest.doMock('../resizeDetector.js', () => jest.fn(() => resizeDetectorMock))
+    sizeMe = require('../sizeMe').default
   })
 
   describe('When providing a configuration object', () => {
@@ -130,11 +123,11 @@ describe('Given the SizeMe library', () => {
       class SizeCallbackWrapper extends React.Component {
         state = {
           size: null,
-        };
+        }
         onSize = size =>
           this.setState({
             size,
-          });
+          })
         render() {
           return <SizeAwareComponent onSize={this.onSize} />
         }
@@ -143,7 +136,7 @@ describe('Given the SizeMe library', () => {
 
       // Get the callback for size changes.
       const { listenTo } = resizeDetectorMock
-      const checkIfSizeChangedCallback = listenTo.args[0][1]
+      const checkIfSizeChangedCallback = listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({
           width: 100,
@@ -151,17 +144,12 @@ describe('Given the SizeMe library', () => {
         }),
       })
 
-      return delay(
-        () => {
-          expect(mounted.state()).toMatchObject({
-            size: { width: 100, height: 50 },
-          })
-          expect(mounted.find(SizeAwareComponent).text()).toEqual(
-            'No given size',
-          )
-        },
-        20,
-      )
+      return delay(() => {
+        expect(mounted.state()).toMatchObject({
+          size: { width: 100, height: 50 },
+        })
+        expect(mounted.find(SizeAwareComponent).text()).toEqual('No given size')
+      }, 20)
     })
   })
 
@@ -171,13 +159,13 @@ describe('Given the SizeMe library', () => {
 
       const mounted = mount(<SizeAwareComponent />)
 
-      expect(resizeDetectorMock.listenTo.callCount).toEqual(1)
-      expect(resizeDetectorMock.removeAllListeners.callCount).toEqual(0)
+      expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(1)
+      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(0)
 
       mounted.unmount()
 
-      expect(resizeDetectorMock.listenTo.callCount).toEqual(1)
-      expect(resizeDetectorMock.removeAllListeners.callCount).toEqual(1)
+      expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(1)
+      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -194,7 +182,7 @@ describe('Given the SizeMe library', () => {
 
       // Get the callback for size changes.
       const { listenTo } = resizeDetectorMock
-      const checkIfSizeChangedCallback = listenTo.args[0][1]
+      const checkIfSizeChangedCallback = listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({
           width: 100,
@@ -223,11 +211,12 @@ describe('Given the SizeMe library', () => {
       const mounted = mount(<SizeAwareComponent />)
 
       // An add listener should have been called for the placeholder.
-      expect(resizeDetectorMock.listenTo.callCount).toEqual(1)
-      expect(resizeDetectorMock.removeAllListeners.callCount).toEqual(0)
+      expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(1)
+      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(0)
 
       // Get the callback for size changes.
-      const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1]
+      const checkIfSizeChangedCallback =
+        resizeDetectorMock.listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({
           width: 100,
@@ -239,15 +228,15 @@ describe('Given the SizeMe library', () => {
       // should have been called on the placeholder, and an add listener
       // on the newly mounted component.
       expect(mounted.text()).toEqual(expected({ width: 100, height: 50 }))
-      expect(resizeDetectorMock.listenTo.callCount).toEqual(2)
-      expect(resizeDetectorMock.removeAllListeners.callCount).toEqual(1)
+      expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(2)
+      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(1)
 
       // umount
       mounted.unmount()
 
       // The remove listener should have been called!
-      expect(resizeDetectorMock.listenTo.callCount).toEqual(2)
-      expect(resizeDetectorMock.removeAllListeners.callCount).toEqual(2)
+      expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(2)
+      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(2)
     })
   })
 
@@ -300,7 +289,8 @@ describe('Given the SizeMe library', () => {
       expect(mounted.html()).toEqual(placeholderHtml)
 
       // Get the callback for size changes.
-      const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1]
+      const checkIfSizeChangedCallback =
+        resizeDetectorMock.listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({ width: 100, height: 150 }),
       })
@@ -323,7 +313,8 @@ describe('Given the SizeMe library', () => {
       expect(mounted.html()).toEqual(placeholderHtml)
 
       // Get the callback for size changes.
-      const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1]
+      const checkIfSizeChangedCallback =
+        resizeDetectorMock.listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({ width: 100, height: 150 }),
       })
@@ -347,7 +338,8 @@ describe('Given the SizeMe library', () => {
       expect(mounted.html()).toEqual(placeholderHtml)
 
       // Get the callback for size changes.
-      const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1]
+      const checkIfSizeChangedCallback =
+        resizeDetectorMock.listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({
           width: 100,
@@ -379,7 +371,8 @@ describe('Given the SizeMe library', () => {
       expect(mounted.html()).toEqual(placeholderHtml)
 
       // Get the callback for size changes.
-      const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1]
+      const checkIfSizeChangedCallback =
+        resizeDetectorMock.listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({ width: 100, height: 150 }),
       })
@@ -400,7 +393,8 @@ describe('Given the SizeMe library', () => {
       const mounted = mount(<SizeAwareComponent otherProp="foo" />)
 
       // Get the callback for size changes.
-      const checkIfSizeChangedCallback = resizeDetectorMock.listenTo.args[0][1]
+      const checkIfSizeChangedCallback =
+        resizeDetectorMock.listenTo.mock.calls[0][1]
       checkIfSizeChangedCallback({
         getBoundingClientRect: () => ({
           width: 100,

@@ -1,25 +1,27 @@
 {
   "name": "react-sizeme",
   "version": "2.3.6",
-  "description":
-    "Make your React Components aware of their dimensions and position.",
+  "description": "Make your React Components aware of their dimensions and position.",
   "license": "MIT",
-  "main": "commonjs/index.js",
-  "files": ["*.js", "*.md", "umd", "commonjs"],
+  "main": "dist/react-sizeme.js",
+  "files": [
+    "*.js",
+    "*.md",
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ctrlplusb/react-sizeme.git"
   },
-  "keywords": ["library"],
+  "keywords": [
+    "library"
+  ],
   "homepage": "https://github.com/ctrlplusb/react-sizeme#readme",
   "author": "Sean Matheson <sean@ctrlplusb.com>",
   "scripts": {
-    "build": "babel-node ./tools/scripts/build.js",
-    "check": "npm run test",
-    "clean":
-      "rimraf ./commonjs && rimraf ./umd && rimraf ./coverage && rimraf ./umd",
-    "example:web":
-      "echo 'Make sure to `cd example/web && npm install`' && cd example/web && npm run start",
+    "build": "node ./tools/scripts/build.js",
+    "clean": "rimraf ./dist && rimraf ./coverage",
+    "example:web": "echo 'Make sure to `cd example/web && yarn install`' && cd example/web && yarn run start",
     "lint": "eslint src",
     "precommit": "lint-staged && npm run test",
     "prepublish": "npm run build",
@@ -30,7 +32,8 @@
   "dependencies": {
     "element-resize-detector": "^1.1.12",
     "invariant": "^2.2.2",
-    "lodash": "^4.17.4"
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1"
   },
   "peerDependencies": {
     "prop-types": "^15.0.0-0",
@@ -41,56 +44,55 @@
     "app-root-dir": "1.0.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "7.2.3",
-    "babel-jest": "^21.0.2",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-lodash": "3.2.11",
-    "babel-plugin-rewire": "1.1.0",
+    "babel-eslint": "8.2.2",
+    "babel-jest": "^22.4.3",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
-    "babel-preset-latest": "6.24.1",
     "babel-preset-react": "6.24.1",
     "babel-preset-stage-3": "6.24.1",
     "babel-register": "^6.26.0",
-    "codecov": "^2.3.0",
+    "change-case": "^3.0.2",
+    "codecov": "^3.0.0",
     "cross-env": "^5.0.5",
-    "enzyme": "^2.9.1",
-    "enzyme-to-json": "^2.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.3",
     "eslint": "^4.7.2",
-    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.3.0",
     "gzip-size": "^4.0.0",
     "husky": "^0.14.3",
     "in-publish": "2.0.0",
-    "jest": "^21.1.0",
-    "lint-staged": "^4.2.2",
-    "lodash-webpack-plugin": "^0.11.4",
+    "jest": "^22.4.3",
+    "lint-staged": "^7.0.0",
     "prettier": "^1.7.0",
     "pretty-bytes": "4.0.2",
     "prop-types": "^15.5.10",
-    "ramda": "^0.24.1",
-    "react": "^15.6.1",
+    "ramda": "^0.25.0",
+    "react": "^16.2.0",
     "react-addons-test-utils": "^15.6.0",
-    "react-dom": "^15.6.1",
-    "react-test-renderer": "^15.6.1",
-    "readline-sync": "1.4.7",
+    "react-dom": "^16.2.0",
+    "react-test-renderer": "^16.2.0",
+    "readline-sync": "1.4.9",
     "rimraf": "^2.6.2",
-    "sinon": "^3.3.0",
-    "webpack": "^3.6.0",
-    "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.19.1"
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-uglify": "^3.0.0"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
     "testPathIgnorePatterns": [
-      "<rootDir>/(commonjs|coverage|node_modules|tools|umd)/"
+      "<rootDir>/(coverage|dist|node_modules|tools)/"
     ]
-  },
-  "lint-staged": {
-    "src/**/*.js": ["prettier --write", "git add"]
   },
   "eslintConfig": {
     "root": true,
@@ -101,29 +103,41 @@
       "node": true,
       "jest": true
     },
-    "extends": "airbnb",
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
     "rules": {
-      "array-callback-return": 0,
-      "arrow-parens": ["error", "as-needed"],
       "camelcase": 0,
       "import/prefer-default-export": 0,
       "import/no-extraneous-dependencies": 0,
-      "indent": 0,
-      "no-mixed-operators": 0,
-      "no-underscore-dangle": 0,
-      "no-confusing-arrow": 0,
       "no-nested-ternary": 0,
+      "no-underscore-dangle": 0,
       "react/no-array-index-key": 0,
       "react/react-in-jsx-scope": 0,
-      "semi": [2, "never"],
+      "semi": [
+        2,
+        "never"
+      ],
       "react/forbid-prop-types": 0,
       "react/jsx-filename-extension": 0,
       "react/sort-comp": 0
     }
   },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/",
+    "coverage/"
+  ],
   "prettier": {
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write \"src/**/*.js\"",
+      "git add"
+    ]
   }
 }

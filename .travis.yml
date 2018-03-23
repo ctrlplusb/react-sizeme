@@ -1,13 +1,13 @@
 sudo: false
 language: node_js
 cache:
-  npm: true
+  yarn: true
   directories:
     - node_modules
 node_js:
 - '8'
 script:
-- npm run check
+- npm run precommit
 after_success:
 # Deploy code coverage report to codecov.io
 - npm run test:coverage:deploy
