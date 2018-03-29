@@ -1,7 +1,8 @@
 {
   "name": "react-sizeme",
-  "version": "2.4.1",
-  "description": "Make your React Components aware of their dimensions and position.",
+  "version": "2.4.2",
+  "description":
+    "Make your React Components aware of their dimensions and position.",
   "license": "MIT",
   "main": "dist/react-sizeme.js",
   "files": ["*.js", "*.md", "dist"],
@@ -15,7 +16,8 @@
   "scripts": {
     "build": "node ./tools/scripts/build.js",
     "clean": "rimraf ./dist && rimraf ./coverage",
-    "example:web": "echo 'Make sure to `cd example/web && yarn install`' && cd example/web && yarn run start",
+    "example:web":
+      "echo 'Make sure to `cd example/web && yarn install`' && cd example/web && yarn run start",
     "lint": "eslint src",
     "precommit": "lint-staged && npm run test",
     "prepublish": "npm run build",
