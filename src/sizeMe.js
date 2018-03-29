@@ -168,6 +168,8 @@ function sizeMe(config = defaultConfig) {
 
   const refreshDelayStrategy = refreshMode === 'throttle' ? throttle : debounce
 
+  const detector = resizeDetector(resizeDetectorStrategy)
+
   return function WrapComponent(WrappedComponent) {
     const SizeMeRenderWrapper = renderWrapper(WrappedComponent)
 
@@ -204,7 +206,7 @@ function sizeMe(config = defaultConfig) {
         this.checkIfSizeChanged = () => undefined
 
         if (this.domEl) {
-          resizeDetector(resizeDetectorStrategy).removeAllListeners(this.domEl)
+          detector.uninstall(this.domEl)
           this.domEl = null
         }
       }
@@ -244,23 +246,18 @@ function sizeMe(config = defaultConfig) {
         if (!found) {
           // This is for special cases where the element may be null.
           if (this.domEl) {
-            resizeDetector(resizeDetectorStrategy).removeAllListeners(
-              this.domEl,
-            )
+            detector.uninstall(this.domEl)
             this.domEl = null
           }
           return
         }
 
         if (this.domEl) {
-          resizeDetector(resizeDetectorStrategy).removeAllListeners(this.domEl)
+          detector.uninstall(this.domEl)
         }
 
         this.domEl = found
-        resizeDetector(resizeDetectorStrategy).listenTo(
-          this.domEl,
-          this.checkIfSizeChanged,
-        )
+        detector.listenTo(this.domEl, this.checkIfSizeChanged)
       }
 
       refCallback = element => {

@@ -58,7 +58,7 @@ describe('Given the SizeMe library', () => {
   beforeEach(() => {
     resizeDetectorMock = {
       // :: domEl -> void
-      removeAllListeners: jest.fn(),
+      uninstall: jest.fn(),
       // :: (domeEl, callback) -> void
       listenTo: jest.fn(),
     }
@@ -160,12 +160,12 @@ describe('Given the SizeMe library', () => {
       const mounted = mount(<SizeAwareComponent />)
 
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(1)
-      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(0)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(0)
 
       mounted.unmount()
 
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(1)
-      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(1)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -212,7 +212,7 @@ describe('Given the SizeMe library', () => {
 
       // An add listener should have been called for the placeholder.
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(1)
-      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(0)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(0)
 
       // Get the callback for size changes.
       const checkIfSizeChangedCallback =
@@ -229,14 +229,14 @@ describe('Given the SizeMe library', () => {
       // on the newly mounted component.
       expect(mounted.text()).toEqual(expected({ width: 100, height: 50 }))
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(2)
-      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(1)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(1)
 
       // umount
       mounted.unmount()
 
       // The remove listener should have been called!
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(2)
-      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(2)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(2)
     })
   })
 
