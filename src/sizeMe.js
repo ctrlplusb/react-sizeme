@@ -5,8 +5,8 @@ import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import invariant from 'invariant'
-import throttle from 'lodash/throttle'
-import debounce from 'lodash/debounce'
+import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 import resizeDetector from './resizeDetector'
 
 const defaultConfig = {
