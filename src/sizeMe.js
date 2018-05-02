@@ -228,9 +228,8 @@ function sizeMe(config = defaultConfig) {
         if (this.strategy === 'callback') {
           this.callbackState = state
           this.props.onSize(state)
-        } else {
-          this.setState(state)
         }
+        this.setState(state)
       }
 
       strategisedGetState = () =>
