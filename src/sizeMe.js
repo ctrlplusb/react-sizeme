@@ -187,7 +187,7 @@ function sizeMe(config = defaultConfig) {
       componentDidMount() {
         this.detector = resizeDetector(resizeDetectorStrategy)
         this.determineStrategy(this.props)
-        this.handleDOMNode()
+        this.handleDOMNode(true)
       }
 
       componentWillReceiveProps(nextProps) {
@@ -234,24 +234,21 @@ function sizeMe(config = defaultConfig) {
       strategisedGetState = () =>
         this.strategy === 'callback' ? this.callbackState : this.state
 
-      handleDOMNode() {
-        const found =
-          this.element &&
-          // One day this will be deprecated then I will be forced into wrapping
-          // the component with a div or such in order to get a dome element handle.
-          ReactDOM.findDOMNode(this.element) // eslint-disable-line react/no-find-dom-node
+      handleDOMNode(first) {
+        const found = this.element && ReactDOM.findDOMNode(this.element)
 
         if (!found) {
-          // This is for special cases where the element may be null.
-          if (this.domEl) {
-            this.detector.uninstall(this.domEl)
+          // If we previously had a dom node then we need to ensure that
+          // we remove any existing listeners to avoid memory leaks.
+          if (!first && this.domEl) {
+            this.detector.removeAllListeners(this.domEl)
             this.domEl = null
           }
           return
         }
 
-        if (this.domEl) {
-          this.detector.uninstall(this.domEl)
+        if (!first && this.domEl) {
+          this.detector.removeAllListeners(this.domEl)
         }
 
         this.domEl = found
