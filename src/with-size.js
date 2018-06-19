@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 import invariant from 'invariant'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
-import resizeDetector from './resizeDetector'
+import resizeDetector from './resize-detector'
 
 const defaultConfig = {
   monitorWidth: true,
@@ -139,7 +139,7 @@ const renderWrapper = WrappedComponent => {
  *
  * @return The wrapped component.
  */
-function sizeMe(config = defaultConfig) {
+function withSize(config = defaultConfig) {
   const {
     monitorWidth = defaultConfig.monitorWidth,
     monitorHeight = defaultConfig.monitorHeight,
@@ -299,8 +299,8 @@ function sizeMe(config = defaultConfig) {
 
       render() {
         const disablePlaceholder =
-          sizeMe.enableSSRBehaviour ||
-          sizeMe.noPlaceholders ||
+          withSize.enableSSRBehaviour ||
+          withSize.noPlaceholders ||
           noPlaceholder ||
           this.strategy === 'callback'
 
@@ -333,12 +333,12 @@ function sizeMe(config = defaultConfig) {
  *
  * DEPRECATED: Please use the global disablePlaceholders
  */
-sizeMe.enableSSRBehaviour = false
+withSize.enableSSRBehaviour = false
 
 /**
  * Global configuration allowing to disable placeholder rendering for all
  * sizeMe components.
  */
-sizeMe.noPlaceholders = false
+withSize.noPlaceholders = false
 
-export default sizeMe
+export default withSize

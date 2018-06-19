@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import isShallowEqual from 'shallowequal'
 import PropTypes from 'prop-types'
-import withSize from './sizeMe'
+import withSize from './with-size'
 
 export default class SizeMe extends Component {
   static propTypes = {

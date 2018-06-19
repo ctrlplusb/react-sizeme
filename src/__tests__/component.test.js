@@ -1,12 +1,12 @@
 import React from 'react'
 import enzyme, { shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import withSizeMock from '../sizeMe'
+import withSizeMock from '../with-size'
 import SizeMe from '../component'
 
 enzyme.configure({ adapter: new Adapter() })
 
-jest.mock('../sizeMe.js')
+jest.mock('../with-size.js')
 
 const noop = () => undefined
 
