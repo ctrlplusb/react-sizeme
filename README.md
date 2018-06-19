@@ -1,6 +1,6 @@
 <p align='center'>
   <img src='https://raw.githubusercontent.com/ctrlplusb/react-sizeme/master/assets/logo.png' width='250'/>
-  <p align='center'>Make your React Components aware of their width and height!</p>
+  <p align='center'>Make your React Components aware of their width and/or height!</p>
 </p>
 
 [![npm](https://img.shields.io/npm/v/react-sizeme.svg?style=flat-square)](http://npm.im/react-sizeme)
@@ -8,34 +8,48 @@
 [![Travis](https://img.shields.io/travis/ctrlplusb/react-sizeme.svg?style=flat-square)](https://travis-ci.org/ctrlplusb/react-sizeme)
 [![Codecov](https://img.shields.io/codecov/c/github/ctrlplusb/react-sizeme.svg?style=flat-square)](https://codecov.io/github/ctrlplusb/react-sizeme)
 
+- Blazingly fast. 😛
+- Responsive Components!
+- Easy to use.
+- Extensive browser support.
+- Supports any Component type, i.e. stateless/class.
+- Really small bundle size.
+
+Use it via the render prop pattern (supports `children` or `render` prop):
+
 ```javascript
-import sizeMe from 'react-sizeme'
+import { SizeMe } from 'react-sizeme'
+
+function MyApp() {
+  return <SizeMe>{({ size }) => <div>My width is {size.width}px</div>}</SizeMe>
+}
+```
+
+Or, via a higher order component:
+
+```javascript
+import { withSize } from 'react-sizeme'
 
 function MyComponent({ size }) {
   return <div>My width is {size.width}px</div>
 }
 
-export default sizeMe()(MyComponent)
+export default withSize()(MyComponent)
 ```
-
-* Responsive Components!
-* Easy to use.
-* Monitor width and/or height.
-* Extensive browser support.
-* Supports any Component type, i.e. stateless/class.
-* 8.85KB gzipped (with deps).
 
 ## TOCs
 
-* [Intro](https://github.com/ctrlplusb/react-sizeme#intro)
-* [Demo](https://github.com/ctrlplusb/react-sizeme#live-demo)
-* [Usage and API Details](https://github.com/ctrlplusb/react-sizeme#usage-and-api-details)
-* [`onSize` callback alternative usage](https://github.com/ctrlplusb/react-sizeme#onsize-callback-alternative-usage)
-* [A highly recommended abstraction: `react-component-queries`](https://github.com/ctrlplusb/react-sizeme#a-highly-recommended-abstraction-react-component-queries)
-* [On the First Render of your Component](https://github.com/ctrlplusb/react-sizeme#on-the-first-render-of-your-component)
-* [Controlling the `size` data refresh rate](https://github.com/ctrlplusb/react-sizeme#controlling-the-size-data-refresh-rate)
-* [Server Side Rendering](https://github.com/ctrlplusb/react-sizeme#server-side-rendering)
-* [Extreme Appreciation](https://github.com/ctrlplusb/react-sizeme#extreme-appreciation)
+- [Intro](https://github.com/ctrlplusb/react-sizeme#intro)
+- [Installation](https://github.com/ctrlplusb/react-sizeme#installation)
+- [Configuration](https://github.com/ctrlplusb/react-sizeme#configuration)
+- [Component Usage](https://github.com/ctrlplusb/react-sizeme#component-usage)
+- [HOC Usage](https://github.com/ctrlplusb/react-sizeme#hoc-usage)
+  - [`onSize` callback alternative usage](https://github.com/ctrlplusb/react-sizeme#onsize-callback-alternative-usage)
+- [Under the hood](https://github.com/ctrlplusb/react-sizeme#under-the-hood)
+- [Examples](#examples)
+  - [Loading different child components based on size](#loading-different-child-components-based-on-size)
+- [Server Side Rendering](https://github.com/ctrlplusb/react-sizeme#server-side-rendering)
+- [Extreme Appreciation](https://github.com/ctrlplusb/react-sizeme#extreme-appreciation)
 
 ## Intro
 
@@ -43,63 +57,106 @@ Give your Components the ability to have render logic based on their height/widt
 
 Check out a working demo here: https://react-sizeme.now.sh
 
-## Usage and API Details
-
-First install the library.
+## Installation
 
 ```javascript
 npm install react-sizeme
 ```
 
-We provide you with a function called `sizeMe`. You can import it like so:
+## Configuration
+
+The following configuration options are available. Please see the usage docs for how to pass these configuration values into either the [component](#component-usage) or [higher order function](#hoc-usage).
+
+- `monitorWidth` (_boolean_, **default**: true)
+
+  If true, then any changes to your Components rendered width will cause an recalculation of the "size" prop which will then be be passed into your Component.
+
+- `monitorHeight` (_boolean_, **default**: false)
+
+  If true, then any changes to your Components rendered height will cause an
+  recalculation of the "size" prop which will then be be passed into
+  your Component.
+
+  > PLEASE NOTE: that this is set to `false` by default
+
+- `refreshRate` (_number_, **default**: 16)
+
+  The maximum frequency, in milliseconds, at which size changes should be recalculated when changes in your Component's rendered size are being detected. This should not be set to lower than 16.
+
+- `refreshMode` (_string_, **default**: 'throttle')
+
+  The mode in which refreshing should occur. Valid values are "debounce" and "throttle".
+
+  "throttle" will eagerly measure your component and then wait for the refreshRate to pass before doing a new measurement on size changes.
+
+  "debounce" will wait for a minimum of the refreshRate before it does a measurement check on your component.
+
+  "debounce" can be useful in cases where your component is animated into the DOM.
+
+  > NOTE: When using "debounce" mode you may want to consider disabling the placeholder as this adds an extra delay in the rendering time of your component.
+
+- `noPlaceholder` (_boolean_, **default**: false)
+
+  By default we render a "placeholder" component initially so we can try and "prefetch" the expected size for your component. This is to avoid any unnecessary deep tree renders. If you feel this is not an issue for your component case and you would like to get an eager render of
+  your component then disable the placeholder using this config option.
+
+  > NOTE: You can set this globally. See the docs on first render.
+
+## Component Usage
+
+We provide a "render props pattern" based component. You can import it like so:
 
 ```javascript
-import sizeMe from 'react-sizeme'
+import { SizeMe } from 'react-sizeme'
 ```
 
-When using the `sizeMe` function you first have to pass it a configuration object. The entire configuration object is optional, as is each of its properties (in which case the defaults would be used).
-
-Here is a full specification of all the properties available to the configuration object, with the _default values_ assigned:
+You then provide it either a `render` or `children` prop containing a function/component that will receive a `size` prop (an object with `width` and `height` properties):
 
 ```javascript
-const sizeMeConfig = {
-  // If true, then any changes to your Components rendered width will cause an
-  // recalculation of the "size" prop which will then be be passed into
-  // your Component.
-  monitorWidth: true,
-
-  // If true, then any changes to your Components rendered height will cause an
-  // recalculation of the "size" prop which will then be be passed into
-  // your Component.
-  monitorHeight: false, // ❗️ Note set to `false` by default
-
-  // The maximum frequency, in milliseconds, at which size changes should be
-  // recalculated when changes in your Component's rendered size are being
-  // detected. This should not be set to lower than 16.
-  refreshRate: 16,
-
-  // The mode in which refreshing should occur.  Valid values are "debounce"
-  // and "throttle".  "throttle" will eagerly measure your component and then
-  // wait for the refreshRate to pass before doing a new measurement on size
-  // changes. "debounce" will wait for a minimum of the refreshRate before
-  // it does a measurement check on your component.  "debounce" can be useful
-  // in cases where your component is animated into the DOM.
-  // NOTE: When using "debounce" mode you may want to consider disabling the
-  // placeholder as this adds an extra delay in the rendering time of your
-  // component.
-  refreshMode: 'throttle',
-
-  // By default we render a "placeholder" component initially so we can try
-  // and "prefetch" the expected size for your component.  This is to avoid
-  // any unnecessary deep tree renders.  If you feel this is not an issue
-  // for your component case and you would like to get an eager render of
-  // your component then disable the placeholder using this config option.
-  // NOTE: You can set this globally. See the docs on first render.
-  noPlaceholder: false,
-}
+<SizeMe>{({ size }) => <div>My width is {size.width}px</div>}</SizeMe>
 ```
 
-When you execute the `sizeMe` function it will return a Higher Order Component (HOC). You can use this Higher Order Component to decorate any of your existing Components with the size awareness ability. Each of the Components you decorate will then recieve a `size` prop, which is an object of schema `{ width: ?number, height: ?number, position: ?{ left: number, top: number, right: number, bottom: number} }` - the numbers representing pixel values. Note that the values can be null until the first measurement has taken place, or based on your configuration. Here is a verbose example showing full usage of the API:
+_or_
+
+```javascript
+<SizeMe render={({ size }) => <div>My width is {size.width}px</div>} />
+```
+
+To provide [configuration](#configuration) you simply add any customisation as props. For example:
+
+```javascript
+<SizeMe
+  monitorHeight
+  refreshRate={32}
+  render={({ size }) => <div>My width is {size.width}px</div>}
+/>
+```
+
+## HOC Usage
+
+We provide you with a higher order component function called `withSize`. You can import it like so:
+
+```javascript
+import { withSize } from 'react-sizeme'
+```
+
+Firstly, you have to call the `withSize` function, passing in an optional [configuration](#configuration) object should you wish to customise the behaviour:
+
+```javascript
+const withSizeHOC = withSize()
+```
+
+You can then use the returned Higher Order Component to decorate any of your existing Components with the size awareness ability:
+
+```javascript
+const SizeAwareComponent = withSizeHOC(MyComponent)
+```
+
+Your component will then receive a `size` prop (an object with `width` and `height` properties).
+
+> Note that the values could be undefined based on the configuration you provided (e.g. you explicitly do not monitor either of the dimensions)
+
+Below is a full example:
 
 ```javascript
 import sizeMe from 'react-sizeme'
@@ -116,39 +173,58 @@ class MyComponent extends Component {
   }
 }
 
-// Create the config
-const config = { monitorHeight: true }
-
-// Call SizeMe with the config to get back the HOC.
-const sizeMeHOC = sizeMe(config)
-
-// Wrap your component with the HOC.
-export default sizeMeHOC(MyComponent)
-```
-
-You could also express the above much more concisely:
-
-```javascript
-import sizeMe from 'react-sizeme'
-
-class MyComponent extends Component {
-  render() {
-    const { width, height } = this.props.size
-
-    return (
-      <div>
-        My size is {width}px x {height}px
-      </div>
-    )
-  }
-}
-
 export default sizeMe({ monitorHeight: true })(MyComponent)
 ```
 
-That's it. Its really useful for doing things like optionally loading a child component based on the available space.
+### `onSize` callback alternative usage
 
-Here is an full example of that in action:
+The higher order component also allows an alternative usage where you provide an `onSize` callback function.
+
+This allows the "parent" to manage the `size` value rather than your component, which can be useful in specific circumstances.
+
+Below is an example of it's usage.
+
+Firstly, create a component you wish to know the size of:
+
+```jsx
+import sizeMe from 'react-sizeme'
+
+function MyComponent({ message }) {
+  return <div>{message}</div>
+}
+
+export default sizeMe()(MyComponent)
+```
+
+Now create a "parent" component providing it a `onSize` callback function to the size aware component:
+
+```jsx
+class ParentComponent extends React.Component {
+  onSize = size => {
+    console.log('MyComponent has a width of', size.width)
+  }
+
+  render() {
+    return <MyComponent message="Hello world" onSize={this.onSize} />
+  }
+}
+```
+
+## Under the hood
+
+It can be useful to understand the rendering workflow should you wish to debug any issues we may be having.
+
+In order to size your component we have a bit of a chicken/egg scenario. We can't know the width/height of your Component until it is rendered. This can lead wasteful rendering cycles should you choose to render your components based on their width/height.
+
+Therefore for the first render of your component we actually render a lightweight placeholder in place of your component in order to obtain the width/height. If your component was being passed a `className` or `style` prop then these will be applied to the placeholder so that it can more closely resemble your actual components dimensions.
+
+So the first dimensions that are passed to your component may not be "correct" dimensions, however, it should quickly receive the "correct" dimensions upon render.
+
+Should you wish to avoid the render of a placeholder and have an eager render of your component then you can use the `noPlaceholder` configuration option. Using this configuration value your component will be rendered directly, however, the `size` prop may not contain `undefined` for width and height until your component completes it first render.
+
+## Examples
+
+### Loading different child components based on size
 
 ```javascript
 import React from 'react';
@@ -182,111 +258,6 @@ export default sizeMe({ monitorHeight: true })(MyComponent);
 ```
 
 > EXTRA POINTS! Combine the above with a code splitting API (e.g. Webpack's System.import) to avoid unnecessary code downloads for your clients. Zing!
-
-**Important things to remember**
-
-* We don't monitor height by default as this is more likely to create a high throughput of "size prop updates". It is up to you to enable monitoring via the `monitorHeight` config value appropriately.
-* If you aren't monitoring a specific dimension (width, height) you will be provided `null` values for the respective dimension.
-* `refreshRate` is set very low. If you are using this library in a manner where you expect loads of active changes to your components dimensions you may need to tweak this value to avoid browser spamming.
-* If you are doing Server Side Rendering please read our recommendations [here](https://github.com/ctrlplusb/react-sizeme#server-side-rendering).
-
-## `onSize` callback alternative usage
-
-`react-sizeme` has now been extended to allow you to use your size aware components in an alternative fashion - having their size data be passed to a given callback function, rather than passed down to your component via a prop. This can give a nice alternative level of control, allowing the parent component to act as the intelligent container making all the decisions based on the size data.
-
-Here is an example of it's usage.
-
-Firstly, create a component you wish to know the size of:
-
-```jsx
-import sizeMe from 'react-sizeme'
-
-function MyComponent({ message }) {
-  return <div>{message}</div>
-}
-
-export default sizeMe()(MyComponent)
-```
-
-Now create a component that will render your component, providing it a `onSize` callback function to get it's size.
-
-```jsx
-class MyContainerComponent extends React.Component {
-  onSize = size => {
-    console.log('MyComponent has a width of', size.width)
-  }
-
-  render() {
-    return <MyComponent message="Hello world" onSize={this.onSize} />
-  }
-}
-```
-
-Zing. Let me know if you have issues/ideas!
-
-#  A highly recommended abstraction (`react-component-queries`)
-
-This library is great, however, it is quite low-level and has some "side-effects":
-
-1.  It is raw in that it provides you with the actual dimensions of your component and then requires to execute logic within your component to establish the desired behaviour of your component. This can be a bit tedious and polute your component with a lot of if-else statements.
-2.  It is possible that your component may gets spammed with updated `size` props. This is because _any_ time your component changes in size `react-sizeme` will kick in.
-
-With these problems in mind I came up with an abstraction in the form of [`react-component-queries`](https://github.com/ctrlplusb/react-component-queries). This library allows you to define _query functions_ that will operate on the dimensions provided by `react-sizeme` and when their criteria are met they will pass a custom set of prop(s) to your components. This solves problem 1 by moving the dimension based logic out of your component. It then solves problem 2 by ensuring that your component will only be called for re-render if any of the prop values change. That saves you some error prone boilerplate.
-
-This allows you to deal with "simpler" props, for example; a boolean flag indicating if the component is square, an enum representing it's size ('small'|'medium'|'large'), a className, or a style object. Whatever you feel is most appropriate for your use case.
-
-So, to recap, some of the benefits of using this abstraction are:
-
-* Simplify your components by moving the dimension logic away from them, which in turn is easier to test in isolation.
-* `shouldComponentUpdate` is implemented on your behalf.
-* The _query functions_ themselves can be formed into a reusable library of queries for all your components.
-
-I am not trying to take away from `react-sizeme`, but I want to highlight that it's a bit more of a low level HOC, and if you want to use it you should be aware of the problems above and consider using your own abstraction or this one.
-
-## On the First Render of your Component
-
-Ok, we have a bit of a chicken/egg scenario. We can't know the width/height of your Component until it is rendered. This can lead wasteful rendering cycles should you choose to render your components based on their width/height.
-
-Therefore for the first render of your component we actually render a lightweight placeholder in place of your component in order to obtain the width/height that will become available to your Component. If your component was being passed a `className` or `style` prop then these will be applied to the placeholder so that it can more closely resemble your Component.
-
-In cases where you have styles/classes contained within your component which directly affect your components proportions, you may want to consider creating an internal wrapped component that you can then pass the className/style into. For example:
-
-```javascript
-import React from 'react'
-import cssStyles from './styles.css'
-import sizeMe from 'react-sizeme'
-
-class MyComponent extends Component {
-  render() {
-    const className = this.props.className
-    const { width, height } = this.props.size
-
-    return (
-      <div className={className}>
-        My size is {width}px x {height}px
-      </div>
-    )
-  }
-}
-
-const MySizeAwareComponent = sizeMe()(MyComponent)
-
-// We create this wrapper component so that our size aware rendering
-// will have a handle on the 'className'.
-function MyComponentWrapper(props) {
-  return <MySizeAwareComponent className={cssStyles.foo} {...props} />
-}
-
-export default MyComponentWrapper
-```
-
-Should you wish to avoid the render of a placeholder and have an eager render of your component then you can use the `noPlaceholder` configuration option. Your component will then be rendered directly, however, the `size` prop will not contain any data - so you will have to decide how to best render your component without this information. After it is rendered `size-me` will do it's thing and pass in the `size` prop.
-
-## Controlling the `size` data refresh rate
-
-The intention of this library to aid in initial render on a target device, i.e. mobile/tablet/desktop. In this case we just want to know the size as fast as possible. Therefore the `refreshRate` is configured with a very low value - specifically updates will occur within 16ms time windows.
-
-If however you wish to use this library to wrap a component that you expect to be resized via user/system actions then I would recommend that you consider setting the `refreshRate` to a higher setting so that you don't spam the browser with updates.
 
 ## Server Side Rendering
 
