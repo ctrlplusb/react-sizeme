@@ -5,12 +5,18 @@ import withSize from './with-size'
 
 export default class SizeMe extends Component {
   static propTypes = {
-    render: PropTypes.func.isRequired,
+    children: PropTypes.func,
+    render: PropTypes.func,
+  }
+
+  static defaultProps = {
+    children: undefined,
+    render: undefined,
   }
 
   constructor(props) {
     super(props)
-    const { render, ...sizeMeConfig } = props
+    const { children, render, ...sizeMeConfig } = props
     this.createComponent(sizeMeConfig)
     this.state = {
       size: {
@@ -21,8 +27,16 @@ export default class SizeMe extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { render: prevRender, ...prevSizeMeConfig } = this.props
-    const { render: nextRender, ...nextSizeMeConfig } = nextProps
+    const {
+      children: prevChildren,
+      render: prevRender,
+      ...prevSizeMeConfig
+    } = this.props
+    const {
+      children: nextChildren,
+      render: nextRender,
+      ...nextSizeMeConfig
+    } = nextProps
     if (!isShallowEqual(prevSizeMeConfig, nextSizeMeConfig)) {
       this.createComponent(nextSizeMeConfig)
     }
@@ -34,9 +48,10 @@ export default class SizeMe extends Component {
 
   render() {
     const { SizeAware } = this
+    const render = this.props.children || this.props.render
     return (
       <SizeAware onSize={size => this.setState({ size })}>
-        {this.props.render({ size: this.state.size })}
+        {render({ size: this.state.size })}
       </SizeAware>
     )
   }
