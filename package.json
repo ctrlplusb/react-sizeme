@@ -1,6 +1,6 @@
 {
   "name": "react-sizeme",
-  "version": "2.5.1-beta",
+  "version": "2.5.1",
   "description": "Make your React Components aware of their dimensions and position.",
   "license": "MIT",
   "main": "dist/react-sizeme.js",
