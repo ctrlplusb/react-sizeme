@@ -13,6 +13,7 @@ module.exports = {
     'prop-types',
     'react-dom',
     'react',
+    'shallowequal',
   ],
   input: 'src/index.js',
   output: {
