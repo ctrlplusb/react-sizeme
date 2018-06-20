@@ -57,7 +57,7 @@ export default withSize()(MyComponent)
 
 ## Intro
 
-Give your Components the ability to have render logic based on their height/width/position. Responsive design on the Component level. This allows you to create highly reusable components that don't care about where they will be rendered.
+Give your Components the ability to have render logic based on their height and/or width. Responsive design on the Component level. This allows you to create highly reusable components that can adapt to wherever they are rendered.
 
 Check out a working demo here: https://react-sizeme.now.sh
 
