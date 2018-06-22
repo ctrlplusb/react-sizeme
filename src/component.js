@@ -45,12 +45,14 @@ export default class SizeMe extends Component {
   createComponent = config => {
     this.SizeAware = withSize(config)(({ children }) => children)
   }
+  
+  onSize = size => this.setState({ size });
 
   render() {
     const { SizeAware } = this
     const render = this.props.children || this.props.render
     return (
-      <SizeAware onSize={size => this.setState({ size })}>
+      <SizeAware onSize={this.onSize}>
         {render({ size: this.state.size })}
       </SizeAware>
     )
