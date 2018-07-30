@@ -224,7 +224,7 @@ Therefore for the first render of your component we actually render a lightweigh
 
 So the first dimensions that are passed to your component may not be "correct" dimensions, however, it should quickly receive the "correct" dimensions upon render.
 
-Should you wish to avoid the render of a placeholder and have an eager render of your component then you can use the `noPlaceholder` configuration option. Using this configuration value your component will be rendered directly, however, the `size` prop may not contain `undefined` for width and height until your component completes it first render.
+Should you wish to avoid the render of a placeholder and have an eager render of your component then you can use the `noPlaceholder` configuration option. Using this configuration value your component will be rendered directly, however, the `size` prop may contain `undefined` for width and height until your component completes its first render.
 
 ## Examples
 
