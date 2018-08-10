@@ -190,11 +190,12 @@ function withSize(config = defaultConfig) {
         this.handleDOMNode(true)
       }
 
-      componentWillReceiveProps(nextProps) {
-        this.determineStrategy(nextProps)
-      }
-
       componentDidUpdate() {
+        /**
+         * Change component will mount to componentDidUpdate
+         * Based on https://github.com/reactjs/reactjs.org/issues/721
+         */
+        this.determineStrategy(this.props)
         this.handleDOMNode()
       }
 
