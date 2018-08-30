@@ -4,6 +4,7 @@
   "description": "Make your React Components aware of their dimensions and position.",
   "license": "MIT",
   "main": "dist/react-sizeme.js",
+  "types": "react-sizeme.d.ts",
   "files": [
     "*.js",
     "*.md",
