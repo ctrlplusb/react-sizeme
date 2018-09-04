@@ -2,7 +2,7 @@ declare module 'react-sizeme' {
 
   type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 
-  export interface SizeMeProps {
+  interface SizeMeProps {
     size: {
       width: number | null;
       height: number | null;
@@ -16,6 +16,7 @@ declare module 'react-sizeme' {
     refreshRate?: number;
     refreshMode?: 'throttle' | 'debounce';
     noPlaceholder?: boolean;
+    children(props: SizeMeProps): JSX.Element;
   }
 
   export class SizeMe extends React.Component<SizeMeOptions> {
