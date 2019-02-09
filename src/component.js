@@ -38,7 +38,7 @@ export default class SizeMe extends Component {
       ...prevSizeMeConfig
     } = prevProps
     if (!isShallowEqual(currentSizeMeConfig, prevSizeMeConfig)) {
-      this.createComponent(nextSizeMeConfig)
+      this.createComponent(currentSizeMeConfig)
     }
   }
 
