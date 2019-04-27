@@ -26,19 +26,19 @@ export default class SizeMe extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const {
       children: prevChildren,
       render: prevRender,
-      ...prevSizeMeConfig
+      ...currentSizeMeConfig
     } = this.props
     const {
       children: nextChildren,
       render: nextRender,
-      ...nextSizeMeConfig
-    } = nextProps
-    if (!isShallowEqual(prevSizeMeConfig, nextSizeMeConfig)) {
-      this.createComponent(nextSizeMeConfig)
+      ...prevSizeMeConfig
+    } = prevProps
+    if (!isShallowEqual(currentSizeMeConfig, prevSizeMeConfig)) {
+      this.createComponent(currentSizeMeConfig)
     }
   }
 
