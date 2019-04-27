@@ -45,8 +45,8 @@ export default class SizeMe extends Component {
   createComponent = config => {
     this.SizeAware = withSize(config)(({ children }) => children)
   }
-  
-  onSize = size => this.setState({ size });
+
+  onSize = size => this.setState({ size })
 
   render() {
     const { SizeAware } = this
