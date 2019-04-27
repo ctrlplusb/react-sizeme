@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
+    "strict": true,
+    "baseUrl": "../../..",
+    "paths": {
+      "react-sizeme": ["react-sizeme.d.ts"]
+    }
+  }
+}

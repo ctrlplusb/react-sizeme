@@ -43,6 +43,8 @@
     "react-dom": "^0.14.0 || ^15.0.0-0 || ^16.0.0"
   },
   "devDependencies": {
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.2",
     "app-root-dir": "1.0.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -84,7 +86,9 @@
     "rimraf": "^2.6.2",
     "rollup": "^0.60.7",
     "rollup-plugin-babel": "^3.0.4",
-    "rollup-plugin-uglify": "^4.0.0"
+    "rollup-plugin-uglify": "^4.0.0",
+    "typescript": "^3.4.5",
+    "typings-tester": "^0.3.2"
   },
   "jest": {
     "collectCoverageFrom": [

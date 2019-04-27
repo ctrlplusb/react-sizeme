@@ -2,3 +2,4 @@ node_modules/
 commonjs/
 coverage/
 umd/
+src/__tests__/typescript/
