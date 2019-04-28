@@ -8,7 +8,8 @@
   "files": [
     "*.js",
     "*.md",
-    "dist"
+    "dist",
+    "react-sizeme.d.ts"
   ],
   "repository": {
     "type": "git",
