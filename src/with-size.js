@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/require-default-props */
+/* eslint-disable react/no-find-dom-node */
 
 import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
@@ -178,6 +179,8 @@ function withSize(config = defaultConfig) {
         onSize: PropTypes.func,
       }
 
+      domEl = null
+
       state = {
         width: undefined,
         height: undefined,
@@ -187,14 +190,10 @@ function withSize(config = defaultConfig) {
       componentDidMount() {
         this.detector = resizeDetector(resizeDetectorStrategy)
         this.determineStrategy(this.props)
-        this.handleDOMNode(true)
+        this.handleDOMNode()
       }
 
       componentDidUpdate() {
-        /**
-         * Change component will mount to componentDidUpdate
-         * Based on https://github.com/reactjs/reactjs.org/issues/721
-         */
         this.determineStrategy(this.props)
         this.handleDOMNode()
       }
@@ -235,25 +234,29 @@ function withSize(config = defaultConfig) {
       strategisedGetState = () =>
         this.strategy === 'callback' ? this.callbackState : this.state
 
-      handleDOMNode(first) {
+      handleDOMNode() {
         const found = this.element && ReactDOM.findDOMNode(this.element)
 
         if (!found) {
           // If we previously had a dom node then we need to ensure that
           // we remove any existing listeners to avoid memory leaks.
-          if (!first && this.domEl) {
+          if (this.domEl) {
             this.detector.removeAllListeners(this.domEl)
             this.domEl = null
           }
           return
         }
 
-        if (!first && this.domEl) {
+        if (!this.domEl) {
+          this.domEl = found
+          this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
+        } else if (!this.domEl.isSameNode(found)) {
           this.detector.removeAllListeners(this.domEl)
+          this.domEl = found
+          this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
+        } else {
+          // Do nothing 👍
         }
-
-        this.domEl = found
-        this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
       }
 
       refCallback = element => {
@@ -332,7 +335,7 @@ function withSize(config = defaultConfig) {
  * extra render cycles to happen within your components depending on the logic
  * contained within them around the usage of the `size` data.
  *
- * DEPRECATED: Please use the global disablePlaceholders
+ * DEPRECATED: Please use the global noPlaceholders
  */
 withSize.enableSSRBehaviour = false
 
