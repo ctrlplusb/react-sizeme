@@ -8,8 +8,7 @@ module.exports = {
   external: [
     'element-resize-detector',
     'invariant',
-    'lodash.debounce',
-    'lodash.throttle',
+    'throttle-debounce',
     'prop-types',
     'react-dom',
     'react',

@@ -6,8 +6,7 @@ import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import invariant from 'invariant'
-import throttle from 'lodash.throttle'
-import debounce from 'lodash.debounce'
+import { debounce, throttle } from 'throttle-debounce'
 import resizeDetector from './resize-detector'
 
 const errMsg =
@@ -288,7 +287,7 @@ function withSize(config = defaultConfig) {
         )
       }
 
-      checkIfSizeChanged = refreshDelayStrategy(el => {
+      checkIfSizeChanged = refreshDelayStrategy(refreshRate, el => {
         const {
           width,
           height,
@@ -307,7 +306,7 @@ function withSize(config = defaultConfig) {
         if (this.hasSizeChanged(this.strategisedGetState(), next)) {
           this.strategisedSetState(next)
         }
-      }, refreshRate)
+      })
 
       render() {
         const disablePlaceholder =

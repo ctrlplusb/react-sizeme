@@ -34,9 +34,8 @@
   "dependencies": {
     "element-resize-detector": "^1.1.15",
     "invariant": "^2.2.4",
-    "lodash.debounce": "^4.0.8",
-    "lodash.throttle": "^4.1.1",
-    "shallowequal": "^1.1.0"
+    "shallowequal": "^1.1.0",
+    "throttle-debounce": "^2.1.0"
   },
   "peerDependencies": {
     "prop-types": "^15.0.0-0",
