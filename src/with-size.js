@@ -10,6 +10,9 @@ import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 import resizeDetector from './resize-detector'
 
+const errMsg =
+  'react-sizeme: an error occurred whilst stopping to listen to node size changes'
+
 const defaultConfig = {
   monitorWidth: true,
   monitorHeight: false,
@@ -203,9 +206,17 @@ function withSize(config = defaultConfig) {
         // late running events.
         this.hasSizeChanged = () => undefined
         this.checkIfSizeChanged = () => undefined
+        this.uninstall()
+      }
 
+      uninstall = () => {
         if (this.domEl) {
-          this.detector.uninstall(this.domEl)
+          try {
+            this.detector.uninstall(this.domEl)
+          } catch (err) {
+            // eslint-disable-next-line no-console
+            console.warn(errMsg)
+          }
           this.domEl = null
         }
       }
@@ -240,10 +251,7 @@ function withSize(config = defaultConfig) {
         if (!found) {
           // If we previously had a dom node then we need to ensure that
           // we remove any existing listeners to avoid memory leaks.
-          if (this.domEl) {
-            this.detector.removeAllListeners(this.domEl)
-            this.domEl = null
-          }
+          this.uninstall()
           return
         }
 
@@ -251,7 +259,7 @@ function withSize(config = defaultConfig) {
           this.domEl = found
           this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
         } else if (!this.domEl.isSameNode(found)) {
-          this.detector.removeAllListeners(this.domEl)
+          this.uninstall()
           this.domEl = found
           this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
         } else {
@@ -270,13 +278,13 @@ function withSize(config = defaultConfig) {
         const np = n.position || {}
 
         return (
+          (monitorWidth && c.width !== n.width) ||
           (monitorHeight && c.height !== n.height) ||
           (monitorPosition &&
             (cp.top !== np.top ||
               cp.left !== np.left ||
               cp.bottom !== np.bottom ||
-              cp.right !== np.right)) ||
-          (monitorWidth && c.width !== n.width)
+              cp.right !== np.right))
         )
       }
 

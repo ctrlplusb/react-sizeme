@@ -215,7 +215,7 @@ describe('withSize', () => {
 
       // An add listener should have been called for the placeholder.
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(1)
-      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(0)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(0)
 
       // Get the callback for size changes.
       const checkIfSizeChangedCallback =
@@ -232,14 +232,14 @@ describe('withSize', () => {
       // on the newly mounted component.
       expect(mounted.text()).toEqual(expected({ width: 100, height: 50 }))
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(2)
-      expect(resizeDetectorMock.removeAllListeners).toHaveBeenCalledTimes(1)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(1)
 
       // umount
       mounted.unmount()
 
       // The remove listener should have been called!
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(2)
-      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(1)
+      expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(2)
     })
   })
 
