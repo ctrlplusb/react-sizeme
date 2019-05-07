@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { withSize, SizeMeProps } from 'react-sizeme'
+import { withSize, SizeMeProps, WithSizeOnSizeCallback } from 'react-sizeme'
 
 interface MyComponentProps extends SizeMeProps {
   id: number
@@ -22,4 +22,8 @@ function MyComponent({ id, size }: MyComponentProps) {
 
 const SizedMyComponent = withSize()(MyComponent)
 
-const foo = <SizedMyComponent id={1} />
+const onSize: WithSizeOnSizeCallback = ({ height, width }) => {
+  Boolean(height && width)
+}
+
+const foo = <SizedMyComponent id={1} onSize={onSize} />
