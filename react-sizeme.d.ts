@@ -4,8 +4,8 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
 export interface SizeMeProps {
   readonly size: {
-    width: number | null
-    height: number | null
+    readonly width: number | null
+    readonly height: number | null
   }
 }
 
