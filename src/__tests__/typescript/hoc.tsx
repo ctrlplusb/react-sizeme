@@ -23,7 +23,16 @@ function MyComponent({ id, size }: MyComponentProps) {
 const SizedMyComponent = withSize()(MyComponent)
 
 const onSize: WithSizeOnSizeCallback = ({ height, width }) => {
-  Boolean(height && width)
+  if (width) {
+    const foo = width + 1
+  }
+  if (height) {
+    const foo = height + 1
+  }
+  // typings:expect-error
+  const h1 = height + 1
+  // typings:expect-error
+  const w1 = width + 1
 }
 
 const foo = <SizedMyComponent id={1} onSize={onSize} />
