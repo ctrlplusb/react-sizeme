@@ -121,7 +121,9 @@ describe('withSize', () => {
 
   describe('When using the sizeCallback fn', () => {
     it('should pass the size data to the callback and pass down no size prop', () => {
-      const SizeAwareComponent = withSize({ monitorHeight: true })(SizeRender)
+      const SizeAwareComponent = withSize({
+        monitorHeight: true,
+      })(SizeRender)
 
       class SizeCallbackWrapper extends React.Component {
         state = {
@@ -148,10 +150,11 @@ describe('withSize', () => {
       })
 
       return delay(() => {
+        mounted.update()
         expect(mounted.state()).toMatchObject({
           size: { width: 100, height: 50 },
         })
-        expect(mounted.find(SizeAwareComponent).text()).toEqual('No given size')
+        expect(mounted.find(SizeRender).text()).toEqual('No given size')
       }, 20)
     })
   })
@@ -195,13 +198,10 @@ describe('withSize', () => {
 
       return Promise.all([
         delay(() => expect(mounted.text()).toEqual(''), 25),
-        delay(
-          () =>
-            expect(mounted.text()).toEqual(
-              expected({ width: 100, height: 50 }),
-            ),
-          60,
-        ),
+        delay(() => {
+          mounted.update()
+          expect(mounted.text()).toEqual(expected({ width: 100, height: 50 }))
+        }, 60),
       ])
     })
   })
@@ -230,6 +230,7 @@ describe('withSize', () => {
       // Our actual component should have mounted, therefore a removelistener
       // should have been called on the placeholder, and an add listener
       // on the newly mounted component.
+      mounted.update()
       expect(mounted.text()).toEqual(expected({ width: 100, height: 50 }))
       expect(resizeDetectorMock.listenTo).toHaveBeenCalledTimes(2)
       expect(resizeDetectorMock.uninstall).toHaveBeenCalledTimes(1)
@@ -299,6 +300,7 @@ describe('withSize', () => {
       })
 
       // Update should have occurred immediately.
+      mounted.update()
       expect(mounted.text()).toEqual(expected({ width: 100 }))
     })
   })
@@ -323,6 +325,7 @@ describe('withSize', () => {
       })
 
       // Update should have occurred immediately.
+      mounted.update()
       expect(mounted.text()).toEqual(expected({ height: 150 }))
     })
   })
@@ -355,6 +358,7 @@ describe('withSize', () => {
       })
 
       // Update should have occurred immediately.
+      mounted.update()
       expect(mounted.text()).toEqual(
         expected({ position: { left: 55, right: 66, top: 77, bottom: 88 } }),
       )
@@ -381,6 +385,7 @@ describe('withSize', () => {
       })
 
       // Update should have occurred immediately.
+      mounted.update()
       expect(mounted.text()).toEqual(expected({ height: 150, width: 100 }))
     })
   })
@@ -409,6 +414,7 @@ describe('withSize', () => {
         }),
       })
 
+      mounted.update()
       expect(mounted.text()).toEqual('foo')
       mounted.setProps({ otherProp: 'bar' })
       expect(mounted.text()).toEqual('bar')
