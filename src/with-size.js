@@ -259,7 +259,7 @@ function withSize(config = defaultConfig) {
           this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
         } else if (
           (this.domEl.isSameNode && !this.domEl.isSameNode(found)) ||
-          (!this.domEl.isSameNode && this.domEl !== found)
+          this.domEl !== found
         ) {
           this.uninstall()
           this.domEl = found
