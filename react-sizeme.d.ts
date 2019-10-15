@@ -31,6 +31,8 @@ declare namespace sizeMe {
   ) => <P extends object = {}>(
     component: ComponentType<P>,
   ) => ComponentType<Omit<P, 'size'>>
+
+  export let noPlaceholders: boolean
 }
 declare function sizeMe(
   options?: sizeMe.SizeMeOptions,
