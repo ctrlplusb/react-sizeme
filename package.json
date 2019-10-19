@@ -51,7 +51,7 @@
     "app-root-dir": "1.0.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "8.2.3",
+    "babel-eslint": "10.0.3",
     "babel-jest": "^23.0.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "6.24.1",
@@ -66,12 +66,13 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-to-json": "^3.4.2",
-    "eslint": "^4.7.2",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.9.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.1.2",
     "gzip-size": "^4.0.0",
     "husky": "^0.14.3",
     "in-publish": "2.0.0",
@@ -122,6 +123,7 @@
       "camelcase": 0,
       "import/prefer-default-export": 0,
       "import/no-extraneous-dependencies": 0,
+      "max-classes-per-file": 0,
       "no-nested-ternary": 0,
       "no-underscore-dangle": 0,
       "react/no-array-index-key": 0,
@@ -130,9 +132,13 @@
         2,
         "never"
       ],
+      "react/destructuring-assignment": 0,
       "react/forbid-prop-types": 0,
       "react/jsx-filename-extension": 0,
-      "react/sort-comp": 0
+      "react/jsx-props-no-spreading": 0,
+      "react/sort-comp": 0,
+      "react/state-in-constructor": 0,
+      "react/static-property-placement": 0
     }
   },
   "eslintIgnore": [

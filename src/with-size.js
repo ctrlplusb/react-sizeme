@@ -119,6 +119,7 @@ const renderWrapper = WrappedComponent => {
     size: PropTypes.shape({
       width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      position: PropTypes.object,
     }),
     disablePlaceholder: PropTypes.bool,
     onSize: PropTypes.func,
