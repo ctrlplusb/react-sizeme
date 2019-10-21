@@ -119,6 +119,7 @@ const renderWrapper = WrappedComponent => {
     size: PropTypes.shape({
       width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      position: PropTypes.object,
     }),
     disablePlaceholder: PropTypes.bool,
     onSize: PropTypes.func,
@@ -257,7 +258,10 @@ function withSize(config = defaultConfig) {
         if (!this.domEl) {
           this.domEl = found
           this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
-        } else if (!this.domEl.isSameNode(found)) {
+        } else if (
+          (this.domEl.isSameNode && !this.domEl.isSameNode(found)) ||
+          this.domEl !== found
+        ) {
           this.uninstall()
           this.domEl = found
           this.detector.listenTo(this.domEl, this.checkIfSizeChanged)
