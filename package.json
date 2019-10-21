@@ -1,7 +1,7 @@
 {
   "name": "react-sizeme",
   "version": "2.6.9",
-  "description": "Make your React Components aware of their dimensions and position.",
+  "description": "Make your React Components aware of their width and/or height!",
   "license": "MIT",
   "main": "dist/react-sizeme.js",
   "types": "react-sizeme.d.ts",

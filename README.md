@@ -1,3 +1,5 @@
+<p>&nbsp;</p>
+
 <p align='center'>
   <img src='https://raw.githubusercontent.com/ctrlplusb/react-sizeme/master/assets/logo.png' width='250'/>
   <p align='center'>Make your React Components aware of their width and/or height!</p>
@@ -41,6 +43,10 @@ function MyComponent({ size }) {
 export default withSize()(MyComponent)
 ```
 
+<p>&nbsp;</p>
+
+---
+
 ## TOCs
 
 - [Intro](https://github.com/ctrlplusb/react-sizeme#intro)
@@ -55,17 +61,29 @@ export default withSize()(MyComponent)
 - [Server Side Rendering](https://github.com/ctrlplusb/react-sizeme#server-side-rendering)
 - [Extreme Appreciation](https://github.com/ctrlplusb/react-sizeme#extreme-appreciation)
 
+<p>&nbsp;</p>
+
+---
+
 ## Intro
 
 Give your Components the ability to have render logic based on their height and/or width. Responsive design on the Component level. This allows you to create highly reusable components that can adapt to wherever they are rendered.
 
 Check out a working demo here: https://react-sizeme.now.sh
 
+<p>&nbsp;</p>
+
+---
+
 ## Installation
 
 ```javascript
 npm install react-sizeme
 ```
+
+<p>&nbsp;</p>
+
+---
 
 ## Configuration
 
@@ -106,6 +124,10 @@ The following configuration options are available. Please see the usage docs for
 
   > NOTE: You can set this globally. See the docs on first render.
 
+<p>&nbsp;</p>
+
+---
+
 ## Component Usage
 
 We provide a "render props pattern" based component. You can import it like so:
@@ -135,6 +157,10 @@ To provide [configuration](#configuration) you simply add any customisation as p
   render={({ size }) => <div>My width is {size.width}px</div>}
 />
 ```
+
+<p>&nbsp;</p>
+
+---
 
 ## HOC Usage
 
@@ -214,6 +240,10 @@ class ParentComponent extends React.Component {
 }
 ```
 
+<p>&nbsp;</p>
+
+---
+
 ## Under the hood
 
 It can be useful to understand the rendering workflow should you wish to debug any issues we may be having.
@@ -225,6 +255,10 @@ Therefore for the first render of your component we actually render a lightweigh
 So the first dimensions that are passed to your component may not be "correct" dimensions, however, it should quickly receive the "correct" dimensions upon render.
 
 Should you wish to avoid the render of a placeholder and have an eager render of your component then you can use the `noPlaceholder` configuration option. Using this configuration value your component will be rendered directly, however, the `size` prop may contain `undefined` for width and height until your component completes its first render.
+
+<p>&nbsp;</p>
+
+---
 
 ## Examples
 
@@ -263,6 +297,10 @@ export default sizeMe({ monitorHeight: true })(MyComponent);
 
 > EXTRA POINTS! Combine the above with a code splitting API (e.g. Webpack's System.import) to avoid unnecessary code downloads for your clients. Zing!
 
+<p>&nbsp;</p>
+
+---
+
 ## Server Side Rendering
 
 Okay, I am gonna be up front here and tell you that using this library in an SSR context is most likely a bad idea. If you insist on doing so you then you should take the time to make yourself fully aware of any possible repercussions you application may face.
@@ -283,6 +321,10 @@ sizeMe.noPlaceholders = true
 It is up to you to decide how you would like to initially render your component then. When your component is sent to the client and mounted to the DOM `SizeMe` will calculate and send the dimensions to your component as normal. I suggest you tread very carefully with how you use this updated information and do lots of testing using various screen dimensions. Try your best to avoid unnecessary re-rendering of your components, for the sake of your users.
 
 If you come up with any clever strategies for this please do come share them with us! :)
+
+<p>&nbsp;</p>
+
+---
 
 ## Extreme Appreciation!
 
