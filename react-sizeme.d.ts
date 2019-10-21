@@ -2,9 +2,9 @@
 
 import { Component, ComponentType, ReactNode, ReactElement } from 'react'
 
-declare namespace sizeMe {
-  type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
 
+declare namespace sizeMe {
   export interface SizeMeProps {
     readonly size: {
       readonly width: number | null
@@ -33,9 +33,9 @@ declare namespace sizeMe {
     onSize?: WithSizeOnSizeCallback
   }
 
-  export const withSize: (
+  export function withSize(
     options?: SizeMeOptions,
-  ) => <P extends object = {}>(
+  ): <P extends object = {}>(
     component: ComponentType<P>,
   ) => ComponentType<Omit<P, 'size'> & WithSizeProps>
 
