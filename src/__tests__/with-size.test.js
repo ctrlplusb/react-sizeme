@@ -127,10 +127,12 @@ describe('withSize', () => {
 
       class SizeCallbackWrapper extends React.Component {
         state = {
+          // eslint-disable-next-line react/no-unused-state
           size: null,
         }
         onSize = size =>
           this.setState({
+            // eslint-disable-next-line react/no-unused-state
             size,
           })
         render() {
