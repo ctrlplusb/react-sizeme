@@ -62,6 +62,7 @@ export default withSize()(MyComponent)
   - [Loading different child components based on size](#loading-different-child-components-based-on-size)
 - [Server Side Rendering](https://github.com/ctrlplusb/react-sizeme#server-side-rendering)
 - [Extreme Appreciation](https://github.com/ctrlplusb/react-sizeme#extreme-appreciation)
+- [Backers](https://github.com/ctrlplusb/react-sizeme#backers)
 
 <p>&nbsp;</p>
 
@@ -331,3 +332,15 @@ If you come up with any clever strategies for this please do come share them wit
 ## Extreme Appreciation!
 
 We make use of the awesome [element-resize-detector](https://github.com/wnr/element-resize-detector) library. This library makes use of an scroll/object based event strategy which outperforms window resize event listening dramatically. The original idea for this approach comes from another library, namely [css-element-queries](https://github.com/marcj/css-element-queries) by Marc J. Schmidt. I recommend looking into these libraries for history, specifics, and more examples. I love them for the work they did, whithout which this library would not be possible. :sparkle-heart:
+
+<p>&nbsp;</p>
+
+---
+
+## Backers
+
+Thank goes to all our backers! [[Become a backer](https://opencollective.com/react-sizeme#backer)].
+
+<a href="https://opencollective.com/react-sizeme#backers">
+    <img src="https://opencollective.com/react-sizeme/backers.svg?width=950" />
+</a>
