@@ -25,10 +25,10 @@
     "clean": "rimraf ./dist && rimraf ./coverage",
     "example:web": "echo 'Make sure to `cd example/web && yarn install`' && cd example/web && yarn run start",
     "lint": "eslint src",
-    "prepublish": "npm run build",
+    "prepublish": "yarn run build",
     "test": "jest",
-    "test:coverage": "npm run test -- --coverage",
-    "test:coverage:deploy": "npm run test:coverage && codecov"
+    "test:coverage": "yarn run test -- --coverage",
+    "test:coverage:deploy": "yarn run test:coverage && codecov"
   },
   "resolutions": {
     "@types/react": "16.9.17"
@@ -156,7 +156,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run test"
+      "pre-commit": "lint-staged && yarn run test"
     }
   }
 }
