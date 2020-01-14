@@ -46,19 +46,18 @@ describe('<SizeMe />', () => {
 
   it('should update the sizeme component when a new configuration is provided', () => {
     const wrapper = shallow(<SizeMe {...sizeMeConfig}>{noop}</SizeMe>)
-    const newSizeMeConfig = Object.assign({}, sizeMeConfig, {
+    const newSizeMeConfig = {
+      ...sizeMeConfig,
       monitorHeight: false,
-    })
-    wrapper.setProps(
-      Object.assign({ children: noop }, sizeMeConfig, newSizeMeConfig),
-    )
+    }
+    wrapper.setProps({ ...sizeMeConfig, ...newSizeMeConfig })
     expect(withSizeMock).toHaveBeenCalledTimes(2)
     expect(withSizeMock).lastCalledWith(newSizeMeConfig)
   })
 
   it('should not update the sizeme component when a new configuration is provided', () => {
     const wrapper = shallow(<SizeMe render={noop} {...sizeMeConfig} />)
-    wrapper.setProps(Object.assign({ render: () => 'NEW!' }, sizeMeConfig))
+    wrapper.setProps({ render: () => 'NEW!', ...sizeMeConfig })
     expect(withSizeMock).toHaveBeenCalledTimes(1)
   })
 })

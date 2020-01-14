@@ -3,6 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/jsx-one-expression-per-line */
 
 import React from 'react'
 import enzyme, { mount } from 'enzyme'
@@ -130,15 +131,18 @@ describe('withSize', () => {
           // eslint-disable-next-line react/no-unused-state
           size: null,
         }
+
         onSize = size =>
           this.setState({
             // eslint-disable-next-line react/no-unused-state
             size,
           })
+
         render() {
           return <SizeAwareComponent onSize={this.onSize} />
         }
       }
+
       const mounted = mount(<SizeCallbackWrapper />)
 
       // Get the callback for size changes.
