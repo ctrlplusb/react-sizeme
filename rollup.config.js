@@ -1,5 +1,5 @@
 const babel = require('rollup-plugin-babel')
-const changeCase = require('change-case')
+const { titleCase } = require('title-case')
 const packageJson = require('./package.json')
 
 process.env.BABEL_ENV = 'production'
@@ -19,16 +19,17 @@ module.exports = {
     file: `dist/${packageJson.name}.js`,
     format: 'cjs',
     sourcemap: true,
-    name: changeCase
-      .titleCase(packageJson.name.replace(/-/g, ' '))
-      .replace(/ /g, ''),
+    name: titleCase(packageJson.name.replace(/-/g, ' ')).replace(/ /g, ''),
   },
   plugins: [
     babel({
       babelrc: false,
       exclude: 'node_modules/**',
-      presets: [['env', { modules: false }], 'stage-3', 'react'],
-      plugins: ['external-helpers', 'transform-class-properties'],
+      presets: [
+        ['@babel/preset-env', { modules: false }],
+        '@babel/preset-react',
+      ],
+      plugins: ['@babel/plugin-proposal-class-properties'],
     }),
   ],
 }

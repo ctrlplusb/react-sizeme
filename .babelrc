@@ -1,15 +1,14 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
           "node": true
         }
       }
     ],
-    "stage-3",
-    "react"
+    "@babel/preset-react"
   ],
-  "plugins": ["transform-class-properties"]
+  "plugins": ["@babel/plugin-proposal-class-properties"]
 }
