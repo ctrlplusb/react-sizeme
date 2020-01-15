@@ -33,7 +33,7 @@
     "@types/react": "16.9.17"
   },
   "dependencies": {
-    "element-resize-detector": "^1.1.16",
+    "element-resize-detector": "^1.2.1",
     "invariant": "^2.2.4",
     "prop-types": "^15.7.2",
     "shallowequal": "^1.1.0",
@@ -69,7 +69,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "gzip-size": "^5.1.1",
-    "husky": "^4.0.7",
+    "husky": "^4.0.10",
     "in-publish": "2.0.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
