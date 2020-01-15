@@ -23,7 +23,6 @@
   "scripts": {
     "build": "node ./tools/scripts/build.js",
     "clean": "rimraf ./dist && rimraf ./coverage",
-    "example:web": "echo 'Make sure to `cd example/web && yarn install`' && cd example/web && yarn run start",
     "lint": "eslint src",
     "prepublish": "yarn run build",
     "test": "jest",
