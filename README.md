@@ -25,11 +25,7 @@ Use it via the render prop pattern (supports `children` or `render` prop):
 import { SizeMe } from 'react-sizeme'
 
 function MyApp() {
-  return (
-    <SizeMe>
-      {({ size }) => <div>My width is {size.width}px</div>}
-    </SizeMe>
-  )
+  return <SizeMe>{({ size }) => <div>My width is {size.width}px</div>}</SizeMe>
 }
 ```
 
@@ -269,7 +265,6 @@ Should you wish to avoid the render of a placeholder and have an eager render of
 
 ```javascript
 import React from 'react';
-import PropTypes from 'prop-types';
 import LargeChildComponent from './LargeChildComponent';
 import SmallChildComponent from './SmallChildComponent';
 import sizeMe from 'react-sizeme';
@@ -287,12 +282,6 @@ function MyComponent(props) {
       <ToRenderChild />
     </div>
   );
-}
-MyComponent.propTypes = {
-  size: PropTypes.shape({
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-  })
 }
 
 export default sizeMe({ monitorHeight: true })(MyComponent);

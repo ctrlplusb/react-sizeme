@@ -1,9 +1,9 @@
 /* eslint-disable react/no-multi-comp */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/no-find-dom-node */
 
 import React, { Children, Component } from 'react'
-import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import invariant from 'invariant'
 import { debounce, throttle } from 'throttle-debounce'
@@ -38,7 +38,6 @@ class ReferenceWrapper extends Component {
     return Children.only(this.props.children)
   }
 }
-ReferenceWrapper.propTypes = { children: PropTypes.element.isRequired }
 
 function Placeholder({ className, style }) {
   // Lets create the props for the temp element.
@@ -60,10 +59,6 @@ function Placeholder({ className, style }) {
   return <div {...phProps} />
 }
 Placeholder.displayName = 'SizeMePlaceholder'
-Placeholder.propTypes = {
-  className: PropTypes.string,
-  style: PropTypes.object,
-}
 
 /**
  * As we need to maintain a ref on the root node that is rendered within our
@@ -111,19 +106,6 @@ const renderWrapper = WrappedComponent => {
   SizeMeRenderer.displayName = `SizeMeRenderer(${getDisplayName(
     WrappedComponent,
   )})`
-
-  SizeMeRenderer.propTypes = {
-    explicitRef: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-    size: PropTypes.shape({
-      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      position: PropTypes.object,
-    }),
-    disablePlaceholder: PropTypes.bool,
-    onSize: PropTypes.func,
-  }
 
   return SizeMeRenderer
 }
@@ -177,10 +159,6 @@ function withSize(config = defaultConfig) {
 
     class SizeAwareComponent extends React.Component {
       static displayName = `SizeMe(${getDisplayName(WrappedComponent)})`
-
-      static propTypes = {
-        onSize: PropTypes.func,
-      }
 
       domEl = null
 

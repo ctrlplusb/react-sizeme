@@ -1,14 +1,10 @@
+/* eslint-disable react/prop-types */
+
 import React, { Component } from 'react'
 import isShallowEqual from 'shallowequal'
-import PropTypes from 'prop-types'
 import withSize from './with-size'
 
 export default class SizeMe extends Component {
-  static propTypes = {
-    children: PropTypes.func,
-    render: PropTypes.func,
-  }
-
   static defaultProps = {
     children: undefined,
     render: undefined,
