@@ -1,6 +1,6 @@
 {
   "name": "react-sizeme",
-  "version": "2.6.11",
+  "version": "2.6.12",
   "description": "Make your React Components aware of their width and/or height!",
   "license": "MIT",
   "main": "dist/react-sizeme.js",
@@ -35,7 +35,6 @@
   "dependencies": {
     "element-resize-detector": "^1.2.1",
     "invariant": "^2.2.4",
-    "prop-types": "^15.7.2",
     "shallowequal": "^1.1.0",
     "throttle-debounce": "^2.1.0"
   },
