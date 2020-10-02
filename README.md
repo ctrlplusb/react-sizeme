@@ -328,8 +328,8 @@ We make use of the awesome [element-resize-detector](https://github.com/wnr/elem
 
 ## Backers
 
-Thank goes to all our backers! [[Become a backer](https://opencollective.com/react-sizeme#backer)].
+Thank goes to all our backers! [[Become a backer](https://opencollective.com/controlplusb#backer)].
 
-<a href="https://opencollective.com/react-sizeme#backers">
-    <img src="https://opencollective.com/react-sizeme/backers.svg?width=950" />
+<a href="https://opencollective.com/controlplusb#backers">
+    <img src="https://opencollective.com/controlplusb/backers.svg?width=950" />
 </a>
