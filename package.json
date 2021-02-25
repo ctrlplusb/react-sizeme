@@ -80,7 +80,7 @@
     "react-dom": "^16.14.0",
     "react-test-renderer": "^17.0.1",
     "readline-sync": "1.4.10",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.2",
     "rollup": "^1.29.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-uglify": "^6.0.4",
