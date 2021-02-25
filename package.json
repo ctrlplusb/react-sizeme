@@ -81,7 +81,7 @@
     "react-test-renderer": "^17.0.1",
     "readline-sync": "1.4.10",
     "rimraf": "^3.0.2",
-    "rollup": "^1.29.0",
+    "rollup": "^1.32.1",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-uglify": "^6.0.4",
     "title-case": "^3.0.2",
