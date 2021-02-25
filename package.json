@@ -29,9 +29,6 @@
     "test:coverage": "yarn run test -- --coverage",
     "test:coverage:deploy": "yarn run test:coverage && codecov"
   },
-  "resolutions": {
-    "@types/react": "16.9.17"
-  },
   "dependencies": {
     "element-resize-detector": "^1.2.1",
     "invariant": "^2.2.4",
