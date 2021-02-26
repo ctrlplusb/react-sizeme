@@ -19,6 +19,7 @@ declare namespace sizeMe {
     noPlaceholder?: boolean
     refreshMode?: 'throttle' | 'debounce'
     refreshRate?: number
+    resizeDetectorStrategy?: 'scroll' | 'object'
   }
 
   export interface SizeMeRenderProps extends SizeMeOptions {
