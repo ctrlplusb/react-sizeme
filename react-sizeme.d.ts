@@ -14,7 +14,6 @@ declare namespace sizeMe {
 
   export interface SizeMeOptions {
     monitorHeight?: boolean
-    monitorPosition?: boolean
     monitorWidth?: boolean
     noPlaceholder?: boolean
     refreshMode?: 'throttle' | 'debounce'

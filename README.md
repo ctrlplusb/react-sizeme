@@ -264,27 +264,27 @@ Should you wish to avoid the render of a placeholder and have an eager render of
 ### Loading different child components based on size
 
 ```javascript
-import React from 'react';
-import LargeChildComponent from './LargeChildComponent';
-import SmallChildComponent from './SmallChildComponent';
-import sizeMe from 'react-sizeme';
+import React from 'react'
+import LargeChildComponent from './LargeChildComponent'
+import SmallChildComponent from './SmallChildComponent'
+import sizeMe from 'react-sizeme'
 
 function MyComponent(props) {
-  const { width, height } = props.size;
+  const { width, height } = props.size
 
-  const ToRenderChild = height > 600
-    ? LargeChildComponent
-    : SmallChildComponent;
+  const ToRenderChild = height > 600 ? LargeChildComponent : SmallChildComponent
 
   return (
     <div>
-      <h1>My size is {width}x{height}</div>
+      <h1>
+        My size is {width}x{height}
+      </div>
       <ToRenderChild />
     </div>
-  );
+  )
 }
 
-export default sizeMe({ monitorHeight: true })(MyComponent);
+export default sizeMe({ monitorHeight: true })(MyComponent)
 ```
 
 > EXTRA POINTS! Combine the above with a code splitting API (e.g. Webpack's System.import) to avoid unnecessary code downloads for your clients. Zing!
@@ -299,7 +299,7 @@ Okay, I am gonna be up front here and tell you that using this library in an SSR
 
 A standard `sizeMe` configuration involves the rendering of a placeholder component. After the placeholder is mounted to the DOM we extract it's dimension information and pass it on to your actual component. We do this in order to avoid any unnecessary render cycles for possibly deep component trees. Whilst this is useful for a purely client side set up, this is less than useful for an SSR context as the delivered page will contain empty placeholders. Ideally you want actual content to be delivered so that users without JS can still have an experience, or SEO bots can scrape your website.
 
-To avoid the rendering of placeholders in this context you can make use of the `noPlaceholders` global configuration value. Setting this flag will disables any placeholder rendering. Instead your wrapped component will be rendered directly - however it's initial render will contain no values within the `size` prop (i.e. `width`, `height`, and `position` will be `null`).
+To avoid the rendering of placeholders in this context you can make use of the `noPlaceholders` global configuration value. Setting this flag will disables any placeholder rendering. Instead your wrapped component will be rendered directly - however it's initial render will contain no values within the `size` prop (i.e. `width`, and `height` will be `null`).
 
 ```javascript
 import sizeMe from 'react-sizeme'

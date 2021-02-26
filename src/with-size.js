@@ -15,7 +15,6 @@ const errMsg =
 const defaultConfig = {
   monitorWidth: true,
   monitorHeight: false,
-  monitorPosition: false,
   refreshRate: 16,
   refreshMode: 'throttle',
   noPlaceholder: false,
@@ -80,8 +79,7 @@ const renderWrapper = WrappedComponent => {
     } = props
 
     const noSizeData =
-      size == null ||
-      (size.width == null && size.height == null && size.position == null)
+      size == null || (size.width == null && size.height == null)
 
     const renderPlaceholder = noSizeData && !disablePlaceholder
 
@@ -129,7 +127,6 @@ function withSize(config = defaultConfig) {
   const {
     monitorWidth = defaultConfig.monitorWidth,
     monitorHeight = defaultConfig.monitorHeight,
-    monitorPosition = defaultConfig.monitorPosition,
     refreshRate = defaultConfig.refreshRate,
     refreshMode = defaultConfig.refreshMode,
     noPlaceholder = defaultConfig.noPlaceholder,
@@ -137,8 +134,8 @@ function withSize(config = defaultConfig) {
   } = config
 
   invariant(
-    monitorWidth || monitorHeight || monitorPosition,
-    'You have to monitor at least one of the width, height, or position when using "sizeMe"',
+    monitorWidth || monitorHeight,
+    'You have to monitor at least one of the width or height when using "sizeMe"',
   )
 
   invariant(
@@ -165,7 +162,6 @@ function withSize(config = defaultConfig) {
       state = {
         width: undefined,
         height: undefined,
-        position: undefined,
       }
 
       componentDidMount() {
@@ -255,34 +251,19 @@ function withSize(config = defaultConfig) {
       hasSizeChanged = (current, next) => {
         const c = current
         const n = next
-        const cp = c.position || {}
-        const np = n.position || {}
 
         return (
           (monitorWidth && c.width !== n.width) ||
-          (monitorHeight && c.height !== n.height) ||
-          (monitorPosition &&
-            (cp.top !== np.top ||
-              cp.left !== np.left ||
-              cp.bottom !== np.bottom ||
-              cp.right !== np.right))
+          (monitorHeight && c.height !== n.height)
         )
       }
 
       checkIfSizeChanged = refreshDelayStrategy(refreshRate, el => {
-        const {
-          width,
-          height,
-          right,
-          left,
-          top,
-          bottom,
-        } = el.getBoundingClientRect()
+        const { width, height } = el.getBoundingClientRect()
 
         const next = {
           width: monitorWidth ? width : null,
           height: monitorHeight ? height : null,
-          position: monitorPosition ? { right, left, top, bottom } : null,
         }
 
         if (this.hasSizeChanged(this.strategisedGetState(), next)) {

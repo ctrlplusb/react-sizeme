@@ -22,12 +22,10 @@ describe('withSize', () => {
       return <div>No given size</div>
     }
 
-    const { width, height, position } = size
-    const p = position || {}
+    const { width, height } = size
     const result = (
       <div>
-        w: {width || 'null'}, h: {height || 'null'}, l: {p.left || 'null'}, r:{' '}
-        {p.right || 'null'}, t: {p.top || 'null'}, b: {p.bottom || 'null'}
+        w: {width || 'null'}, h: {height || 'null'}
       </div>
     )
     if (debug) {
@@ -36,11 +34,8 @@ describe('withSize', () => {
     return result
   }
 
-  const expected = ({ width, height, position }) => {
-    const p = position || {}
-    return `w: ${width || 'null'}, h: ${height || 'null'}, l: ${p.left ||
-      'null'}, r: ${p.right || 'null'}, t: ${p.top || 'null'}, b: ${p.bottom ||
-      'null'}`
+  const expected = ({ width, height }) => {
+    return `w: ${width || 'null'}, h: ${height || 'null'}`
   }
 
   const delay = (fn, time) =>
@@ -90,7 +85,7 @@ describe('withSize', () => {
         const action = () =>
           withSize({ monitorHeight: false, monitorWidth: false })
         expect(action).toThrow(
-          /You have to monitor at least one of the width, height, or position/,
+          /You have to monitor at least one of the width or height/,
         )
       })
     })
@@ -336,41 +331,6 @@ describe('withSize', () => {
     })
   })
 
-  describe('When the size event has occurred when only position is being monitored', () => {
-    it('Then expected position should be provided to the rendered component', () => {
-      const SizeAwareComponent = withSize({
-        monitorWidth: false,
-        monitorHeight: false,
-        monitorPosition: true,
-      })(SizeRender)
-
-      const mounted = mount(<SizeAwareComponent />)
-
-      // Initial render should be as expected.
-      expect(mounted.html()).toEqual(placeholderHtml)
-
-      // Get the callback for size changes.
-      const checkIfSizeChangedCallback =
-        resizeDetectorMock.listenTo.mock.calls[0][1]
-      checkIfSizeChangedCallback({
-        getBoundingClientRect: () => ({
-          width: 100,
-          height: 150,
-          left: 55,
-          right: 66,
-          top: 77,
-          bottom: 88,
-        }),
-      })
-
-      // Update should have occurred immediately.
-      mounted.update()
-      expect(mounted.text()).toEqual(
-        expected({ position: { left: 55, right: 66, top: 77, bottom: 88 } }),
-      )
-    })
-  })
-
   describe('When the size event has occurred when width and height are being monitored', () => {
     it('Then expected sizes should be provided to the rendered component', () => {
       const SizeAwareComponent = withSize({
@@ -401,7 +361,6 @@ describe('withSize', () => {
       const SizeAwareComponent = withSize({
         monitorHeight: true,
         monitorWidth: true,
-        monitorPos: true,
       })(({ otherProp }) => <div>{otherProp}</div>)
 
       const mounted = mount(<SizeAwareComponent otherProp="foo" />)
@@ -413,10 +372,6 @@ describe('withSize', () => {
         getBoundingClientRect: () => ({
           width: 100,
           height: 100,
-          left: 55,
-          right: 66,
-          top: 77,
-          bottom: 88,
         }),
       })
 
