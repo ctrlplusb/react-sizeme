@@ -320,7 +320,7 @@ If you come up with any clever strategies for this please do come share them wit
 
 ## Extreme Appreciation!
 
-We make use of the awesome [element-resize-detector](https://github.com/wnr/element-resize-detector) library. This library makes use of an scroll/object based event strategy which outperforms window resize event listening dramatically. The original idea for this approach comes from another library, namely [css-element-queries](https://github.com/marcj/css-element-queries) by Marc J. Schmidt. I recommend looking into these libraries for history, specifics, and more examples. I love them for the work they did, whithout which this library would not be possible. :sparkle-heart:
+We make use of the awesome [element-resize-detector](https://github.com/wnr/element-resize-detector) library. This library makes use of an scroll/object based event strategy which outperforms window resize event listening dramatically. The original idea for this approach comes from another library, namely [css-element-queries](https://github.com/marcj/css-element-queries) by Marc J. Schmidt. I recommend looking into these libraries for history, specifics, and more examples. I love them for the work they did, whithout which this library would not be possible. :sparkling_heart:
 
 <p>&nbsp;</p>
 
