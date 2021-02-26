@@ -12,12 +12,12 @@
 [![Travis](https://img.shields.io/travis/ctrlplusb/react-sizeme.svg?style=flat-square)](https://travis-ci.org/ctrlplusb/react-sizeme)
 [![Codecov](https://img.shields.io/codecov/c/github/ctrlplusb/react-sizeme.svg?style=flat-square)](https://codecov.io/github/ctrlplusb/react-sizeme)
 
-- Blazingly fast. 😛
-- Responsive Components!
+- Hyper Responsive Components!
+- Performant.
 - Easy to use.
 - Extensive browser support.
-- Supports any Component type, i.e. stateless/class.
-- Really small bundle size.
+- Supports functional and class Component types.
+- Tiny bundle size.
 
 Use it via the render prop pattern (supports `children` or `render` prop):
 
@@ -229,7 +229,7 @@ Now create a "parent" component providing it a `onSize` callback function to the
 
 ```jsx
 class ParentComponent extends React.Component {
-  onSize = size => {
+  onSize = (size) => {
     console.log('MyComponent has a width of', size.width)
   }
 
