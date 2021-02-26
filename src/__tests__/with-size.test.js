@@ -34,9 +34,8 @@ describe('withSize', () => {
     return result
   }
 
-  const expected = ({ width, height }) => {
-    return `w: ${width || 'null'}, h: ${height || 'null'}`
-  }
+  const expected = ({ width, height }) =>
+    `w: ${width || 'null'}, h: ${height || 'null'}`
 
   const delay = (fn, time) =>
     new Promise((resolve, reject) => {
@@ -127,7 +126,7 @@ describe('withSize', () => {
           size: null,
         }
 
-        onSize = size =>
+        onSize = (size) =>
           this.setState({
             // eslint-disable-next-line react/no-unused-state
             size,

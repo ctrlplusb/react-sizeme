@@ -20,6 +20,7 @@ module.exports = {
     format: 'cjs',
     sourcemap: true,
     name: titleCase(packageJson.name.replace(/-/g, ' ')).replace(/ /g, ''),
+    exports: 'auto',
   },
   plugins: [
     babel({
