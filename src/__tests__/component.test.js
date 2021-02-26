@@ -1,6 +1,6 @@
 import React from 'react'
 import enzyme, { shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import withSizeMock from '../with-size'
 import SizeMe from '../component'
 
