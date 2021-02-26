@@ -18,6 +18,7 @@
 - Extensive browser support.
 - Supports functional and class Component types.
 - Tiny bundle size.
+- Demo: https://4mkpc.csb.app/
 
 Use it via the render prop pattern (supports `children` or `render` prop):
 
@@ -68,7 +69,7 @@ export default withSize()(MyComponent)
 
 Give your Components the ability to have render logic based on their height and/or width. Responsive design on the Component level. This allows you to create highly reusable components that can adapt to wherever they are rendered.
 
-Check out a working demo here: https://react-sizeme.now.sh
+Check out a working demo here: https://4mkpc.csb.app/
 
 <p>&nbsp;</p>
 
