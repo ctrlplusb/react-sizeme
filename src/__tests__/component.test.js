@@ -22,7 +22,7 @@ const sizeMeConfig = {
 describe('<SizeMe />', () => {
   beforeEach(() => {
     jest.resetAllMocks()
-    withSizeMock.mockImplementation(() => Component => Component)
+    withSizeMock.mockImplementation(() => (Component) => Component)
   })
 
   it('should pass down props as configuration to withSize', () => {

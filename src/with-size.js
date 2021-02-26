@@ -66,7 +66,7 @@ Placeholder.displayName = 'SizeMePlaceholder'
  * the render and the actual component is rendered.
  * It took me forever to figure this out, so tread extra careful on this one!
  */
-const renderWrapper = WrappedComponent => {
+const renderWrapper = (WrappedComponent) => {
   function SizeMeRenderer(props) {
     const {
       explicitRef,
@@ -195,7 +195,7 @@ function withSize(config = defaultConfig) {
         }
       }
 
-      determineStrategy = props => {
+      determineStrategy = (props) => {
         if (props.onSize) {
           if (!this.callbackState) {
             this.callbackState = {
@@ -208,7 +208,7 @@ function withSize(config = defaultConfig) {
         }
       }
 
-      strategisedSetState = state => {
+      strategisedSetState = (state) => {
         if (this.strategy === 'callback') {
           this.callbackState = state
           this.props.onSize(state)
@@ -244,7 +244,7 @@ function withSize(config = defaultConfig) {
         }
       }
 
-      refCallback = element => {
+      refCallback = (element) => {
         this.element = element
       }
 
@@ -258,7 +258,7 @@ function withSize(config = defaultConfig) {
         )
       }
 
-      checkIfSizeChanged = refreshDelayStrategy(refreshRate, el => {
+      checkIfSizeChanged = refreshDelayStrategy(refreshRate, (el) => {
         const { width, height } = el.getBoundingClientRect()
 
         const next = {
