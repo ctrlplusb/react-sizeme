@@ -188,7 +188,7 @@ Your component will then receive a `size` prop (an object with `width` and `heig
 Below is a full example:
 
 ```javascript
-import sizeMe from 'react-sizeme'
+import { withSize } from 'react-sizeme'
 
 class MyComponent extends Component {
   render() {
@@ -202,7 +202,7 @@ class MyComponent extends Component {
   }
 }
 
-export default sizeMe({ monitorHeight: true })(MyComponent)
+export default withSize({ monitorHeight: true })(MyComponent)
 ```
 
 ### `onSize` callback alternative usage
@@ -216,13 +216,13 @@ Below is an example of it's usage.
 Firstly, create a component you wish to know the size of:
 
 ```jsx
-import sizeMe from 'react-sizeme'
+import { withSize } from 'react-sizeme'
 
 function MyComponent({ message }) {
   return <div>{message}</div>
 }
 
-export default sizeMe()(MyComponent)
+export default withSize()(MyComponent)
 ```
 
 Now create a "parent" component providing it a `onSize` callback function to the size aware component:
