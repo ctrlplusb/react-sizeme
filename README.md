@@ -77,7 +77,15 @@ Check out a working demo here: https://4mkpc.csb.app/
 
 ## Installation
 
-```javascript
+Firstly, ensure you have the required peer dependencies:
+
+```bash
+npm install react react-dom
+```
+
+> **Note:** We require >=react@0.14.0 and >=react-dom@0.14.0
+
+```bash
 npm install react-sizeme
 ```
 
